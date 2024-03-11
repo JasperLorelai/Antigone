@@ -1,0 +1,56 @@
+plugins {
+    id("com.github.johnrengelman.shadow")
+    id("io.papermc.paperweight.userdev")
+}
+
+dependencies {
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.20.2-R0.1-SNAPSHOT")
+
+    shadow(project(path: ":nms:shared")) {transitive = false}
+    shadow(project(path: ":nms:v1_20_2")) {transitive = false}
+    shadow(project(path: ":nms:v1_20_3")) {transitive = false}
+    shadow(project(path: ":nms:v1_20_4")) {transitive = false}
+
+    shadow("io.github.classgraph:classgraph:4.8.165")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("io.github.classgraph:classgraph:4.8.165")
+
+    testImplementation(project(path: ":nms:shared")) {transitive = false}
+    testImplementation(project(path: ":nms:v1_20_2")) {transitive = false}
+    testImplementation(project(path: ":nms:v1_20_3")) {transitive = false}
+    testImplementation(project(path: ":nms:v1_20_4")) {transitive = false}
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+
+    relocate("io.github.classgraph", "eu.jasperlorelai.antigone.shaded.io.github.classgraph")
+    relocate("nonapi.io.github.classgraph", "eu.jasperlorelai.antigone.shaded.nonapi.io.github.classgraph")
+
+    archiveClassifier.set("")
+}
+
+base {
+    archivesName = "Antigone"
+}
+
+artifacts {
+    archives shadowJar
+}
+
+tasks.register("generateDocs", JavaExec) {
+    group = "generator"
+    classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
+    mainClass = "eu.jasperlorelai.antigone.AntigoneDocs"
+}
+
+assemble {
+    dependsOn(generateDocs)
+    dependsOn(reobfJar)
+}
+
+test {
+    useJUnitPlatform()
+}

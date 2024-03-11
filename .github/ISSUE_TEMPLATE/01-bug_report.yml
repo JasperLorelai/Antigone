@@ -1,0 +1,51 @@
+name: Bug Report
+description: Create a bug report to help us identify issues and improve our plugin.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        If you simply need help with your configuration and couldn't find an answer
+        through [our documentation](https://jasperlorelai.eu/antigone), please use
+        our [Discord support server](https://jasperlorelai.eu/discord).
+  - type: textarea
+    id: issue
+    attributes:
+      label: "Issue:"
+      description: Please explain what issues you have found.
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: "Errors:"
+      description: Please send relevant error logs, if there are any.
+      render: Shell
+  - type: textarea
+    id: config
+    attributes:
+      label: "Relevant configuration:"
+      description: Please avoid pasting sensitive lines.
+      render: YAML
+  - type: input
+    id: version-an
+    attributes:
+      label: "Antigone version:"
+      description: Fetch by running the `/version Antigone` command in your console or chat.
+      placeholder: 0.0.1
+    validations:
+      required: true
+  - type: input
+    id: version-ms
+    attributes:
+      label: "MagicSpells version:"
+      description: Fetch by running the `/version MagicSpells` command in your console or chat.
+      placeholder: 4.0-Beta-14
+    validations:
+      required: true
+  - type: input
+    id: version-mc
+    attributes:
+      label: "Minecraft server version:"
+      description: Fetch by running the `/version` command in your console or chat.
+      placeholder: "git-Paper-318 (MC: 1.20.2) (Implementing API version 1.20.2-R0.1-SNAPSHOT) (Git: 9271ee7)"
+    validations:
+      required: true

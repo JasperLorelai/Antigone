@@ -1,0 +1,41 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
+    id "io.papermc.paperweight.userdev" version "1.5.11" apply false
+}
+
+subprojects {
+    apply plugin: "java"
+
+    repositories {
+        mavenCentral()
+
+        maven {url = "https://jitpack.io"}
+        maven {url = "https://repo.papermc.io/repository/maven-public/"}
+    }
+
+    dependencies {
+        implementation("com.github.TheComputerGeek2.MagicSpells:core:3064371340") {transitive = false}
+    }
+
+    java {
+        var version = 17
+        sourceCompatibility = version
+        targetCompatibility = version
+        toolchain.languageVersion = JavaLanguageVersion.of(version)
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
+
+    wrapper {
+        gradleVersion = "8.5"
+        setDistributionType(Wrapper.DistributionType.ALL)
+    }
+
+    processResources {
+        var v = version.toString()
+        expand(["version": v.startsWith("v") ? v.substring(1) : v])
+    }
+
+}

@@ -1,0 +1,8 @@
+main: eu.jasperlorelai.antigone.Antigone
+name: Antigone
+description: Addon plugin for MagicSpells which wraps vanilla mob goals into MagicSpells custom mob goals.
+website: https://jasperlorelai.eu/antigone
+author: JasperLorelai
+version: "${version}"
+api-version: "1.20"
+loadbefore: [MagicSpells]
