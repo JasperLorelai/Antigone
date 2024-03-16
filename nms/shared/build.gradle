@@ -2,22 +2,8 @@ plugins {
     id("io.papermc.paperweight.userdev")
 }
 
-// Specify what version the generator should use. Revert to lowest supported after generating.
-var mcVersion = "1.20.2"
-
 dependencies {
-    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${mcVersion}-R0.1-SNAPSHOT")
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.20.2-R0.1-SNAPSHOT")
 
     implementation("io.github.classgraph:classgraph:4.8.165")
-    implementation("com.squareup:javapoet:1.13.0")
 }
-
-tasks.register("generateJava", JavaExec) {
-    group = "generator"
-    classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
-    mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneGenerator"
-    args("v" + mcVersion.replace(".", "_"))
-}
-
-assemble.dependsOn(reobfJar)
-

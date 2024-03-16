@@ -1,4 +1,4 @@
-package antigone;
+package eu.jasperlorelai.antigone.generator;
 
 import java.io.File;
 import java.util.List;

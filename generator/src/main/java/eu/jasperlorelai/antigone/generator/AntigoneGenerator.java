@@ -1,4 +1,4 @@
-package eu.jasperlorelai.antigone.nms.shared;
+package eu.jasperlorelai.antigone.generator;
 
 import java.io.*;
 import java.util.List;
@@ -51,7 +51,7 @@ public class AntigoneGenerator {
 		this.version = version;
 		cbVersion = version.replaceFirst("(v\\d_\\d+_)(\\d)", "$1R$2");
 		packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
-		sourceDir = new File(new File("").getAbsoluteFile().getParentFile(), version + "/src/main/java");
+		sourceDir = new File(new File("").getAbsoluteFile().getParentFile(), "nms/" + version + "/src/main/java");
 		goalsDir = new File(sourceDir, packagePrefix.replaceAll("\\.", "/") + "/goals");
 
 		try {
