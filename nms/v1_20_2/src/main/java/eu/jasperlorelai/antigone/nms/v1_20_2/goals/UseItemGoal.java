@@ -28,7 +28,7 @@ public class UseItemGoal extends AntigoneGoal {
 			// @Nullable SoundEvent sound
 			new NmsSoundEventParameter("sound"),
 			// Predicate<? super T> condition
-			new PredicateParameter<net.minecraft.world.entity.Mob>("condition", entity -> true)
+			new PredicateParameter<net.minecraft.world.entity.Mob>("condition", PredicateParameter.always())
 	);
 
 	public UseItemGoal(Mob mob, SpellData data) {

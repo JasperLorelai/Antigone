@@ -114,7 +114,7 @@ public abstract class AntigoneGoal extends CustomGoal {
 
 				String name = parameter.getName();
 				args[storeIndex] = parameter.getSupplier().apply(config, name).get(data);
-				Object def = parameter.getDefault();
+				Object def = parameter.getDefault() == null ? null : parameter.getDefault().value();
 				if (args[storeIndex] != null) continue;
 				if (def == null) {
 					severe("Required parameter '%s' not passed.", name);
@@ -124,7 +124,7 @@ public abstract class AntigoneGoal extends CustomGoal {
 				continue;
 			}
 
-			args[storeIndex] = baseParameter.getDefault();
+			args[storeIndex] = baseParameter.getDefault() == null ? null : baseParameter.getDefault().value();
 		}
 
 		try {

@@ -5,6 +5,9 @@ import java.lang.String;
 import java.lang.Override;
 import java.lang.IllegalArgumentException;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.world.entity.LivingEntity;
 
 import eu.jasperlorelai.antigone.nms.v1_20_2.parameters.mob.LivingEntityClass;
@@ -16,7 +19,7 @@ public class EntityTypeParameter_v1_20_2 extends EntityTypeParameter {
 		this(name, null);
 	}
 
-	public EntityTypeParameter_v1_20_2(String name, Class<? extends LivingEntity> def) {
+	public EntityTypeParameter_v1_20_2(@NotNull String name, @Nullable Class<? extends LivingEntity> def) {
 		super(name, def);
 	}
 

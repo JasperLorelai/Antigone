@@ -2,16 +2,22 @@ package eu.jasperlorelai.antigone.nms.shared.parameters;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
+
 public abstract class AntigoneParameter<T, D> {
 
 	private final T type;
-	private final D def;
+	@Nullable
+	private final Default<D> def;
 
-	public AntigoneParameter(T type) {
+	public AntigoneParameter(@NotNull T type) {
 		this(type, null);
 	}
 
-	public AntigoneParameter(T type, D def) {
+	public AntigoneParameter(@NotNull T type, @Nullable Default<D> def) {
 		this.type = type;
 		this.def = def;
 	}
@@ -20,7 +26,8 @@ public abstract class AntigoneParameter<T, D> {
 		return type;
 	}
 
-	public D getDefault() {
+	@Nullable
+	public Default<D> getDefault() {
 		return def;
 	}
 

@@ -1,23 +1,24 @@
 package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.nisovin.magicspells.util.config.ConfigDataUtil;
 
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.parameters.PrimitiveConfigParameter;
 
 public class IntegerParameter extends PrimitiveConfigParameter<Integer> {
 
-	public IntegerParameter(String name) {
+	public IntegerParameter(@NotNull String name) {
 		this(name, 0);
 	}
 
-	public IntegerParameter(String name, int def) {
-		super(name, int.class, ConfigDataUtil::getInteger, def);
+	public IntegerParameter(@NotNull String name, int def) {
+		this(name, new Default<>(def, String.valueOf(def)));
 	}
 
-	@Override
-	public String documentDefault() {
-		Integer def = getDefault();
-		return def != null && def > 0 ? def.toString() : null;
+	private IntegerParameter(String name, Default<Integer> def) {
+		super(name, int.class, ConfigDataUtil::getInteger, def);
 	}
 
 }

@@ -2,6 +2,8 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.mob;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+
 import eu.jasperlorelai.antigone.nms.shared.parameters.ClassParameter;
 
 public class MobParameter<T> extends ClassParameter<T> {
@@ -9,7 +11,7 @@ public class MobParameter<T> extends ClassParameter<T> {
 	private final String description;
 	private final MobConverter<T> converter;
 
-	MobParameter(Class<T> nmsType, String description, MobConverter<T> converter) {
+	MobParameter(@NotNull Class<T> nmsType, @NotNull String description, @NotNull MobConverter<T> converter) {
 		super(nmsType);
 		this.description = description;
 		this.converter = converter;

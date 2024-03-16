@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import java.util.*;
 import java.lang.reflect.Field;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.destroystokyo.paper.MaterialTags;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Util;
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ExactConfigParameter;
@@ -56,6 +58,24 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 		return fromMaterials(materials);
 	});
 
+	public NmsIngredientParameter(@NotNull String name) {
+		this(name, (List<Material>) null);
+	}
+
+	public NmsIngredientParameter(@NotNull String name, @Nullable List<Material> def) {
+		this(name, toDefault(def));
+	}
+
+	private NmsIngredientParameter(String name, Default<Ingredient> def) {
+		super(name, Ingredient.class, supplier, def);
+	}
+
+	private static Default<Ingredient> toDefault(List<Material> def) {
+		if (def == null) return null;
+		String description = Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), def.toArray(new Material[0]));
+		return new Default<>(fromMaterials(def), description);
+	}
+
 	private static Ingredient fromMaterials(List<Material> materials) {
 		if (Util.isNotBootstrapped()) return null;
 		if (materials == null) return null;
@@ -64,23 +84,6 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 			items[i] = BuiltInRegistries.ITEM.get(new ResourceLocation(materials.get(i).getKey().getKey()));
 		}
 		return Ingredient.of(items);
-	}
-
-	private final Material[] defaultMaterials;
-
-	public NmsIngredientParameter(String name) {
-		this(name, null);
-	}
-
-	public NmsIngredientParameter(String name, @Nullable List<Material> materials) {
-		super(name, Ingredient.class, supplier, fromMaterials(materials));
-		this.defaultMaterials = materials == null ? null : materials.toArray(new Material[0]);
-	}
-
-	@Override
-	public String documentDefault() {
-		if (defaultMaterials == null) return null;
-		return Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), defaultMaterials);
 	}
 
 	@Override

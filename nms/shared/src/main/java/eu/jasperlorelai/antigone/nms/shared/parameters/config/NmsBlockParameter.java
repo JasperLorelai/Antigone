@@ -2,6 +2,8 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 
 import org.bukkit.Material;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,15 +20,9 @@ public class NmsBlockParameter extends ExactConfigParameter<Block> {
 		return BuiltInRegistries.BLOCK.get(new ResourceLocation(material.getKey().getKey()));
 	});
 
-	public NmsBlockParameter(String name) {
+	public NmsBlockParameter(@NotNull String name) {
 		super(name, Block.class, supplier);
-		// If a constructor with a default value is needed, remember to check "Util#isNotBootstrapped" and impl "documentDefault"
-	}
-
-	@Override
-	public String documentDefault() {
-		Block def = getDefault();
-		return def == null ? null : "unknown";
+		// If a constructor with a default value is needed, remember to check "Util#isNotBootstrapped"
 	}
 
 	@Override

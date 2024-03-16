@@ -24,7 +24,7 @@ public class BreakDoorGoal extends AntigoneGoal {
 			// int maxProgress
 			new IntegerParameter("max-progress", 240),
 			// Predicate<Difficulty> difficultySufficientPredicate
-			new DifficultyPredicateParameter("difficulty-sufficient-predicate", difficulty -> true)
+			new DifficultyPredicateParameter("difficulty-sufficient-predicate", DifficultyPredicateParameter.DEFAULT_ALL)
 	);
 
 	public BreakDoorGoal(Mob mob, SpellData data) {

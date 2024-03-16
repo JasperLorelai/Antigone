@@ -1,23 +1,24 @@
 package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.nisovin.magicspells.util.config.ConfigDataUtil;
 
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.parameters.PrimitiveConfigParameter;
 
 public class DoubleParameter extends PrimitiveConfigParameter<Double> {
 
-	public DoubleParameter(String name) {
+	public DoubleParameter(@NotNull String name) {
 		this(name, 0);
 	}
 
-	public DoubleParameter(String name, double def) {
-		super(name, double.class, ConfigDataUtil::getDouble, def);
+	public DoubleParameter(@NotNull String name, double def) {
+		this(name, new Default<>(def, String.valueOf(def)));
 	}
 
-	@Override
-	public String documentDefault() {
-		Double def = getDefault();
-		return def != null && def > 0 ? def.toString() : null;
+	private DoubleParameter(String name, Default<Double> def) {
+		super(name, double.class, ConfigDataUtil::getDouble, def);
 	}
 
 }

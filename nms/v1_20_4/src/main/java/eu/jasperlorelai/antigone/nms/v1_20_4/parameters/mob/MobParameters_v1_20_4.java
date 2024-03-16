@@ -13,8 +13,7 @@ public class MobParameters_v1_20_4 extends MobParameters {
 
 	private static MobParameters_v1_20_4 instance;
 
-	private MobParameters_v1_20_4() {
-	}
+	private MobParameters_v1_20_4() {}
 
 	public static MobParameters_v1_20_4 getInstance() {
 		if (instance == null) instance = new MobParameters_v1_20_4();

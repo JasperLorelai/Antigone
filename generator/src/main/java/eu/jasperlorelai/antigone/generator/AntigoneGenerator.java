@@ -17,6 +17,9 @@ import javax.lang.model.element.Modifier;
 
 import com.google.common.base.CaseFormat;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
@@ -174,14 +177,14 @@ public class AntigoneGenerator {
 				.superclass(superClass)
 				.addMethod(MethodSpec.constructorBuilder()
 						.addModifiers(Modifier.PUBLIC)
-						.addParameter(String.class, "name")
+						.addParameter(ParameterSpec.builder(String.class, "name").addAnnotation(NotNull.class).build())
 						.addStatement("this(name, null)")
 						.build()
 				)
 				.addMethod(MethodSpec.constructorBuilder()
 						.addModifiers(Modifier.PUBLIC)
-						.addParameter(String.class, "name")
-						.addParameter(defType, "def")
+						.addParameter(ParameterSpec.builder(String.class, "name").addAnnotation(NotNull.class).build())
+						.addParameter(ParameterSpec.builder(defType, "def").addAnnotation(Nullable.class).build())
 						.addStatement("super(name, def)")
 						.build()
 				)

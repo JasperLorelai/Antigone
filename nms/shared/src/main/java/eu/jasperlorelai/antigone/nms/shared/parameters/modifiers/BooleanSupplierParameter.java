@@ -2,28 +2,32 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.modifiers;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.BooleanSupplier;
 
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.nisovin.magicspells.castmodifiers.ModifierSet;
 
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
-import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.DocumentedParameter;
 
 /**
  * Uses {@link ModifierSet} checks.
  * @see PredicateParameter
  */
-public class BooleanSupplierParameter extends AntigoneParameter<Class<BooleanSupplier>, BooleanSupplier> {
+public class BooleanSupplierParameter extends DocumentedParameter<Class<BooleanSupplier>, BooleanSupplier> {
 
 	private final String name;
 
-	public BooleanSupplierParameter(String name) {
+	public BooleanSupplierParameter(@NotNull String name) {
 		this(name, null);
 	}
 
-	public BooleanSupplierParameter(String name, BooleanSupplier def) {
+	public BooleanSupplierParameter(@NotNull String name, @Nullable Default<BooleanSupplier> def) {
 		super(BooleanSupplier.class, def);
 		this.name = name;
 	}
@@ -34,7 +38,7 @@ public class BooleanSupplierParameter extends AntigoneParameter<Class<BooleanSup
 	}
 
 	@Override
-	public void documentExtra(JsonObject doc) {
+	public void documentFurther(JsonObject doc) {
 		doc.addProperty("name", name);
 	}
 

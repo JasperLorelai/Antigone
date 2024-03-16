@@ -7,8 +7,6 @@ import org.bukkit.entity.Mob;
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
-import net.minecraft.world.entity.EntitySelector;
-
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.*;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
@@ -27,7 +25,7 @@ public class AvoidEntityGoal extends AntigoneGoal {
 			// Class<T extends LivingEntity> fleeFromType
 			new EntityTypeParameter_v1_20_3("flee-from"),
 			// Predicate<LivingEntity> extraInclusionSelector
-			new PredicateParameter<>("extra-inclusion-selector", entity -> true),
+			new PredicateParameter<>("extra-inclusion-selector", PredicateParameter.always()),
 			// float distance
 			new FloatParameter("distance"),
 			// double slowSpeed
@@ -35,7 +33,7 @@ public class AvoidEntityGoal extends AntigoneGoal {
 			// double fastSpeed
 			new DoubleParameter("fast-speed"),
 			// Predicate<LivingEntity> inclusionSelector
-			new PredicateParameter<>("inclusion-selector", EntitySelector.NO_CREATIVE_OR_SPECTATOR::test)
+			new PredicateParameter<>("inclusion-selector", PredicateParameter.noCreativeOrSpectator())
 	);
 
 	public AvoidEntityGoal(Mob mob, SpellData data) {

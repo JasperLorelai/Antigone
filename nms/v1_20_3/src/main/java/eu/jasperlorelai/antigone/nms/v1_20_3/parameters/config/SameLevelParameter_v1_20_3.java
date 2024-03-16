@@ -13,8 +13,7 @@ public class SameLevelParameter_v1_20_3 extends SameLevelParameter {
 
 	private static SameLevelParameter_v1_20_3 instance;
 
-	private SameLevelParameter_v1_20_3() {
-	}
+	private SameLevelParameter_v1_20_3() {}
 
 	public static SameLevelParameter_v1_20_3 getInstance() {
 		if (instance == null) instance = new SameLevelParameter_v1_20_3();

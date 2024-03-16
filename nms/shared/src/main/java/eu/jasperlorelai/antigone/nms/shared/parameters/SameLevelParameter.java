@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 public abstract class SameLevelParameter extends ClassParameter<Level> {
 
 	public SameLevelParameter() {
-		super(Level.class, null);
+		super(Level.class);
 	}
 
 	public abstract Level of(Mob mob);
