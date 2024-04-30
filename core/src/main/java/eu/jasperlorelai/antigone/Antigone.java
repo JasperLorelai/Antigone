@@ -3,6 +3,8 @@ package eu.jasperlorelai.antigone;
 import java.util.Set;
 import java.util.HashSet;
 
+import org.bstats.bukkit.Metrics;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.Listener;
@@ -25,6 +27,7 @@ public final class Antigone extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+		new Metrics(this, 21705);
 		Bukkit.getPluginManager().registerEvents(this, this);
 
 		String mcVersion = Bukkit.getMinecraftVersion();
