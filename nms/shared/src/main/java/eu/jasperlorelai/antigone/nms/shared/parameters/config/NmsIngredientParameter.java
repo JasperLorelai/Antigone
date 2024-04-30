@@ -1,7 +1,9 @@
 package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 
 import org.bukkit.Tag;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 
 import java.util.*;
 import java.lang.reflect.Field;
@@ -28,12 +30,6 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 	private static final Map<String, Tag<Material>> MATERIAL_TAGS = new HashMap<>();
 	static {
 		try {
-			for (Field field : Tag.class.getDeclaredFields()) {
-				if (!(field.get(null) instanceof Tag<?> tag)) continue;
-				if (field.getType() != Material.class) continue;
-				//noinspection unchecked
-				MATERIAL_TAGS.put(field.getName(), (Tag<Material>) tag);
-			}
 			for (Field field : MaterialTags.class.getDeclaredFields()) {
 				if (!(field.get(null) instanceof MaterialSetTag tag)) continue;
 				MATERIAL_TAGS.put(field.getName(), tag);
@@ -41,11 +37,24 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 		} catch (ExceptionInInitializerError | IllegalAccessException ignored) {}
 	}
 
+	private static Tag<Material> getMaterialTag(String string) {
+		Tag<Material> tag = MATERIAL_TAGS.get(string.toUpperCase());
+		if (tag != null) return tag;
+
+		NamespacedKey key = NamespacedKey.fromString(string);
+		if (key == null) return null;
+
+		tag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, key, Material.class);
+		if (tag == null) return Bukkit.getTag(Tag.REGISTRY_ITEMS, key, Material.class);
+		return tag;
+
+	}
+
 	private static final ConfigSupplier<Ingredient> supplier = ConfigSupplier.fromList(list -> {
 		List<Material> materials = new ArrayList<>();
 		for (String string : list) {
 			if (string.startsWith("#")) {
-				Tag<Material> tag = MATERIAL_TAGS.get(string.substring(1).toUpperCase());
+				Tag<Material> tag = getMaterialTag(string.substring(1));
 				if (tag == null) continue;
 				materials.addAll(tag.getValues());
 				continue;
@@ -88,10 +97,9 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 
 	@Override
 	public String documentType() {
-		return Description.of("List of ", Description.Conjunction.OR,
-				Description.ofEnum(Material.class),
-				Description.ofEnum(Tag.class),
-				Description.ofFields(MaterialTags.class)
+		return Description.ofEnum("List of ", Material.class) + " or " + Description.of("List of the following prepended by '#': ", Description.Conjunction.OR,
+				Description.hyperlink("Block tag", "https://github.com/TheComputerGeek2/MagicSpells/wiki/Other-Data-Types#block-tags"),
+				Description.hyperlink("Item tag", "https://minecraft.wiki/w/Tag#Items")
 		);
 	}
 
