@@ -5,6 +5,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
+
 import com.nisovin.magicspells.util.magicitems.MagicItem;
 import com.nisovin.magicspells.util.magicitems.MagicItems;
 
@@ -13,7 +15,7 @@ import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ExactConfigParameter;
 
-public abstract class NmsItemStackParameter extends ExactConfigParameter<ItemStack> {
+public class NmsItemStackParameter extends ExactConfigParameter<ItemStack> {
 
 	public NmsItemStackParameter(@NotNull String name) {
 		this(name, (ItemStack) null);
@@ -32,11 +34,9 @@ public abstract class NmsItemStackParameter extends ExactConfigParameter<ItemSta
 		return ConfigSupplier.fromString(string -> {
 			MagicItem magicItem = MagicItems.getMagicItemFromString(string);
 			if (magicItem == null) return null;
-			return asNMSCopy(magicItem.getItemStack());
+			return CraftItemStack.asNMSCopy(magicItem.getItemStack());
 		});
 	}
-
-	public abstract ItemStack asNMSCopy(org.bukkit.inventory.ItemStack itemStack);
 
 	@Override
 	public String documentType() {

@@ -1,13 +1,13 @@
 plugins {
-    id("com.github.johnrengelman.shadow")
+    id("io.github.goooler.shadow")
 }
 
 dependencies {
-    implementation("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    implementation("io.papermc.paper:paper-api:1.20.5-R0.1-SNAPSHOT")
 
-    shadow(project(path: ":nms:v1_20_2", configuration: "reobf"))
-    shadow(project(path: ":nms:v1_20_3", configuration: "reobf"))
-    shadow(project(path: ":nms:v1_20_4", configuration: "reobf"))
+    shadow(project(path: ":nms:shared")) {transitive = false}
+    shadow(project(path: ":nms:v1_20_5")) {transitive = false}
+    shadow(project(path: ":nms:v1_20_6")) {transitive = false}
 
     shadow("org.bstats:bstats-bukkit:3.0.2")
     shadow("io.github.classgraph:classgraph:4.8.165")
@@ -15,6 +15,10 @@ dependencies {
 
 shadowJar {
     configurations = [project.configurations.shadow]
+
+    manifest {
+        attributes["paperweight-mappings-namespace"] = "mojang"
+    }
 
     relocate("org.bstats", "eu.jasperlorelai.antigone.shaded.bstats")
     relocate("io.github.classgraph", "eu.jasperlorelai.antigone.shaded.io.github.classgraph")

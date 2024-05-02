@@ -3,7 +3,7 @@ plugins {
 }
 
 // Specify what version the generator should use.
-var mcVersion = "1.20.2"
+var mcVersion = "1.20.6"
 
 dependencies {
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${mcVersion}-R0.1-SNAPSHOT")
@@ -12,9 +12,8 @@ dependencies {
     implementation("io.github.classgraph:classgraph:4.8.165")
 
     implementation(project(":nms:shared")) {transitive = false}
-    implementation(project(":nms:v1_20_2")) {transitive = false}
-    implementation(project(":nms:v1_20_3")) {transitive = false}
-    implementation(project(":nms:v1_20_4")) {transitive = false}
+    implementation(project(":nms:v1_20_5")) {transitive = false}
+    implementation(project(":nms:v1_20_6")) {transitive = false}
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")

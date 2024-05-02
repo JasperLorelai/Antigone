@@ -61,7 +61,7 @@ public abstract class AntigoneDocs {
 				.enableAllInfo()
 				.acceptClasses(packagePrefix + ".parameters.mob.LivingEntityClass");
 		try (ScanResult result = classGraph.scan()) {
-			for (FieldInfo value : result.getAllEnums().get(0).getEnumConstants()) {
+			for (FieldInfo value : result.getAllEnums().getFirst().getEnumConstants()) {
 				livingEntityClasses.add(value.getName().toLowerCase());
 			}
 		} catch (IndexOutOfBoundsException e) {
@@ -103,7 +103,7 @@ public abstract class AntigoneDocs {
 				JsonArray parameterDocs = new JsonArray();
 				for (AntigoneParameter<?, ?> baseParameter : parameters) {
 					// Magic parameter: Value is always the same.
-					if (baseParameter instanceof MobParameter<?> parameter && !goalDoc.has("target")) {
+					if (baseParameter instanceof MobParameter<?> parameter) {
 						goalDoc.addProperty("target", parameter.getDescription());
 						continue;
 					}

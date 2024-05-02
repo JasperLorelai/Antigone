@@ -83,45 +83,44 @@ public abstract class AntigoneGoal extends CustomGoal {
 			if (baseParameter.getType() instanceof Class<?> type) types[storeIndex] = type;
 			else types[storeIndex] = baseParameter.getType().getClass();
 
-			if (baseParameter instanceof MobParameter<?> parameter) {
-				Object convertedMob = parameter.fromBukkit(mob);
-				if (convertedMob == null) {
-					severe("Mob must be of type: " + parameter.getDescription());
-					return false;
+			switch (baseParameter) {
+				case MobParameter<?> parameter -> {
+					Object convertedMob = parameter.fromBukkit(mob);
+					if (convertedMob == null) {
+						severe("Mob must be of type: " + parameter.getDescription());
+						return false;
+					}
+					args[storeIndex] = convertedMob;
+					continue;
 				}
-				args[storeIndex] = convertedMob;
-				continue;
-			}
-
-			if (baseParameter instanceof SameLevelParameter parameter) {
-				//noinspection resource
-				args[storeIndex] = parameter.of(mob);
-				continue;
-			}
-
-			if (baseParameter instanceof PredicateParameter<?> parameter) {
-				args[storeIndex] = parameter.getPredicate(config, mob);
-				continue;
-			}
-
-			if (baseParameter instanceof BooleanSupplierParameter parameter) {
-				args[storeIndex] = parameter.getSupplier(config, mob);
-				continue;
-			}
-
-			if (baseParameter instanceof ConfigParameter<?, ?> parameter) {
-				if (config == null) return false;
-
-				String name = parameter.getName();
-				args[storeIndex] = parameter.getSupplier().apply(config, name).get(data);
-				Object def = parameter.getDefault() == null ? null : parameter.getDefault().value();
-				if (args[storeIndex] != null) continue;
-				if (def == null) {
-					severe("Required parameter '%s' not passed.", name);
-					return false;
+				case SameLevelParameter parameter -> {
+					//noinspection resource
+					args[storeIndex] = parameter.of(mob);
+					continue;
 				}
-				args[storeIndex] = def;
-				continue;
+				case PredicateParameter<?> parameter -> {
+					args[storeIndex] = parameter.getPredicate(config, mob);
+					continue;
+				}
+				case BooleanSupplierParameter parameter -> {
+					args[storeIndex] = parameter.getSupplier(config, mob);
+					continue;
+				}
+				case ConfigParameter<?, ?> parameter -> {
+					if (config == null) return false;
+
+					String name = parameter.getName();
+					args[storeIndex] = parameter.getSupplier().apply(config, name).get(data);
+					Object def = parameter.getDefault() == null ? null : parameter.getDefault().value();
+					if (args[storeIndex] != null) continue;
+					if (def == null) {
+						severe("Required parameter '%s' not passed.", name);
+						return false;
+					}
+					args[storeIndex] = def;
+					continue;
+				}
+				default -> {}
 			}
 
 			args[storeIndex] = baseParameter.getDefault() == null ? null : baseParameter.getDefault().value();

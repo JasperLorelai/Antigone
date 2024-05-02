@@ -3,6 +3,8 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.mob;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Parrot;
 
+import org.bukkit.craftbukkit.entity.CraftMob;
+
 import io.papermc.paper.entity.SchoolableFish;
 
 import net.minecraft.world.entity.Mob;
@@ -43,56 +45,58 @@ import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 
-public abstract class MobParameters {
+public class MobParameters {
 
-	public final MobParameter<Mob> Mob = with(Mob.class, Description.ofEntityInterface(org.bukkit.entity.Mob.class));
-	public final MobParameter<PathfinderMob> PathfinderMob = with(PathfinderMob.class, Description.ofEntityInterface(Creature.class));
-	public final MobParameter<Animal> Animal = with(Animal.class, Description.ofEntityInterface(Animals.class));
-	public final MobParameter<Wolf> Wolf = with(Wolf.class, Description.ofClassName(org.bukkit.entity.Wolf.class));
-	public final MobParameter<Cat> Cat = with(Cat.class, Description.ofClassName(org.bukkit.entity.Cat.class));
-	public final MobParameter<Dolphin> Dolphin = with(Dolphin.class, Description.ofClassName(org.bukkit.entity.Dolphin.class));
-	public final MobParameter<TamableAnimal> TamableAnimal = with(TamableAnimal.class, Description.ofEntityInterface(Tameable.class));
-	public final MobParameter<Llama> Llama = with(Llama.class, Description.ofClassName(org.bukkit.entity.Llama.class));
-	public final MobParameter<AbstractVillager> AbstractVillager = with(AbstractVillager.class, Description.ofEntityInterface(org.bukkit.entity.AbstractVillager.class));
-	public final MobParameter<AbstractIllager> AbstractIllager = with(AbstractIllager.class, Description.ofEntityInterface(Illager.class));
-	public final MobParameter<IronGolem> IronGolem = with(IronGolem.class, Description.ofClassName(org.bukkit.entity.IronGolem.class));
-	public final MobParameter<Raider> Raider = with(Raider.class, Description.ofEntityInterface(org.bukkit.entity.Raider.class));
-	public final MobParameter<AbstractHorse> AbstractHorse = with(AbstractHorse.class, Description.ofEntityInterface(org.bukkit.entity.AbstractHorse.class));
-	public final MobParameter<Creeper> Creeper = with(Creeper.class, Description.ofClassName(org.bukkit.entity.Creeper.class));
-	public final MobParameter<Zombie> Zombie = with(Zombie.class, Description.ofClassName(org.bukkit.entity.Zombie.class));
-	public final MobParameter<SkeletonHorse> SkeletonHorse = with(SkeletonHorse.class, Description.ofClassName(org.bukkit.entity.SkeletonHorse.class));
-	public final MobParameter<Vindicator> Vindicator = with(Vindicator.class, Description.ofClassName(org.bukkit.entity.Vindicator.class));
-	public final MobParameter<WanderingTrader> WanderingTrader = with(WanderingTrader.class, Description.ofClassName(org.bukkit.entity.WanderingTrader.class));
-	public final MobParameter<Turtle> Turtle = with(Turtle.class, Description.ofClassName(org.bukkit.entity.Turtle.class));
-	public final MobParameter<Strider> Strider = with(Strider.class, Description.ofClassName(org.bukkit.entity.Strider.class));
-	public final MobParameter<Squid> Squid = with(Squid.class, Description.ofClassName(org.bukkit.entity.Squid.class));
-	public final MobParameter<Spider> Spider = with(Spider.class, Description.ofClassName(org.bukkit.entity.Spider.class));
-	public final MobParameter<Fox> Fox = with(Fox.class, Description.ofClassName(org.bukkit.entity.Fox.class));
-	public final MobParameter<Slime> Slime = with(Slime.class, Description.ofClassName(org.bukkit.entity.Slime.class));
-	public final MobParameter<Silverfish> Silverfish = with(Silverfish.class, Description.ofClassName(org.bukkit.entity.Silverfish.class));
-	public final MobParameter<Shulker> Shulker = with(Shulker.class, Description.ofClassName(org.bukkit.entity.Shulker.class));
-	public final MobParameter<Ghast> Ghast = with(Ghast.class, Description.ofClassName(org.bukkit.entity.Ghast.class));
-	public final MobParameter<Rabbit> Rabbit = with(Rabbit.class, Description.ofClassName(org.bukkit.entity.Rabbit.class));
-	public final MobParameter<Pufferfish> Pufferfish = with(Pufferfish.class, Description.ofClassName(PufferFish.class));
-	public final MobParameter<Panda> Panda = with(Panda.class, Description.ofClassName(org.bukkit.entity.Panda.class));
-	public final MobParameter<Ocelot> Ocelot = with(Ocelot.class, Description.ofClassName(org.bukkit.entity.Ocelot.class));
-	public final MobParameter<PatrollingMonster> PatrollingMonster = with(PatrollingMonster.class, Description.ofEntityInterface("Patrolling ", org.bukkit.entity.Raider.class));
-	public final MobParameter<Guardian> Guardian = with(Guardian.class, Description.ofClassName(org.bukkit.entity.Guardian.class));
-	public final MobParameter<AbstractFish> AbstractFish = with(AbstractFish.class, Description.ofEntityInterface(Fish.class));
-	public final MobParameter<ShoulderRidingEntity> ShoulderRidingEntity = with(ShoulderRidingEntity.class, Description.ofClassName(Parrot.class));
-	public final MobParameter<AbstractSchoolingFish> AbstractSchoolingFish = with(AbstractSchoolingFish.class, Description.ofEntityInterface(SchoolableFish.class));
-	public final MobParameter<EnderMan> EnderMan = with(EnderMan.class, Description.ofClassName(Enderman.class));
-	public final MobParameter<Drowned> Drowned = with(Drowned.class, Description.ofClassName(org.bukkit.entity.Drowned.class));
-	public final MobParameter<Blaze> Blaze = with(Blaze.class, Description.ofClassName(org.bukkit.entity.Blaze.class));
-	public final MobParameter<Bee> Bee = with(Bee.class, Description.ofClassName(org.bukkit.entity.Bee.class));
-	public final MobParameter<Mob> NeutralMob = with(Mob.class, Description.ofEntityInterface("Neutral ", org.bukkit.entity.Mob.class));
-	public final MobParameter<RangedAttackMob> RangedAttackMob = with(RangedAttackMob.class, Description.ofEntityInterface(Parrot.class));
-	public final MobParameter<Monster> RangedAttackMonster = with(Monster.class, Description.ofEntityInterface("Ranged attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class);
-	public final MobParameter<Monster> RangedCrossbowAttackMob = with(Monster.class, Description.ofEntityInterface("Ranged crossbow attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class, CrossbowAttackMob.class);
+	public static final MobParameter<Mob> Mob = with(Mob.class, Description.ofEntityInterface(org.bukkit.entity.Mob.class));
+	public static final MobParameter<PathfinderMob> PathfinderMob = with(PathfinderMob.class, Description.ofEntityInterface(Creature.class));
+	public static final MobParameter<Animal> Animal = with(Animal.class, Description.ofEntityInterface(Animals.class));
+	public static final MobParameter<Wolf> Wolf = with(Wolf.class, Description.ofClassName(org.bukkit.entity.Wolf.class));
+	public static final MobParameter<Cat> Cat = with(Cat.class, Description.ofClassName(org.bukkit.entity.Cat.class));
+	public static final MobParameter<Dolphin> Dolphin = with(Dolphin.class, Description.ofClassName(org.bukkit.entity.Dolphin.class));
+	public static final MobParameter<TamableAnimal> TamableAnimal = with(TamableAnimal.class, Description.ofEntityInterface(Tameable.class));
+	public static final MobParameter<Llama> Llama = with(Llama.class, Description.ofClassName(org.bukkit.entity.Llama.class));
+	public static final MobParameter<AbstractVillager> AbstractVillager = with(AbstractVillager.class, Description.ofEntityInterface(org.bukkit.entity.AbstractVillager.class));
+	public static final MobParameter<AbstractIllager> AbstractIllager = with(AbstractIllager.class, Description.ofEntityInterface(Illager.class));
+	public static final MobParameter<IronGolem> IronGolem = with(IronGolem.class, Description.ofClassName(org.bukkit.entity.IronGolem.class));
+	public static final MobParameter<Raider> Raider = with(Raider.class, Description.ofEntityInterface(org.bukkit.entity.Raider.class));
+	public static final MobParameter<AbstractHorse> AbstractHorse = with(AbstractHorse.class, Description.ofEntityInterface(org.bukkit.entity.AbstractHorse.class));
+	public static final MobParameter<Creeper> Creeper = with(Creeper.class, Description.ofClassName(org.bukkit.entity.Creeper.class));
+	public static final MobParameter<Zombie> Zombie = with(Zombie.class, Description.ofClassName(org.bukkit.entity.Zombie.class));
+	public static final MobParameter<SkeletonHorse> SkeletonHorse = with(SkeletonHorse.class, Description.ofClassName(org.bukkit.entity.SkeletonHorse.class));
+	public static final MobParameter<Vindicator> Vindicator = with(Vindicator.class, Description.ofClassName(org.bukkit.entity.Vindicator.class));
+	public static final MobParameter<WanderingTrader> WanderingTrader = with(WanderingTrader.class, Description.ofClassName(org.bukkit.entity.WanderingTrader.class));
+	public static final MobParameter<Turtle> Turtle = with(Turtle.class, Description.ofClassName(org.bukkit.entity.Turtle.class));
+	public static final MobParameter<Strider> Strider = with(Strider.class, Description.ofClassName(org.bukkit.entity.Strider.class));
+	public static final MobParameter<Squid> Squid = with(Squid.class, Description.ofClassName(org.bukkit.entity.Squid.class));
+	public static final MobParameter<Spider> Spider = with(Spider.class, Description.ofClassName(org.bukkit.entity.Spider.class));
+	public static final MobParameter<Fox> Fox = with(Fox.class, Description.ofClassName(org.bukkit.entity.Fox.class));
+	public static final MobParameter<Slime> Slime = with(Slime.class, Description.ofClassName(org.bukkit.entity.Slime.class));
+	public static final MobParameter<Silverfish> Silverfish = with(Silverfish.class, Description.ofClassName(org.bukkit.entity.Silverfish.class));
+	public static final MobParameter<Shulker> Shulker = with(Shulker.class, Description.ofClassName(org.bukkit.entity.Shulker.class));
+	public static final MobParameter<Ghast> Ghast = with(Ghast.class, Description.ofClassName(org.bukkit.entity.Ghast.class));
+	public static final MobParameter<Rabbit> Rabbit = with(Rabbit.class, Description.ofClassName(org.bukkit.entity.Rabbit.class));
+	public static final MobParameter<Pufferfish> Pufferfish = with(Pufferfish.class, Description.ofClassName(PufferFish.class));
+	public static final MobParameter<Panda> Panda = with(Panda.class, Description.ofClassName(org.bukkit.entity.Panda.class));
+	public static final MobParameter<Ocelot> Ocelot = with(Ocelot.class, Description.ofClassName(org.bukkit.entity.Ocelot.class));
+	public static final MobParameter<PatrollingMonster> PatrollingMonster = with(PatrollingMonster.class, Description.ofEntityInterface("Patrolling ", org.bukkit.entity.Raider.class));
+	public static final MobParameter<Guardian> Guardian = with(Guardian.class, Description.ofClassName(org.bukkit.entity.Guardian.class));
+	public static final MobParameter<AbstractFish> AbstractFish = with(AbstractFish.class, Description.ofEntityInterface(Fish.class));
+	public static final MobParameter<ShoulderRidingEntity> ShoulderRidingEntity = with(ShoulderRidingEntity.class, Description.ofClassName(Parrot.class));
+	public static final MobParameter<AbstractSchoolingFish> AbstractSchoolingFish = with(AbstractSchoolingFish.class, Description.ofEntityInterface(SchoolableFish.class));
+	public static final MobParameter<EnderMan> EnderMan = with(EnderMan.class, Description.ofClassName(Enderman.class));
+	public static final MobParameter<Drowned> Drowned = with(Drowned.class, Description.ofClassName(org.bukkit.entity.Drowned.class));
+	public static final MobParameter<Blaze> Blaze = with(Blaze.class, Description.ofClassName(org.bukkit.entity.Blaze.class));
+	public static final MobParameter<Bee> Bee = with(Bee.class, Description.ofClassName(org.bukkit.entity.Bee.class));
+	public static final MobParameter<Mob> NeutralMob = with(Mob.class, Description.ofEntityInterface("Neutral ", org.bukkit.entity.Mob.class));
+	public static final MobParameter<RangedAttackMob> RangedAttackMob = with(RangedAttackMob.class, Description.ofEntityInterface(Parrot.class));
+	public static final MobParameter<Monster> RangedAttackMonster = with(Monster.class, Description.ofEntityInterface("Ranged attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class);
+	public static final MobParameter<Monster> RangedCrossbowAttackMob = with(Monster.class, Description.ofEntityInterface("Ranged crossbow attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class, CrossbowAttackMob.class);
 
-	public abstract MobConverter<Mob> toMob();
+	private static MobConverter<Mob> toMob() {
+		return mob -> ((CraftMob) mob).getHandle();
+	}
 
-	private <M> MobParameter<M> with(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
+	private static <M> MobParameter<M> with(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
 		return new MobParameter<>(nmsClass, description, mob -> {
 			try {
 				M entity = nmsClass.cast(((MobConverter<?>) toMob()).fromBukkit(mob));

@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 
 import java.util.*;
 import java.lang.reflect.Field;
+import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +16,7 @@ import com.destroystokyo.paper.MaterialTags;
 import com.destroystokyo.paper.MaterialSetTag;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,9 +25,10 @@ import eu.jasperlorelai.antigone.nms.shared.util.Util;
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
-import eu.jasperlorelai.antigone.nms.shared.parameters.ExactConfigParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
 
-public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
+@SuppressWarnings("rawtypes")
+public class NmsIngredientParameter extends ConfigParameter<Class<Predicate>, Predicate<ItemStack>> {
 
 	private static final Map<String, Tag<Material>> MATERIAL_TAGS = new HashMap<>();
 	static {
@@ -47,10 +50,9 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 		tag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, key, Material.class);
 		if (tag == null) return Bukkit.getTag(Tag.REGISTRY_ITEMS, key, Material.class);
 		return tag;
-
 	}
 
-	private static final ConfigSupplier<Ingredient> supplier = ConfigSupplier.fromList(list -> {
+	private static final ConfigSupplier<Predicate<ItemStack>> supplier = ConfigSupplier.fromList(list -> {
 		List<Material> materials = new ArrayList<>();
 		for (String string : list) {
 			if (string.startsWith("#")) {
@@ -75,11 +77,11 @@ public class NmsIngredientParameter extends ExactConfigParameter<Ingredient> {
 		this(name, toDefault(def));
 	}
 
-	private NmsIngredientParameter(String name, Default<Ingredient> def) {
-		super(name, Ingredient.class, supplier, def);
+	private NmsIngredientParameter(String name, Default<Predicate<ItemStack>> def) {
+		super(name, Predicate.class, supplier, def);
 	}
 
-	private static Default<Ingredient> toDefault(List<Material> def) {
+	private static Default<Predicate<ItemStack>> toDefault(List<Material> def) {
 		if (def == null) return null;
 		String description = Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), def.toArray(new Material[0]));
 		return new Default<>(fromMaterials(def), description);

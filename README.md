@@ -1,3 +1,4 @@
+<!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
     <br>
     <img src="https://files.jasperlorelai.eu/projects/images/antigone.png" alt="Antigone Icon" width="250px" height="250px">
