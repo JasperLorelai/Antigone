@@ -12,10 +12,10 @@ import net.minecraft.world.entity.player.Player;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.*;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
 
 @Name("antigone_nearest_attackable_witch_target")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.target.NearestAttackableWitchTargetGoal.class)
@@ -25,7 +25,7 @@ public class NearestAttackableWitchTargetGoal extends AntigoneGoal {
 			// Raider actor
 			MobParameters.Raider,
 			// Class<T extends LivingEntity> targetEntityClass
-			new EntityTypeParameter_v1_20_5("target-entity-class", Player.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "target-entity-class", Player.class),
 			// int reciprocalChance
 			new IntegerParameter("reciprocal-chance", 10),
 			// boolean checkVisibility

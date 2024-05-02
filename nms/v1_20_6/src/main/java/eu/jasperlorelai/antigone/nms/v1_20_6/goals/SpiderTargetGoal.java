@@ -14,9 +14,10 @@ import net.minecraft.world.entity.monster.Spider;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_6.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
-import eu.jasperlorelai.antigone.nms.v1_20_6.parameters.config.EntityTypeParameter_v1_20_6;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 
 @Name("antigone_spider_target")
 @WrapVanillaGoal.Inner(
@@ -30,7 +31,7 @@ public class SpiderTargetGoal extends AntigoneGoal {
 			// Spider spider
 			MobParameters.Spider,
 			// Class<? extends LivingEntity> targetEntityClass
-			new EntityTypeParameter_v1_20_6("target-entity-class", Player.class)
+			new EntityTypeParameter(LivingEntityMap::fromString, "target-entity-class", Player.class)
 	);
 
 	public SpiderTargetGoal(Mob mob, SpellData data) {

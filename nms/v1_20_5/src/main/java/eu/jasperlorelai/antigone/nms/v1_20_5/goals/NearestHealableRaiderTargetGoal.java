@@ -11,11 +11,12 @@ import net.minecraft.world.entity.raid.Raider;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
 
 @Name("antigone_nearest_healable_raider_target")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.target.NearestHealableRaiderTargetGoal.class)
@@ -25,7 +26,7 @@ public class NearestHealableRaiderTargetGoal extends AntigoneGoal {
 			// Raider raider
 			MobParameters.Raider,
 			// Class<T extends LivingEntity> targetEntityClass
-			new EntityTypeParameter_v1_20_5("target-entity-class", Raider.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "target-entity-class", Raider.class),
 			// boolean checkVisibility
 			new BooleanParameter("check-visibility", true),
 			// @Nullable Predicate<LivingEntity> targetPredicate

@@ -1,8 +1,9 @@
-package eu.jasperlorelai.antigone.nms.v1_20_6.parameters.mob;
+package eu.jasperlorelai.antigone.nms.v1_20_6.entities;
 
 import java.lang.Class;
-import java.lang.Override;
-import java.util.function.Supplier;
+import java.lang.String;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.GlowSquid;
@@ -110,231 +111,122 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
-
-/**
- * Enum representing LivingEntity variants, either direct mobs (e.g. Zombie, Pig) or groups of them (e.g. Animal, Mob).
- */
-public enum LivingEntityClass implements Supplier<Class<? extends LivingEntity>> {
-	AGEABLE_MOB(AgeableMob.class),
-
-	FLYING_MOB(FlyingMob.class),
-
-	GLOW_SQUID(GlowSquid.class),
-
-	MOB(Mob.class),
-
-	PATHFINDER_MOB(PathfinderMob.class),
-
-	TAMABLE_ANIMAL(TamableAnimal.class),
-
-	AMBIENT_CREATURE(AmbientCreature.class),
-
-	BAT(Bat.class),
-
-	ABSTRACT_FISH(AbstractFish.class),
-
-	ABSTRACT_GOLEM(AbstractGolem.class),
-
-	ABSTRACT_SCHOOLING_FISH(AbstractSchoolingFish.class),
-
-	ANIMAL(Animal.class),
-
-	BEE(Bee.class),
-
-	CAT(Cat.class),
-
-	CHICKEN(Chicken.class),
-
-	COD(Cod.class),
-
-	COW(Cow.class),
-
-	DOLPHIN(Dolphin.class),
-
-	FOX(Fox.class),
-
-	IRON_GOLEM(IronGolem.class),
-
-	MUSHROOM_COW(MushroomCow.class),
-
-	OCELOT(Ocelot.class),
-
-	PANDA(Panda.class),
-
-	PARROT(Parrot.class),
-
-	PIG(Pig.class),
-
-	POLAR_BEAR(PolarBear.class),
-
-	PUFFERFISH(Pufferfish.class),
-
-	RABBIT(Rabbit.class),
-
-	SALMON(Salmon.class),
-
-	SHEEP(Sheep.class),
-
-	SHOULDER_RIDING_ENTITY(ShoulderRidingEntity.class),
-
-	SNOW_GOLEM(SnowGolem.class),
-
-	SQUID(Squid.class),
-
-	TROPICAL_FISH(TropicalFish.class),
-
-	TURTLE(Turtle.class),
-
-	WATER_ANIMAL(WaterAnimal.class),
-
-	WOLF(Wolf.class),
-
-	ALLAY(Allay.class),
-
-	ARMADILLO(Armadillo.class),
-
-	AXOLOTL(Axolotl.class),
-
-	CAMEL(Camel.class),
-
-	FROG(Frog.class),
-
-	TADPOLE(Tadpole.class),
-
-	GOAT(Goat.class),
-
-	ABSTRACT_CHESTED_HORSE(AbstractChestedHorse.class),
-
-	ABSTRACT_HORSE(AbstractHorse.class),
-
-	DONKEY(Donkey.class),
-
-	HORSE(Horse.class),
-
-	LLAMA(Llama.class),
-
-	MULE(Mule.class),
-
-	SKELETON_HORSE(SkeletonHorse.class),
-
-	TRADER_LLAMA(TraderLlama.class),
-
-	ZOMBIE_HORSE(ZombieHorse.class),
-
-	SNIFFER(Sniffer.class),
-
-	ENDER_DRAGON(EnderDragon.class),
-
-	WITHER_BOSS(WitherBoss.class),
-
-	ARMOR_STAND(ArmorStand.class),
-
-	ABSTRACT_ILLAGER(AbstractIllager.class),
-
-	ABSTRACT_SKELETON(AbstractSkeleton.class),
-
-	BLAZE(Blaze.class),
-
-	BOGGED(Bogged.class),
-
-	CAVE_SPIDER(CaveSpider.class),
-
-	CREEPER(Creeper.class),
-
-	DROWNED(Drowned.class),
-
-	ELDER_GUARDIAN(ElderGuardian.class),
-
-	ENDER_MAN(EnderMan.class),
-
-	ENDERMITE(Endermite.class),
-
-	EVOKER(Evoker.class),
-
-	GHAST(Ghast.class),
-
-	GIANT(Giant.class),
-
-	GUARDIAN(Guardian.class),
-
-	HUSK(Husk.class),
-
-	ILLUSIONER(Illusioner.class),
-
-	MAGMA_CUBE(MagmaCube.class),
-
-	MONSTER(Monster.class),
-
-	PATROLLING_MONSTER(PatrollingMonster.class),
-
-	PHANTOM(Phantom.class),
-
-	PILLAGER(Pillager.class),
-
-	RAVAGER(Ravager.class),
-
-	SHULKER(Shulker.class),
-
-	SILVERFISH(Silverfish.class),
-
-	SKELETON(Skeleton.class),
-
-	SLIME(Slime.class),
-
-	SPELLCASTER_ILLAGER(SpellcasterIllager.class),
-
-	SPIDER(Spider.class),
-
-	STRAY(Stray.class),
-
-	STRIDER(Strider.class),
-
-	VEX(Vex.class),
-
-	VINDICATOR(Vindicator.class),
-
-	WITCH(Witch.class),
-
-	WITHER_SKELETON(WitherSkeleton.class),
-
-	ZOGLIN(Zoglin.class),
-
-	ZOMBIE(Zombie.class),
-
-	ZOMBIE_VILLAGER(ZombieVillager.class),
-
-	ZOMBIFIED_PIGLIN(ZombifiedPiglin.class),
-
-	BREEZE(Breeze.class),
-
-	HOGLIN(Hoglin.class),
-
-	ABSTRACT_PIGLIN(AbstractPiglin.class),
-
-	PIGLIN(Piglin.class),
-
-	PIGLIN_BRUTE(PiglinBrute.class),
-
-	WARDEN(Warden.class),
-
-	ABSTRACT_VILLAGER(AbstractVillager.class),
-
-	VILLAGER(Villager.class),
-
-	WANDERING_TRADER(WanderingTrader.class),
-
-	PLAYER(Player.class),
-
-	RAIDER(Raider.class);
-
-	private final Class<? extends LivingEntity> clazz;
-
-	LivingEntityClass(Class<? extends LivingEntity> clazz) {
-		this.clazz = clazz;
+import org.jetbrains.annotations.Nullable;
+
+public class LivingEntityMap {
+	private static final Map<String, Class<? extends LivingEntity>> map = new LinkedHashMap<>();
+
+	static {
+		map.put("abstract_chested_horse", AbstractChestedHorse.class);
+		map.put("abstract_fish", AbstractFish.class);
+		map.put("abstract_golem", AbstractGolem.class);
+		map.put("abstract_horse", AbstractHorse.class);
+		map.put("abstract_illager", AbstractIllager.class);
+		map.put("abstract_piglin", AbstractPiglin.class);
+		map.put("abstract_schooling_fish", AbstractSchoolingFish.class);
+		map.put("abstract_skeleton", AbstractSkeleton.class);
+		map.put("abstract_villager", AbstractVillager.class);
+		map.put("ageable_mob", AgeableMob.class);
+		map.put("allay", Allay.class);
+		map.put("ambient_creature", AmbientCreature.class);
+		map.put("animal", Animal.class);
+		map.put("armadillo", Armadillo.class);
+		map.put("armor_stand", ArmorStand.class);
+		map.put("axolotl", Axolotl.class);
+		map.put("bat", Bat.class);
+		map.put("bee", Bee.class);
+		map.put("blaze", Blaze.class);
+		map.put("bogged", Bogged.class);
+		map.put("breeze", Breeze.class);
+		map.put("camel", Camel.class);
+		map.put("cat", Cat.class);
+		map.put("cave_spider", CaveSpider.class);
+		map.put("chicken", Chicken.class);
+		map.put("cod", Cod.class);
+		map.put("cow", Cow.class);
+		map.put("creeper", Creeper.class);
+		map.put("dolphin", Dolphin.class);
+		map.put("donkey", Donkey.class);
+		map.put("drowned", Drowned.class);
+		map.put("elder_guardian", ElderGuardian.class);
+		map.put("ender_dragon", EnderDragon.class);
+		map.put("ender_man", EnderMan.class);
+		map.put("endermite", Endermite.class);
+		map.put("evoker", Evoker.class);
+		map.put("flying_mob", FlyingMob.class);
+		map.put("fox", Fox.class);
+		map.put("frog", Frog.class);
+		map.put("ghast", Ghast.class);
+		map.put("giant", Giant.class);
+		map.put("glow_squid", GlowSquid.class);
+		map.put("goat", Goat.class);
+		map.put("guardian", Guardian.class);
+		map.put("hoglin", Hoglin.class);
+		map.put("horse", Horse.class);
+		map.put("husk", Husk.class);
+		map.put("illusioner", Illusioner.class);
+		map.put("iron_golem", IronGolem.class);
+		map.put("llama", Llama.class);
+		map.put("magma_cube", MagmaCube.class);
+		map.put("mob", Mob.class);
+		map.put("monster", Monster.class);
+		map.put("mule", Mule.class);
+		map.put("mushroom_cow", MushroomCow.class);
+		map.put("ocelot", Ocelot.class);
+		map.put("panda", Panda.class);
+		map.put("parrot", Parrot.class);
+		map.put("pathfinder_mob", PathfinderMob.class);
+		map.put("patrolling_monster", PatrollingMonster.class);
+		map.put("phantom", Phantom.class);
+		map.put("pig", Pig.class);
+		map.put("piglin", Piglin.class);
+		map.put("piglin_brute", PiglinBrute.class);
+		map.put("pillager", Pillager.class);
+		map.put("player", Player.class);
+		map.put("polar_bear", PolarBear.class);
+		map.put("pufferfish", Pufferfish.class);
+		map.put("rabbit", Rabbit.class);
+		map.put("raider", Raider.class);
+		map.put("ravager", Ravager.class);
+		map.put("salmon", Salmon.class);
+		map.put("sheep", Sheep.class);
+		map.put("shoulder_riding_entity", ShoulderRidingEntity.class);
+		map.put("shulker", Shulker.class);
+		map.put("silverfish", Silverfish.class);
+		map.put("skeleton", Skeleton.class);
+		map.put("skeleton_horse", SkeletonHorse.class);
+		map.put("slime", Slime.class);
+		map.put("sniffer", Sniffer.class);
+		map.put("snow_golem", SnowGolem.class);
+		map.put("spellcaster_illager", SpellcasterIllager.class);
+		map.put("spider", Spider.class);
+		map.put("squid", Squid.class);
+		map.put("stray", Stray.class);
+		map.put("strider", Strider.class);
+		map.put("tadpole", Tadpole.class);
+		map.put("tamable_animal", TamableAnimal.class);
+		map.put("trader_llama", TraderLlama.class);
+		map.put("tropical_fish", TropicalFish.class);
+		map.put("turtle", Turtle.class);
+		map.put("vex", Vex.class);
+		map.put("villager", Villager.class);
+		map.put("vindicator", Vindicator.class);
+		map.put("wandering_trader", WanderingTrader.class);
+		map.put("warden", Warden.class);
+		map.put("water_animal", WaterAnimal.class);
+		map.put("witch", Witch.class);
+		map.put("wither_boss", WitherBoss.class);
+		map.put("wither_skeleton", WitherSkeleton.class);
+		map.put("wolf", Wolf.class);
+		map.put("zoglin", Zoglin.class);
+		map.put("zombie", Zombie.class);
+		map.put("zombie_horse", ZombieHorse.class);
+		map.put("zombie_villager", ZombieVillager.class);
+		map.put("zombified_piglin", ZombifiedPiglin.class);
 	}
 
-	@Override
-	public Class<? extends LivingEntity> get() {
-		return clazz;
+	@Nullable
+	public static Class<? extends LivingEntity> fromString(String name) {
+		return map.get(name.toLowerCase());
 	}
 }

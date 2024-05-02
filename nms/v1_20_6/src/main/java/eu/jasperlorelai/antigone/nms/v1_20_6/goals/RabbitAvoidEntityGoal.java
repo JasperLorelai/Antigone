@@ -14,11 +14,12 @@ import net.minecraft.world.entity.animal.Rabbit;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_6.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.FloatParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_6.parameters.config.EntityTypeParameter_v1_20_6;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 
 @Name("antigone_rabbit_avoid_entity")
 @WrapVanillaGoal.Inner(
@@ -32,7 +33,7 @@ public class RabbitAvoidEntityGoal extends AntigoneGoal {
 			// Rabbit rabbit
 			MobParameters.Rabbit,
 			// Class<? extends LivingEntity> fleeFromType
-			new EntityTypeParameter_v1_20_6("flee-from-type", Wolf.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "flee-from-type", Wolf.class),
 			// float distance
 			new FloatParameter("distance", 10),
 			// double slowSpeed

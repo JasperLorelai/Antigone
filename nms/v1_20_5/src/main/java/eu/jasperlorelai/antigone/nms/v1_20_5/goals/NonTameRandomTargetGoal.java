@@ -9,11 +9,12 @@ import com.nisovin.magicspells.util.SpellData;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
 
 @Name("antigone_non_tame_random_target")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal.class)
@@ -23,7 +24,7 @@ public class NonTameRandomTargetGoal extends AntigoneGoal {
 			// TamableAnimal tameable
 			MobParameters.TamableAnimal,
 			// Class<T extends LivingEntity> targetClass
-			new EntityTypeParameter_v1_20_5("target-class"),
+			new EntityTypeParameter(LivingEntityMap::fromString, "target-class"),
 			// boolean checkVisibility
 			new BooleanParameter("check-visibility", false),
 			// @Nullable Predicate<LivingEntity> targetPredicate

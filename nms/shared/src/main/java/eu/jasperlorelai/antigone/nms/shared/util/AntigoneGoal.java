@@ -41,6 +41,7 @@ public abstract class AntigoneGoal extends CustomGoal {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public final boolean initialize(ConfigurationSection config) {
 		Class<? extends Goal> vanillaGoal;
 		WrapVanillaGoal.Exact wrapVanillaGoalExact = getClass().getAnnotation(WrapVanillaGoal.Exact.class);
@@ -54,7 +55,6 @@ public abstract class AntigoneGoal extends CustomGoal {
 		}
 		else {
 			try {
-				//noinspection unchecked
 				vanillaGoal = (Class<? extends Goal>) Class.forName(wrapVanillaGoalInner.entity().getName() + "$" + wrapVanillaGoalInner.className());
 			} catch (ClassNotFoundException | ClassCastException ignored) {
 				severe("Goal could not be created. Report this as a bug!");

@@ -1,6 +1,7 @@
 package eu.jasperlorelai.antigone.generator;
 
 import java.io.*;
+import java.util.Map;
 import java.util.List;
 import java.lang.reflect.Field;
 
@@ -51,26 +52,24 @@ public abstract class AntigoneDocs {
 	@SuppressWarnings("unchecked")
 	private static JsonObject documentVersion(String version) {
 		String packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
-
 		JsonObject docs = new JsonObject();
 
-		// Collect "LivingEntityClass" values.
-		JsonArray livingEntityClasses = new JsonArray();
-
-		ClassGraph classGraph = new ClassGraph()
-				.enableAllInfo()
-				.acceptClasses(packagePrefix + ".parameters.mob.LivingEntityClass");
-		try (ScanResult result = classGraph.scan()) {
-			for (FieldInfo value : result.getAllEnums().getFirst().getEnumConstants()) {
-				livingEntityClasses.add(value.getName().toLowerCase());
-			}
-		} catch (IndexOutOfBoundsException e) {
-			throw new RuntimeException("Submodule '" + version + "' does not provide access.");
+		// Collect "LivingEntityMap" keys.
+		JsonArray entities = new JsonArray();
+		try {
+			Class<?> mapClass = Class.forName(packagePrefix + ".entities.LivingEntityMap");
+			Field mapField = mapClass.getDeclaredField("map");
+			mapField.setAccessible(true);
+			Map<String, Class<?>> map = (Map<String, Class<?>>) mapField.get(null);
+			map.keySet().forEach(entities::add);
+		} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+			//noinspection CallToPrintStackTrace
+			e.printStackTrace();
 		}
-		docs.add("LivingEntityClass", livingEntityClasses);
+		docs.add("LivingEntityClass", entities);
 
 		JsonObject goalDocs = new JsonObject();
-		classGraph = new ClassGraph()
+		ClassGraph classGraph = new ClassGraph()
 				.enableAllInfo()
 				.enableStaticFinalFieldConstantInitializerValues()
 				.acceptPackages(packagePrefix + ".goals");

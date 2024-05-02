@@ -1,9 +1,7 @@
 package eu.jasperlorelai.antigone.generator;
 
 import java.io.*;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
 
 import org.bukkit.entity.Mob;
 
@@ -12,12 +10,12 @@ import com.squareup.javapoet.*;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
+import io.github.classgraph.ClassInfoList;
 
 import javax.lang.model.element.Modifier;
 
 import com.google.common.base.CaseFormat;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.nisovin.magicspells.util.Name;
@@ -29,13 +27,11 @@ import net.minecraft.world.entity.ai.goal.WrappedGoal;
 
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
-import eu.jasperlorelai.antigone.nms.shared.parameters.config.*;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 
 public class AntigoneGenerator {
 
-	private String version;
 	private String packagePrefix;
 
 	private File goalsDir;
@@ -45,16 +41,13 @@ public class AntigoneGenerator {
 	private AntigoneGenerator() {}
 
 	private AntigoneGenerator(String version) {
-		this.version = version;
 		packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
 		sourceDir = new File(new File("").getAbsoluteFile().getParentFile(), "nms/" + version + "/src/main/java");
 		goalsDir = new File(sourceDir, packagePrefix.replaceAll("\\.", "/") + "/goals");
 
 		try {
 			setupGoals();
-			// Parameters depends on LivingEntityClass
-			setupLivingEntityClass();
-			setupParameters();
+			setupLivingEntityStore();
 		} catch (Exception e) {
 			//noinspection CallToPrintStackTrace
 			e.printStackTrace();
@@ -67,14 +60,10 @@ public class AntigoneGenerator {
 	}
 
 	private void write(String packageSuffix, TypeSpec typeSpec) throws IOException {
-		write(sourceDir, packageSuffix, typeSpec);
-	}
-
-	private void write(File dir, String packageSuffix, TypeSpec typeSpec) throws IOException {
 		JavaFile.builder(packagePrefix + packageSuffix, typeSpec)
 				.indent("\t")
 				.build()
-				.writeTo(dir);
+				.writeTo(sourceDir);
 	}
 
 	private String getAntigoneAnnotationName(String annotation) {
@@ -149,101 +138,39 @@ public class AntigoneGenerator {
 		}
 	}
 
-	private void setupLivingEntityClass() throws IOException {
-		TypeName livingEntityWildcard = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(LivingEntity.class));
-		TypeSpec.Builder entityClassEnum = TypeSpec.enumBuilder("LivingEntityClass")
-				.addJavadoc("Enum representing LivingEntity variants, either direct mobs (e.g. Zombie, Pig) or groups of them (e.g. Animal, Mob).")
+	private void setupLivingEntityStore() throws IOException {
+		TypeName livingEntity = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(LivingEntity.class));
+		TypeName map = ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), livingEntity);
+
+		TypeSpec.Builder livingEntityBuilder = TypeSpec.classBuilder("LivingEntityMap")
 				.addModifiers(Modifier.PUBLIC)
-				.addField(livingEntityWildcard, "clazz", Modifier.PRIVATE, Modifier.FINAL)
-				.addMethod(MethodSpec.constructorBuilder()
-						.addParameter(livingEntityWildcard, "clazz")
-						.addStatement("this.$N = $N", "clazz", "clazz")
+				.addField(FieldSpec.builder(map, "map", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+						.initializer("new $T<>()", LinkedHashMap.class)
 						.build()
 				)
-				.addSuperinterface(ParameterizedTypeName.get(ClassName.get(Supplier.class), livingEntityWildcard))
-				.addMethod(MethodSpec.methodBuilder("get")
-						.addAnnotation(Override.class)
-						.addModifiers(Modifier.PUBLIC)
-						.returns(livingEntityWildcard)
-						.addStatement("return clazz")
+				.addMethod(MethodSpec.methodBuilder("fromString")
+						.addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+						.addParameter(ClassName.get(String.class), "name")
+						.addAnnotation(Nullable.class)
+						.addStatement("return map.get(name.toLowerCase())")
+						.returns(livingEntity)
 						.build()
 				);
 
+		CodeBlock.Builder initialise = CodeBlock.builder();
 		ClassGraph classGraph = new ClassGraph()
 				.enableAllInfo()
 				.acceptPackages("net.minecraft.world.entity.");
 		try (ScanResult result = classGraph.scan()) {
-			for (ClassInfo info : result.getSubclasses(LivingEntity.class)) {
-				Class<?> clazz = info.loadClass();
-				entityClassEnum.addEnumConstant(
-						CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, clazz.getSimpleName()),
-						TypeSpec.anonymousClassBuilder("$T.class", ClassName.get(clazz)).build()
-				);
+			ClassInfoList list = result.getSubclasses(LivingEntity.class);
+			list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));
+			for (ClassInfo info : list) {
+				String key = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, info.getSimpleName());
+				initialise.addStatement("map.put($S, $T.class)", key, ClassName.get(info.loadClass()));
 			}
 		}
 
-		write(".parameters.mob", entityClassEnum.build());
-	}
-
-	private void writeInstancedConfigParameter(ClassName superClass, TypeName defType, Function<TypeSpec.Builder, TypeSpec.Builder> function) throws IOException {
-		write(".parameters.config", function.apply(TypeSpec.classBuilder(superClass.simpleName() + "_" + version))
-				.addModifiers(Modifier.PUBLIC)
-				.superclass(superClass)
-				.addMethod(MethodSpec.constructorBuilder()
-						.addModifiers(Modifier.PUBLIC)
-						.addParameter(ParameterSpec.builder(String.class, "name").addAnnotation(NotNull.class).build())
-						.addStatement("this(name, null)")
-						.build()
-				)
-				.addMethod(MethodSpec.constructorBuilder()
-						.addModifiers(Modifier.PUBLIC)
-						.addParameter(ParameterSpec.builder(String.class, "name").addAnnotation(NotNull.class).build())
-						.addParameter(ParameterSpec.builder(defType, "def").addAnnotation(Nullable.class).build())
-						.addStatement("super(name, def)")
-						.build()
-				)
-				.build());
-	}
-
-	private void setupParameters() throws IOException {
-		ClassName typeLivingEntityClass = ClassName.bestGuess(packagePrefix + ".parameters.mob.LivingEntityClass");
-		TypeName livingEntityWildcard = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(LivingEntity.class));
-
-		writeInstancedConfigParameter(ClassName.get(EntityTypeParameter.class), livingEntityWildcard,
-				builder -> builder.addMethod(MethodSpec.methodBuilder("fromString")
-						.addModifiers(Modifier.PUBLIC)
-						.addAnnotation(Override.class)
-						.addParameter(String.class, "string")
-						.returns(livingEntityWildcard)
-						.addCode(CodeBlock.builder()
-								.beginControlFlow("try")
-								.addStatement("return $T.valueOf(string.toUpperCase()).get()", typeLivingEntityClass)
-								.nextControlFlow("catch ($T ignored)", IllegalArgumentException.class)
-								.endControlFlow()
-								.addStatement("return null")
-								.build()
-						)
-						.build()
-				)
-		);
-
-		writeInstancedConfigParameter(ClassName.get(EntityTypesParameter.class), ArrayTypeName.of(livingEntityWildcard),
-				builder -> builder.addMethod(MethodSpec.methodBuilder("fromString")
-						.addModifiers(Modifier.PUBLIC)
-						.addAnnotation(Override.class)
-						.addParameter(String.class, "string")
-						.returns(livingEntityWildcard)
-						.addCode(CodeBlock.builder()
-								.beginControlFlow("try")
-								.addStatement("return $T.valueOf(string.toUpperCase()).get()", typeLivingEntityClass)
-								.nextControlFlow("catch ($T ignored)", IllegalArgumentException.class)
-								.endControlFlow()
-								.addStatement("return null")
-								.build()
-						)
-						.build()
-				)
-		);
+		write(".entities", livingEntityBuilder.addStaticBlock(initialise.build()).build());
 	}
 
 }

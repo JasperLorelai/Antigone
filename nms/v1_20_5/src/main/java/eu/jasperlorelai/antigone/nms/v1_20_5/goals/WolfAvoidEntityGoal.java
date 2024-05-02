@@ -14,11 +14,12 @@ import net.minecraft.world.entity.animal.horse.Llama;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.FloatParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
-import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 
 @Name("antigone_wolf_avoid_entity")
 @ExtendsGoal("antigone_avoid_entity")
@@ -32,7 +33,7 @@ public class WolfAvoidEntityGoal extends AntigoneGoal {
 			// Wolf entitywolf
 			MobParameters.Wolf,
 			// Class fleeFromType
-			new EntityTypeParameter_v1_20_5("flee-from-type", Llama.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "flee-from-type", Llama.class),
 			// float distance
 			new FloatParameter("distance", 24),
 			// double slowSpeed

@@ -14,11 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.FloatParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 
 @Name("antigone_ocelot_avoid_entity")
 @WrapVanillaGoal.Inner(
@@ -32,7 +33,7 @@ public class OcelotAvoidEntityGoal extends AntigoneGoal {
 			// Ocelot ocelot
 			MobParameters.Ocelot,
 			// Class<? extends LivingEntity> fleeFromType
-			new EntityTypeParameter_v1_20_5("flee-from-type", Player.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "flee-from-type", Player.class),
 			// float distance
 			new FloatParameter("distance", 16),
 			// double slowSpeed

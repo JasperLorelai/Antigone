@@ -10,9 +10,10 @@ import com.nisovin.magicspells.util.SpellData;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_6.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
-import eu.jasperlorelai.antigone.nms.v1_20_6.parameters.config.EntityTypesParameter_v1_20_6;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypesParameter;
 
 @Name("antigone_hurt_by_target")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal.class)
@@ -22,7 +23,7 @@ public class HurtByTargetGoal extends AntigoneGoal {
 			// PathfinderMob mob
 			MobParameters.PathfinderMob,
 			// Class<?>... noRevengeTypes
-			new EntityTypesParameter_v1_20_6("no-revenge-types", EntityTypesParameter_v1_20_6.EMPTY)
+			new EntityTypesParameter(LivingEntityMap::fromString, "no-revenge-types", EntityTypesParameter.EMPTY)
 	);
 
 	public HurtByTargetGoal(Mob mob, SpellData data) {

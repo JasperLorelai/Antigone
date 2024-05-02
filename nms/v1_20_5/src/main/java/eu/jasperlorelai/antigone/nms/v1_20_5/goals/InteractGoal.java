@@ -11,10 +11,11 @@ import net.minecraft.world.entity.player.Player;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_5.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.FloatParameter;
-import eu.jasperlorelai.antigone.nms.v1_20_5.parameters.config.EntityTypeParameter_v1_20_5;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 
 @Name("antigone_interact")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.InteractGoal.class)
@@ -24,7 +25,7 @@ public class InteractGoal extends AntigoneGoal {
 			// Mob mob
 			MobParameters.Mob,
 			// Class<? extends LivingEntity> targetType
-			new EntityTypeParameter_v1_20_5("target-type", Player.class),
+			new EntityTypeParameter(LivingEntityMap::fromString, "target-type", Player.class),
 			// float range
 			new FloatParameter("range", 3),
 			// float chance

@@ -13,9 +13,10 @@ import net.minecraft.world.entity.animal.Panda;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.v1_20_6.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
-import eu.jasperlorelai.antigone.nms.v1_20_6.parameters.config.EntityTypesParameter_v1_20_6;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypesParameter;
 
 @Name("antigone_panda_hurt_by_target")
 @WrapVanillaGoal.Inner(
@@ -29,7 +30,7 @@ public class PandaHurtByTargetGoal extends AntigoneGoal {
 			// Panda panda
 			MobParameters.Panda,
 			// Class<?>... noRevengeTypes
-			new EntityTypesParameter_v1_20_6("no-revenge-types", EntityTypesParameter_v1_20_6.EMPTY)
+			new EntityTypesParameter(LivingEntityMap::fromString, "no-revenge-types", EntityTypesParameter.EMPTY)
 	);
 
 	public PandaHurtByTargetGoal(Mob mob, SpellData data) {

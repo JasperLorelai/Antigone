@@ -3,6 +3,7 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.google.common.base.CaseFormat;
@@ -18,7 +19,9 @@ import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
 
-public abstract class EntityTypesParameter extends ConfigParameter<Class<?>, Class<? extends LivingEntity>[]> {
+public class EntityTypesParameter extends ConfigParameter<Class<?>, Class<? extends LivingEntity>[]> {
+
+	private final Function<String, Class<? extends LivingEntity>> fromString;
 
 	/**
 	 * Note: {@link HurtByTargetGoal#setAlertOthers(Class[])} is sometimes unnecessarily passed an empty array when not calling it at all and leaving the field null will do.
@@ -26,16 +29,17 @@ public abstract class EntityTypesParameter extends ConfigParameter<Class<?>, Cla
 	@SuppressWarnings("unchecked")
 	public static final Class<? extends LivingEntity>[] EMPTY = new Class[0];
 
-	public EntityTypesParameter(@NotNull String name) {
-		this(name, (Class<? extends LivingEntity>[]) null);
+	public EntityTypesParameter(@NotNull Function<String, Class<? extends LivingEntity>> fromString, @NotNull String name) {
+		this(fromString, name, (Class<? extends LivingEntity>[]) null);
 	}
 
-	public EntityTypesParameter(@NotNull String name, @Nullable Class<? extends LivingEntity>[] def) {
-		this(name, def == null ? null : new Default<>(def, defaultToString(def)));
+	public EntityTypesParameter(@NotNull Function<String, Class<? extends LivingEntity>> fromString, @NotNull String name, @Nullable Class<? extends LivingEntity>[] def) {
+		this(fromString, name, def == null ? null : new Default<>(def, defaultToString(def)));
 	}
 
-	private EntityTypesParameter(String name, Default<Class<? extends LivingEntity>[]> def) {
+	private EntityTypesParameter(Function<String, Class<? extends LivingEntity>> fromString, String name, Default<Class<? extends LivingEntity>[]> def) {
 		super(name, Class[].class, null, def);
+		this.fromString = fromString;
 	}
 
 	private static String defaultToString(Class<? extends LivingEntity>[] def) {
@@ -46,16 +50,14 @@ public abstract class EntityTypesParameter extends ConfigParameter<Class<?>, Cla
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ConfigSupplier<Class<? extends LivingEntity>[]> getSupplier() {
 		return ConfigSupplier.fromList(list -> {
 			List<Class<? extends LivingEntity>> newList = new ArrayList<>();
-			for (String s : list) newList.add(fromString(s.toUpperCase()));
-			//noinspection unchecked
+			for (String s : list) newList.add(fromString.apply(s));
 			return newList.toArray(new Class[0]);
 		});
 	}
-
-	public abstract Class<? extends LivingEntity> fromString(String string);
 
 	@Override
 	public String documentType() {
