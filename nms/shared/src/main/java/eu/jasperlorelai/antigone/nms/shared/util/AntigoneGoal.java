@@ -114,7 +114,9 @@ public abstract class AntigoneGoal extends CustomGoal {
 		}
 
 		try {
-			handle = vanillaGoal.getDeclaredConstructor(types).newInstance(args).asPaperVanillaGoal();
+			Constructor<? extends Goal> constructor = vanillaGoal.getDeclaredConstructor(types);
+			constructor.setAccessible(true);
+			handle = constructor.newInstance(args).asPaperVanillaGoal();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			StringBuilder builder = new StringBuilder();
 			for (StackTraceElement el : e.getStackTrace()) {
