@@ -27,6 +27,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class ZombieAttackTurtleEggGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Zombie,
 			// PathfinderMob mob
 			MobParameters.PathfinderMob,
 			// double speed

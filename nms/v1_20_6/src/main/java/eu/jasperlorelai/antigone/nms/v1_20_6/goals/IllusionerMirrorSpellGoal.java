@@ -13,6 +13,7 @@ import net.minecraft.world.entity.monster.Illusioner;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_illusioner_mirror_spell")
 @WrapVanillaGoal.Inner(
@@ -21,7 +22,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 )
 public class IllusionerMirrorSpellGoal extends AntigoneGoal {
 
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of();
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Illusioner);
 
 	public IllusionerMirrorSpellGoal(Mob mob, SpellData data) {
 		super(mob, data);

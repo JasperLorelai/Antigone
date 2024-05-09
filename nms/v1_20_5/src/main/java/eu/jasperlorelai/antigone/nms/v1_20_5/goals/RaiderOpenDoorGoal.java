@@ -25,7 +25,10 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class RaiderOpenDoorGoal extends AntigoneGoal {
 
 	// Raider raider
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Raider);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.AbstractIllager,
+			MobParameters.Raider
+	);
 
 	public RaiderOpenDoorGoal(Mob mob, SpellData data) {
 		super(mob, data);

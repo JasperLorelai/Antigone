@@ -23,7 +23,11 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class ObtainRaidLeaderBannerGoal extends AntigoneGoal {
 
 	// <T extends Raider> entityraider
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Raider, MobParameters.Raider);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Raider,
+			MobParameters.Raider,
+			MobParameters.Raider
+	);
 
 	public ObtainRaidLeaderBannerGoal(Mob mob, SpellData data) {
 		super(mob, data);

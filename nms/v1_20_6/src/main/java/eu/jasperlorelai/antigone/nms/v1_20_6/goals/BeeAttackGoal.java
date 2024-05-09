@@ -27,6 +27,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
 public class BeeAttackGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Bee,
 			// PathfinderMob mob
 			MobParameters.PathfinderMob,
 			// double speed

@@ -26,6 +26,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 public class FoxFollowParentGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
 			// Fox entityfox
 			MobParameters.Fox,
 			MobParameters.Fox,

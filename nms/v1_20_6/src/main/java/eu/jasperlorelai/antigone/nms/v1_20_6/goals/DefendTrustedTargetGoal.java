@@ -16,6 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.v1_20_6.entities.LivingEntityMap;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParameter;
@@ -29,6 +30,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParame
 public class DefendTrustedTargetGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
 			// Class targetClass
 			new EntityTypeParameter(LivingEntityMap::fromString, "target-class", LivingEntity.class),
 			// boolean checkVisibility

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassGraph;
@@ -114,14 +113,11 @@ public class AntigoneTests {
 
 		// Collect parameter types.
 		// Non-static inner class constructors require first parameter to also be an enclosing class instance.
-		boolean addEnclosing = wrapVanillaGoalInner != null && !Modifier.isStatic(vanillaGoalClass.getModifiers());
-		int offset = addEnclosing ? 1 : 0;
-		Class<?>[] types = new Class[parameters.size() + offset];
-		if (addEnclosing) types[0] = wrapVanillaGoalInner.entity();
+		Class<?>[] types = new Class[parameters.size()];
 		for (int i = 0; i < parameters.size(); i++) {
 			AntigoneParameter<?, ?> parameter = parameters.get(i);
-			if (parameter.getType() instanceof Class<?> type) types[i + offset] = type;
-			else types[i + offset] = parameter.getType().getClass();
+			if (parameter.getType() instanceof Class<?> type) types[i] = type;
+			else types[i] = parameter.getType().getClass();
 		}
 
 		// Verify that a constructor with the given types exists.

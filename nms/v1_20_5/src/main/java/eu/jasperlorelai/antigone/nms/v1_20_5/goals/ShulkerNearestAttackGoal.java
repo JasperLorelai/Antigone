@@ -25,7 +25,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class ShulkerNearestAttackGoal extends AntigoneGoal {
 
 	// Shulker entityshulker
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Shulker);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Shulker, MobParameters.Shulker);
 
 	public ShulkerNearestAttackGoal(Mob mob, SpellData data) {
 		super(mob, data);

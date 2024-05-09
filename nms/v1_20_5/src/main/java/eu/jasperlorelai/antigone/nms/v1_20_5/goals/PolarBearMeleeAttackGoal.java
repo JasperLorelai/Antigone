@@ -14,6 +14,7 @@ import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_polar_bear_melee_attack")
 @WrapVanillaGoal.Inner(
@@ -23,7 +24,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 @ExtendsGoal("antigone_melee_attack")
 public class PolarBearMeleeAttackGoal extends AntigoneGoal {
 
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of();
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.PolarBear);
 
 	public PolarBearMeleeAttackGoal(Mob mob, SpellData data) {
 		super(mob, data);

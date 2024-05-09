@@ -15,6 +15,7 @@ import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.DummyParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 
 @Name("antigone_fox_stroll_through_village")
@@ -26,6 +27,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 public class FoxStrollThroughVillageGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
 			// int unused
 			new DummyParameter<>(int.class, 32),
 			// int searchRange

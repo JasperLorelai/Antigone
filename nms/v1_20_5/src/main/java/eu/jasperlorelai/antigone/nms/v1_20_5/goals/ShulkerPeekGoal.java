@@ -13,6 +13,7 @@ import net.minecraft.world.entity.monster.Shulker;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_shulker_peek")
 @WrapVanillaGoal.Inner(
@@ -21,7 +22,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 )
 public class ShulkerPeekGoal extends AntigoneGoal {
 
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of();
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Shulker);
 
 	public ShulkerPeekGoal(Mob mob, SpellData data) {
 		super(mob, data);

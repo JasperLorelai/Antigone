@@ -25,7 +25,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class BeeHurtByOtherGoal extends AntigoneGoal {
 
 	// Bee entitybee
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Bee);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Bee, MobParameters.Bee);
 
 	public BeeHurtByOtherGoal(Mob mob, SpellData data) {
 		super(mob, data);

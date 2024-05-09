@@ -24,6 +24,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class WanderToPositionGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.WanderingTrader,
 			// WanderingTrader entityvillagertrader
 			MobParameters.WanderingTrader,
 			// double stopDistance

@@ -29,6 +29,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParamete
 public class FoxLookAtPlayerGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
 			// Mob mob
 			MobParameters.Mob,
 			// Class targetType

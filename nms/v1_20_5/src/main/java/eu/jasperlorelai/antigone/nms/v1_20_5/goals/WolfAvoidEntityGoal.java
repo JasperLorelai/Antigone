@@ -30,6 +30,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParamete
 public class WolfAvoidEntityGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Wolf,
 			// Wolf entitywolf
 			MobParameters.Wolf,
 			// Class fleeFromType

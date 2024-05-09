@@ -23,7 +23,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class SquidRandomMovementGoal extends AntigoneGoal {
 
 	// Squid squid
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Squid);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Squid, MobParameters.Squid);
 
 	public SquidRandomMovementGoal(Mob mob, SpellData data) {
 		super(mob, data);

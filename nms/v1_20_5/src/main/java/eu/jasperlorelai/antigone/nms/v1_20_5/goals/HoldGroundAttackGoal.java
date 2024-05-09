@@ -24,6 +24,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.FloatParameter;
 public class HoldGroundAttackGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Raider,
 			// AbstractIllager entityillagerabstract
 			MobParameters.AbstractIllager,
 			// float hostileRadius

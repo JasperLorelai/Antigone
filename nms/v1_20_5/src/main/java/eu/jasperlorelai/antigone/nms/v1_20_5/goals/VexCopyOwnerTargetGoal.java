@@ -23,7 +23,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 public class VexCopyOwnerTargetGoal extends AntigoneGoal {
 
 	// PathfinderMob entitycreature
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.PathfinderMob);
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters.Vex, MobParameters.PathfinderMob);
 
 	public VexCopyOwnerTargetGoal(Mob mob, SpellData data) {
 		super(mob, data);

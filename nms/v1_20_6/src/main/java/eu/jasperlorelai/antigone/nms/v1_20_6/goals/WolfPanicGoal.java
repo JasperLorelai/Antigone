@@ -26,6 +26,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 public class WolfPanicGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Wolf,
 			// Wolf wolf
 			MobParameters.Wolf,
 			// double speed

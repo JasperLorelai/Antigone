@@ -2,7 +2,7 @@ package eu.jasperlorelai.antigone.nms.shared.util;
 
 import java.util.List;
 import java.util.EnumSet;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Constructor;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,26 +62,13 @@ public abstract class AntigoneGoal extends CustomGoal {
 			}
 		}
 
-		// Non-static inner class constructors require first parameter to also be an enclosing class instance.
-		boolean addEnclosing = wrapVanillaGoalInner != null && !Modifier.isStatic(vanillaGoal.getModifiers());
-		int offset = addEnclosing ? 1 : 0;
-
 		List<AntigoneParameter<?, ?>> parameters = getParameters();
-		int newSize = parameters.size() + offset;
-		Class<?>[] types = new Class[newSize];
-		Object[] args = new Object[newSize];
-
-		if (addEnclosing) {
-			types[0] = wrapVanillaGoalInner.entity();
-			args[0] = wrapVanillaGoalInner.entity();
-		}
-
+		Class<?>[] types = new Class[parameters.size()];
+		Object[] args = new Object[parameters.size()];
 		for (int i = 0; i < parameters.size(); i++) {
 			AntigoneParameter<?, ?> baseParameter = parameters.get(i);
-			int storeIndex = i + offset;
-
-			if (baseParameter.getType() instanceof Class<?> type) types[storeIndex] = type;
-			else types[storeIndex] = baseParameter.getType().getClass();
+			if (baseParameter.getType() instanceof Class<?> type) types[i] = type;
+			else types[i] = baseParameter.getType().getClass();
 
 			switch (baseParameter) {
 				case MobParameter<?> parameter -> {
@@ -90,40 +77,40 @@ public abstract class AntigoneGoal extends CustomGoal {
 						severe("Mob must be of type: " + parameter.getDescription());
 						return false;
 					}
-					args[storeIndex] = convertedMob;
+					args[i] = convertedMob;
 					continue;
 				}
 				case SameLevelParameter parameter -> {
 					//noinspection resource
-					args[storeIndex] = parameter.of(mob);
+					args[i] = parameter.of(mob);
 					continue;
 				}
 				case PredicateParameter<?> parameter -> {
-					args[storeIndex] = parameter.getPredicate(config, mob);
+					args[i] = parameter.getPredicate(config, mob);
 					continue;
 				}
 				case BooleanSupplierParameter parameter -> {
-					args[storeIndex] = parameter.getSupplier(config, mob);
+					args[i] = parameter.getSupplier(config, mob);
 					continue;
 				}
 				case ConfigParameter<?, ?> parameter -> {
 					if (config == null) return false;
 
 					String name = parameter.getName();
-					args[storeIndex] = parameter.getSupplier().apply(config, name).get(data);
+					args[i] = parameter.getSupplier().apply(config, name).get(data);
 					Object def = parameter.getDefault() == null ? null : parameter.getDefault().value();
-					if (args[storeIndex] != null) continue;
+					if (args[i] != null) continue;
 					if (def == null) {
 						severe("Required parameter '%s' not passed.", name);
 						return false;
 					}
-					args[storeIndex] = def;
+					args[i] = def;
 					continue;
 				}
 				default -> {}
 			}
 
-			args[storeIndex] = baseParameter.getDefault() == null ? null : baseParameter.getDefault().value();
+			args[i] = baseParameter.getDefault() == null ? null : baseParameter.getDefault().value();
 		}
 
 		try {

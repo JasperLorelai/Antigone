@@ -13,6 +13,7 @@ import com.nisovin.magicspells.util.SpellData;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 
@@ -24,6 +25,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 public class FoxEatBerriesGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
 			// double speed
 			new DoubleParameter("speed", 1.2000000476837158),
 			// int range

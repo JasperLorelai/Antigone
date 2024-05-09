@@ -14,6 +14,7 @@ import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_fox_panic")
@@ -25,7 +26,10 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 public class FoxPanicGoal extends AntigoneGoal {
 
 	// double speed
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(new DoubleParameter("speed", 2.2));
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			MobParameters.Fox,
+			new DoubleParameter("speed", 2.2)
+	);
 
 	public FoxPanicGoal(Mob mob, SpellData data) {
 		super(mob, data);
