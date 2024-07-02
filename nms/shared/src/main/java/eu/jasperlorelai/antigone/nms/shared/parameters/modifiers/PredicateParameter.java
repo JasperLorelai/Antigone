@@ -58,13 +58,13 @@ public class PredicateParameter<E extends LivingEntity> extends DocumentedParame
 	}
 
 	public static <T extends LivingEntity> Default<Predicate<T>> always() {
-		return new Default<>(e -> true, "always require");
+		return new Default<>(e -> true, "[always require]");
 	}
 
 	public static <T extends LivingEntity> Default<Predicate<T>> noCreativeOrSpectator() {
 		return new Default<>(
 				EntitySelector.NO_CREATIVE_OR_SPECTATOR::test,
-				"gamemode creative deny\ngamemode spectator deny"
+				"[gamemode creative deny, gamemode spectator deny]"
 		);
 	}
 
