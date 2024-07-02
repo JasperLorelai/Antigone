@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import com.nisovin.magicspells.castmodifiers.ModifierSet;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.parameters.DocumentedParameter;
 
@@ -23,11 +24,11 @@ public class BooleanSupplierParameter extends DocumentedParameter<Class<BooleanS
 
 	private final String name;
 
-	public BooleanSupplierParameter(@NotNull String name) {
+	public BooleanSupplierParameter(@NotNull @ConfigKey String name) {
 		this(name, null);
 	}
 
-	public BooleanSupplierParameter(@NotNull String name, @Nullable Default<BooleanSupplier> def) {
+	public BooleanSupplierParameter(@NotNull @ConfigKey String name, @Nullable Default<BooleanSupplier> def) {
 		super(BooleanSupplier.class, def);
 		this.name = name;
 	}

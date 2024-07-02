@@ -21,10 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.registries.BuiltInRegistries;
 
-import eu.jasperlorelai.antigone.nms.shared.util.Util;
-import eu.jasperlorelai.antigone.nms.shared.util.Default;
-import eu.jasperlorelai.antigone.nms.shared.util.Description;
-import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
+import eu.jasperlorelai.antigone.nms.shared.util.*;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
 
 @SuppressWarnings("rawtypes")
@@ -69,15 +66,15 @@ public class NmsIngredientParameter extends ConfigParameter<Class<Predicate>, Pr
 		return fromMaterials(materials);
 	});
 
-	public NmsIngredientParameter(@NotNull String name) {
+	public NmsIngredientParameter(@NotNull @ConfigKey String name) {
 		this(name, (List<Material>) null);
 	}
 
-	public NmsIngredientParameter(@NotNull String name, @Nullable List<Material> def) {
+	public NmsIngredientParameter(@NotNull @ConfigKey String name, @Nullable List<Material> def) {
 		this(name, toDefault(def));
 	}
 
-	private NmsIngredientParameter(String name, Default<Predicate<ItemStack>> def) {
+	private NmsIngredientParameter(@ConfigKey String name, Default<Predicate<ItemStack>> def) {
 		super(name, Predicate.class, supplier, def);
 	}
 

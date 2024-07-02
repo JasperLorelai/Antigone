@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
@@ -28,11 +29,11 @@ public class DifficultyPredicateParameter extends ConfigParameter<Class<Predicat
 		return difficulties::contains;
 	});
 
-	public DifficultyPredicateParameter(@NotNull String name) {
+	public DifficultyPredicateParameter(@NotNull @ConfigKey String name) {
 		this(name, null);
 	}
 
-	public DifficultyPredicateParameter(@NotNull String name, @Nullable Default<Predicate<Difficulty>> def) {
+	public DifficultyPredicateParameter(@NotNull @ConfigKey String name, @Nullable Default<Predicate<Difficulty>> def) {
 		super(name, Predicate.class, supplier, def);
 	}
 

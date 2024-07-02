@@ -11,21 +11,22 @@ import com.nisovin.magicspells.util.magicitems.MagicItem;
 import com.nisovin.magicspells.util.magicitems.MagicItems;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ExactConfigParameter;
 
 public class NmsItemStackParameter extends ExactConfigParameter<ItemStack> {
 
-	public NmsItemStackParameter(@NotNull String name) {
+	public NmsItemStackParameter(@NotNull @ConfigKey String name) {
 		this(name, (ItemStack) null);
 	}
 
-	public NmsItemStackParameter(@NotNull String name, @Nullable ItemStack def) {
+	public NmsItemStackParameter(@NotNull @ConfigKey String name, @Nullable ItemStack def) {
 		this(name, def == null ? null : new Default<>(def, def.toString()));
 	}
 
-	private NmsItemStackParameter(String name, Default<ItemStack> def) {
+	private NmsItemStackParameter(@ConfigKey String name, Default<ItemStack> def) {
 		super(name, ItemStack.class, null, def);
 	}
 

@@ -13,6 +13,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
@@ -34,11 +35,11 @@ public class NmsDamageTypeTagParameter extends ConfigParameter<Class<TagKey>, Ta
 			TAGS.get(string.toUpperCase())
 	);
 
-	public NmsDamageTypeTagParameter(@NotNull String name) {
+	public NmsDamageTypeTagParameter(@NotNull @ConfigKey String name) {
 		this(name, null);
 	}
 
-	public NmsDamageTypeTagParameter(@NotNull String name, @Nullable Default<TagKey<DamageType>> def) {
+	public NmsDamageTypeTagParameter(@NotNull @ConfigKey String name, @Nullable Default<TagKey<DamageType>> def) {
 		super(name, TagKey.class, supplier, def);
 	}
 

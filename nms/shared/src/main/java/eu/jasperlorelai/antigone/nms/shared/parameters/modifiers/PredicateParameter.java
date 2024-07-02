@@ -16,6 +16,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import com.nisovin.magicspells.castmodifiers.ModifierSet;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.parameters.DocumentedParameter;
 
@@ -28,11 +29,11 @@ public class PredicateParameter<E extends LivingEntity> extends DocumentedParame
 
 	private final String name;
 
-	public PredicateParameter(@NotNull String name) {
+	public PredicateParameter(@NotNull @ConfigKey String name) {
 		this(name, null);
 	}
 
-	public PredicateParameter(@NotNull String name, @Nullable Default<Predicate<E>> def) {
+	public PredicateParameter(@NotNull @ConfigKey String name, @Nullable Default<Predicate<E>> def) {
 		super(Predicate.class, def);
 		this.name = name;
 	}

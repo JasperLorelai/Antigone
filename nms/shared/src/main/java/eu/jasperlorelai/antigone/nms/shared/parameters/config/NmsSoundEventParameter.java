@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ExactConfigParameter;
@@ -22,7 +23,7 @@ public class NmsSoundEventParameter extends ExactConfigParameter<SoundEvent> {
 		}
 	});
 
-	public NmsSoundEventParameter(@NotNull String name) {
+	public NmsSoundEventParameter(@NotNull @ConfigKey String name) {
 		super(name, SoundEvent.class, supplier);
 		// If a constructor with a default value is needed, remember to check "Util#isNotBootstrapped"
 	}
