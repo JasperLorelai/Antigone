@@ -1,0 +1,43 @@
+subprojects {
+
+    dependencies {
+        implementation("com.squareup:javapoet:1.13.0")
+        implementation("org.junit.jupiter:junit-jupiter:5.9.2")
+        implementation("io.github.classgraph:classgraph:4.8.165")
+
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    tasks.register("generateJava", JavaExec) {
+        if (workingDir.name == "shared") return
+        group = "generator"
+        classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
+        mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneGenerator"
+    }
+
+    tasks.register("generateDocs", JavaExec) {
+        if (workingDir.name == "shared") return
+        group = "generator"
+        classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
+        mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneDocs"
+    }
+
+    assemble {
+        if (projectDir.name != "shared") {
+            dependsOn(generateDocs)
+        }
+    }
+
+}
+
+tasks.register("deleteDocs") {
+    doLast {
+        delete(projectDir.parent + "/docs/docs.json")
+    }
+}
+
+assemble.dependsOn(deleteDocs)

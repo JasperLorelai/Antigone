@@ -1,9 +1,13 @@
-package eu.jasperlorelai.antigone.generator;
+package eu.jasperlorelai.antigone.nms.shared;
+
+import org.bukkit.entity.Mob;
 
 import java.io.*;
 import java.util.*;
-
-import org.bukkit.entity.Mob;
+import java.nio.file.Files;
+import java.lang.reflect.Field;
+import java.util.stream.Stream;
+import java.lang.reflect.Constructor;
 
 import com.squareup.javapoet.*;
 
@@ -32,19 +36,11 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 
 public class AntigoneGenerator {
 
-	private String packagePrefix;
+	private static final File SOURCE_DIR = new File("src/main/java");
+	private static final String VERSION = new File("").getAbsoluteFile().getName();
+	private static final String PACKAGE_NAME = AntigoneGenerator.class.getPackageName().replace("shared", VERSION);
 
-	private File goalsDir;
-	private File sourceDir;
-
-	@SuppressWarnings("unused")
-	private AntigoneGenerator() {}
-
-	private AntigoneGenerator(String version) {
-		packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
-		sourceDir = new File(new File("").getAbsoluteFile().getParentFile(), "nms/" + version + "/src/main/java");
-		goalsDir = new File(sourceDir, packagePrefix.replaceAll("\\.", "/") + "/goals");
-
+	public static void main(String... args) {
 		try {
 			setupGoals();
 			setupLivingEntityStore();
@@ -54,25 +50,25 @@ public class AntigoneGenerator {
 		}
 	}
 
-	public static void main(String... args) {
-		if (args.length == 0) throw new IllegalStateException("No MC version passed in arguments.");
-		new AntigoneGenerator(args[0]);
-	}
-
-	private void write(String packageSuffix, TypeSpec typeSpec) throws IOException {
-		JavaFile.builder(packagePrefix + packageSuffix, typeSpec)
+	private static void write(String packageSuffix, TypeSpec typeSpec) throws IOException {
+		File file = JavaFile.builder(PACKAGE_NAME + packageSuffix, typeSpec)
 				.indent("\t")
 				.build()
-				.writeTo(sourceDir);
+                .writeToFile(SOURCE_DIR);
+
+		try (Stream<String> stream = Files.lines(file.toPath())) {
+			List<String> lines = stream.map(line -> line.replaceFirst("\n$", "\r\n")).toList();
+			Files.write(file.toPath(), lines);
+		}
 	}
 
-	private String getAntigoneAnnotationName(String annotation) {
+	private static String getAntigoneAnnotationName(String annotation) {
 		annotation = annotation.replaceFirst("Goal$", "");
 		annotation = "antigone_" + CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, annotation);
 		return annotation;
 	}
 
-	private void setupGoals() throws IOException {
+	private static void setupGoals() throws IOException {
 		TypeName simpleWildcard = WildcardTypeName.subtypeOf(Object.class);
 		MethodSpec constructor = MethodSpec.constructorBuilder()
 				.addModifiers(Modifier.PUBLIC)
@@ -94,10 +90,33 @@ public class AntigoneGenerator {
 			for (ClassInfo info : result.getSubclasses(Goal.class)) {
 				if (info.isAbstract() || info.isInterface() || info.isAnonymousInnerClass()) continue;
 				Class<?> goalClass = info.loadClass();
-
-				// Let's not override existing goals.
-				if (new File(goalsDir, goalClass.getSimpleName() + ".java").exists()) continue;
 				if (goalClass == WrappedGoal.class) continue;
+
+				try {
+					Class<?> existingGoal = Class.forName(PACKAGE_NAME + ".goals." + goalClass.getSimpleName());
+					String goalName = existingGoal.getAnnotation(Name.class).value();
+
+					Field parameterField = existingGoal.getDeclaredField("parameters");
+					parameterField.setAccessible(true);
+					@SuppressWarnings("unchecked")
+					List<AntigoneParameter<?, ?>> parameters = (List<AntigoneParameter<?, ?>>) parameterField.get(null);
+
+					int maxPossible = 0;
+					for (Constructor<?> constr : goalClass.getDeclaredConstructors()) {
+						int count = constr.getParameterCount();
+						if (goalName.equals("antigone_breed")) count--;
+
+						if (count <= maxPossible) continue;
+						maxPossible = count;
+					}
+
+					if (maxPossible > parameters.size()) {
+						System.out.println("Goal '" + goalName + "' may be more configurable than it currently is. (" + parameters.size() + "/" + maxPossible + ")");
+					}
+
+					// Let's not override existing goals.
+					continue;
+				} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException ignored) {}
 
 				TypeSpec.Builder goalBuilder = TypeSpec.classBuilder(goalClass.getSimpleName())
 						.addModifiers(Modifier.PUBLIC)
@@ -138,7 +157,7 @@ public class AntigoneGenerator {
 		}
 	}
 
-	private void setupLivingEntityStore() throws IOException {
+	private static void setupLivingEntityStore() throws IOException {
 		TypeName livingEntity = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(LivingEntity.class));
 		TypeName map = ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), livingEntity);
 

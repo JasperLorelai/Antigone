@@ -1,4 +1,4 @@
-package eu.jasperlorelai.antigone.generator;
+package eu.jasperlorelai.antigone.nms.shared.util;
 
 import java.io.File;
 import java.util.List;
@@ -13,10 +13,7 @@ import io.github.classgraph.ClassInfoList;
 import com.nisovin.magicspells.util.Name;
 
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
 
-import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
-import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,37 +31,27 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AntigoneTests {
 
-	private static final File WORKING_DIR = new File("").getAbsoluteFile();
-	private static final File NMS_DIR = new File(WORKING_DIR.getParent(), "nms");
-
-	@TestFactory
-	List<DynamicTest> test() {
+	protected List<DynamicTest> test() {
 		List<DynamicTest> tests = new ArrayList<>();
+		String version = new File("").getAbsoluteFile().getName();
+		if (!version.startsWith("v")) return List.of(DynamicTest.dynamicTest(version, () -> {}));
 
-		File[] dirs = NMS_DIR.listFiles();
-		if (dirs == null) throw new IllegalStateException("no nms dirs?");
-		for (File file : dirs) {
-			String version = file.getName();
-			if (!version.startsWith("v")) continue;
+		ClassGraph classGraph = new ClassGraph()
+				.enableAllInfo()
+				.acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
+		try (ScanResult result = classGraph.scan()) {
+			ClassInfoList list = result.getSubclasses(AntigoneGoal.class);
+			if (list.isEmpty()) {
+				throw new RuntimeException("Submodule '" + version + "' does not provide access to its goals.");
+			}
 
-			ClassGraph classGraph = new ClassGraph()
-					.enableAllInfo()
-					.acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
-			try (ScanResult result = classGraph.scan()) {
-				ClassInfoList list = result.getSubclasses(AntigoneGoal.class);
-				if (list.isEmpty()) {
-					throw new RuntimeException("Submodule '" + version + "' does not provide access to its goals.");
-				}
-
-				for (ClassInfo goalInfo : list) {
-					Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass().asSubclass(AntigoneGoal.class);
-					String testName = version + ":" + goalClass.getSimpleName();
-					tests.add(DynamicTest.dynamicTest(testName, () -> runTest(goalClass)));
-				}
+			for (ClassInfo goalInfo : list) {
+				Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass().asSubclass(AntigoneGoal.class);
+				String testName = version + ":" + goalClass.getSimpleName();
+				tests.add(DynamicTest.dynamicTest(testName, () -> runTest(goalClass)));
 			}
 		}
 
-		if (tests.isEmpty()) throw new IllegalStateException("no nms dirs?");
 		return tests;
 	}
 
@@ -129,4 +116,3 @@ public class AntigoneTests {
 	}
 
 }
-

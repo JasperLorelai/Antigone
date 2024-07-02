@@ -1,4 +1,4 @@
-package eu.jasperlorelai.antigone.generator;
+package eu.jasperlorelai.antigone.nms.shared;
 
 import java.io.*;
 import java.util.Map;
@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import io.github.classgraph.*;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 import com.google.common.base.Charsets;
 
@@ -23,21 +24,21 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.SameLevelParameter;
 
 public abstract class AntigoneDocs {
 
-	private static final File PROJECT_DIR = new File("").getAbsoluteFile().getParentFile();
-	private static final File NMS_DIR = new File(PROJECT_DIR, "nms");
+	private static final File WORKING_DIR = new File("").getAbsoluteFile();
+	private static final File PROJECT_DIR = WORKING_DIR.getParentFile().getParentFile();
 	private static final File FILE = new File(PROJECT_DIR, "docs/docs.json");
 
 	public static void main(String... args) {
-		File[] dirs = NMS_DIR.listFiles();
-		JsonObject docs = new JsonObject();
-		if (dirs != null) {
-			for (File file : dirs) {
-				String version = file.getName();
-				if (!version.startsWith("v")) continue;
-				docs.add(version, documentVersion(version));
-			}
+		String version = WORKING_DIR.getName();
+		if (!version.startsWith("v") || version.equals("shared")) return;
+
+		JsonObject docs;
+		try {
+			docs = JsonParser.parseReader(new FileReader(FILE)).getAsJsonObject();
+		} catch (FileNotFoundException e) {
+			docs = new JsonObject();
 		}
-		if (docs.isEmpty()) throw new IllegalStateException("no nms dirs?");
+		docs.add(version, documentVersion(version));
 
 		//noinspection ResultOfMethodCallIgnored
 		FILE.getParentFile().mkdir();
