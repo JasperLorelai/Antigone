@@ -44,7 +44,7 @@ public class NmsDamageTypeTagParameter extends ConfigParameter<Class<TagKey>, Ta
 	}
 
 	@Override
-	public String documentType() {;
+	public String documentType() {
 		return Description.hyperlink("Item tag", "https://minecraft.wiki/w/Tag#Damage_type_tags");
 	}
 

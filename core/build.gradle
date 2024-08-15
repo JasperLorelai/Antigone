@@ -3,10 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation("io.papermc.paper:paper-api:1.20.5-R0.1-SNAPSHOT")
+    implementation("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
 
     shadow(project(path: ":nms:shared")) {transitive = false}
-    shadow(project(path: ":nms:v1_20_5")) {transitive = false}
     shadow(project(path: ":nms:v1_20_6")) {transitive = false}
     shadow(project(path: ":nms:v1_21")) {transitive = false}
 
