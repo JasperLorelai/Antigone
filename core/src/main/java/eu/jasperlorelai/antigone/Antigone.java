@@ -1,6 +1,8 @@
 package eu.jasperlorelai.antigone;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bstats.bukkit.Metrics;
@@ -23,7 +25,10 @@ import com.nisovin.magicspells.events.MagicSpellsLoadingEvent;
 
 public final class Antigone extends JavaPlugin implements Listener {
 
-	private static Set<Class<? extends CustomGoal>> antigoneGoals = new HashSet<>();
+	private static final Set<Class<? extends CustomGoal>> GOALS = new HashSet<>();
+	private static final Map<String, String> VERSION_REMAP = new HashMap<>() {{
+		put("1.21.1", "1.21");
+	}};
 
 	@Override
 	public void onEnable() {
@@ -31,7 +36,7 @@ public final class Antigone extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, this);
 
 		String mcVersion = Bukkit.getMinecraftVersion();
-		String version = "v" + mcVersion.replaceAll("\\.", "_");
+		String version = "v" + VERSION_REMAP.getOrDefault(mcVersion, mcVersion).replaceAll("\\.", "_");
 		ClassGraph classGraph = new ClassGraph()
 				.enableAllInfo()
 				.acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
@@ -43,7 +48,7 @@ public final class Antigone extends JavaPlugin implements Listener {
 			}
 			for (ClassInfo goal : list) {
 				if (goal.isAbstract() || goal.isInterface() || goal.isInnerClass()) continue;
-				antigoneGoals.add(goal.loadClass().asSubclass(CustomGoal.class));
+				GOALS.add(goal.loadClass().asSubclass(CustomGoal.class));
 			}
 		}
 	}
@@ -51,14 +56,15 @@ public final class Antigone extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable() {
 		HandlerList.unregisterAll((Plugin) this);
+		Bukkit.getScheduler().cancelTasks(this);
 
-		antigoneGoals = null;
+		GOALS.clear();
 	}
 
 	@EventHandler
 	public void onMSLoading(MagicSpellsLoadingEvent event) {
-		if (antigoneGoals == null) return;
-		antigoneGoals.forEach(CustomGoals::addGoal);
+		if (GOALS == null) return;
+		GOALS.forEach(CustomGoals::addGoal);
 	}
 
 }
