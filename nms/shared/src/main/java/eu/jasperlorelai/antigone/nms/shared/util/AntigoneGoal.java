@@ -21,8 +21,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import eu.jasperlorelai.antigone.nms.shared.parameters.*;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameter;
-import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParameter;
-import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.BooleanSupplierParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.ModifierParameter;
 
 /**
  * Conventions:
@@ -85,12 +84,8 @@ public abstract class AntigoneGoal extends CustomGoal {
 					args[i] = parameter.of(mob);
 					continue;
 				}
-				case PredicateParameter<?> parameter -> {
-					args[i] = parameter.getPredicate(config, mob);
-					continue;
-				}
-				case BooleanSupplierParameter parameter -> {
-					args[i] = parameter.getSupplier(config, mob);
+				case ModifierParameter<?, ?> parameter -> {
+					args[i] = parameter.getModifiers(config, mob);
 					continue;
 				}
 				case ConfigParameter<?, ?> parameter -> {

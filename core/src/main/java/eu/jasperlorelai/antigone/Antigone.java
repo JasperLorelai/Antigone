@@ -2,7 +2,6 @@ package eu.jasperlorelai.antigone;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bstats.bukkit.Metrics;
@@ -26,9 +25,9 @@ import com.nisovin.magicspells.events.MagicSpellsLoadingEvent;
 public final class Antigone extends JavaPlugin implements Listener {
 
 	private static final Set<Class<? extends CustomGoal>> GOALS = new HashSet<>();
-	private static final Map<String, String> VERSION_REMAP = new HashMap<>() {{
-		put("1.21.1", "1.21");
-	}};
+	private static final Map<String, String> VERSION_REMAP = Map.of(
+			"1.21.1", "1.21"
+	);
 
 	@Override
 	public void onEnable() {
@@ -63,7 +62,6 @@ public final class Antigone extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onMSLoading(MagicSpellsLoadingEvent event) {
-		if (GOALS == null) return;
 		GOALS.forEach(CustomGoals::addGoal);
 	}
 
