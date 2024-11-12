@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.stream.Stream;
 import java.lang.reflect.Constructor;
 
-import com.squareup.javapoet.*;
+import com.palantir.javapoet.*;
 
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassGraph;
