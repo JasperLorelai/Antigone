@@ -17,15 +17,15 @@ import com.destroystokyo.paper.MaterialSetTag;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.core.registries.BuiltInRegistries;
 
 import eu.jasperlorelai.antigone.nms.shared.util.*;
-import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
+import eu.jasperlorelai.antigone.nms.shared.versioned.holders.RegistryResolverHolder;
 
 @SuppressWarnings("rawtypes")
-public class NmsIngredientParameter extends ConfigParameter<Class<Predicate>, Predicate<ItemStack>> {
+public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate>, Predicate<ItemStack>, Item> {
+
+	private final List<Material> defaultMaterials;
 
 	private static final Map<String, Tag<Material>> MATERIAL_TAGS = new HashMap<>();
 	static {
@@ -49,49 +49,63 @@ public class NmsIngredientParameter extends ConfigParameter<Class<Predicate>, Pr
 		return tag;
 	}
 
-	private static final ConfigSupplier<Predicate<ItemStack>> supplier = ConfigSupplier.fromList(list -> {
-		List<Material> materials = new ArrayList<>();
-		for (String string : list) {
-			if (string.startsWith("#")) {
-				Tag<Material> tag = getMaterialTag(string.substring(1));
-				if (tag == null) continue;
-				materials.addAll(tag.getValues());
-				continue;
-			}
-			Material material = Material.matchMaterial(string);
-			if (material == null) continue;
-			materials.add(material);
-		}
-
-		return fromMaterials(materials);
-	});
-
 	public NmsIngredientParameter(@NotNull @ConfigKey String name) {
-		this(name, (List<Material>) null);
+		this(name, null);
 	}
 
 	public NmsIngredientParameter(@NotNull @ConfigKey String name, @Nullable List<Material> def) {
-		this(name, toDefault(def));
+		super(name, Predicate.class);
+		defaultMaterials = def;
 	}
 
-	private NmsIngredientParameter(@ConfigKey String name, Default<Predicate<ItemStack>> def) {
-		super(name, Predicate.class, supplier, def);
+	@Nullable
+	@Override
+	public Default<Predicate<ItemStack>> getDefault() {
+		if (defaultMaterials == null) return null;
+		String description = Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), defaultMaterials.toArray(new Material[0]));
+		return new Default<>(fromMaterials(defaultMaterials), description);
 	}
 
-	private static Default<Predicate<ItemStack>> toDefault(List<Material> def) {
-		if (def == null) return null;
-		String description = Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), def.toArray(new Material[0]));
-		return new Default<>(fromMaterials(def), description);
+	@Override
+	public ConfigSupplier<Predicate<ItemStack>> getSupplier() {
+		return ConfigSupplier.fromList(list -> {
+			List<Material> materials = new ArrayList<>();
+			for (String string : list) {
+				if (string.startsWith("#")) {
+					Tag<Material> tag = getMaterialTag(string.substring(1));
+					if (tag == null) continue;
+					materials.addAll(tag.getValues());
+					continue;
+				}
+				Material material = Material.matchMaterial(string);
+				if (material == null) continue;
+				materials.add(material);
+			}
+
+			return fromMaterials(materials);
+		});
 	}
 
-	private static Ingredient fromMaterials(List<Material> materials) {
+	private Ingredient fromMaterials(List<Material> materials) {
 		if (Util.isNotBootstrapped()) return null;
 		if (materials == null) return null;
 		Item[] items = new Item[materials.size()];
 		for (int i = 0; i < materials.size(); i++) {
-			items[i] = BuiltInRegistries.ITEM.get(new ResourceLocation(materials.get(i).getKey().getKey()));
+			items[i] = getVanillaResolver().apply(materials.get(i).key());
 		}
 		return Ingredient.of(items);
+	}
+
+	@Nullable
+	@Override
+	public BukkitResolver getBukkitResolver() {
+		return null;
+	}
+
+	@NotNull
+	@Override
+	public VanillaResolver<Item> getVanillaResolver() {
+		return RegistryResolverHolder.getInstance().item();
 	}
 
 	@Override

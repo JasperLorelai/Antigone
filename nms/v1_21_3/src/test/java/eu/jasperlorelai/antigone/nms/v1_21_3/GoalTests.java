@@ -9,9 +9,10 @@ import eu.jasperlorelai.antigone.nms.shared.util.AntigoneTests;
 
 public class GoalTests extends AntigoneTests {
 
+	@Override
 	@TestFactory
 	protected List<DynamicTest> test() {
-		return super.test();
+		return goalTests();
 	}
 
 }

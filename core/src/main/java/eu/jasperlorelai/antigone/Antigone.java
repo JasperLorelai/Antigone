@@ -1,6 +1,5 @@
 package eu.jasperlorelai.antigone;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -18,6 +17,8 @@ import io.github.classgraph.ScanResult;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 
+import eu.jasperlorelai.antigone.nms.shared.util.Util;
+
 import com.nisovin.magicspells.util.ai.CustomGoal;
 import com.nisovin.magicspells.util.ai.CustomGoals;
 import com.nisovin.magicspells.events.MagicSpellsLoadingEvent;
@@ -25,9 +26,6 @@ import com.nisovin.magicspells.events.MagicSpellsLoadingEvent;
 public final class Antigone extends JavaPlugin implements Listener {
 
 	private static final Set<Class<? extends CustomGoal>> GOALS = new HashSet<>();
-	private static final Map<String, String> VERSION_REMAP = Map.of(
-			"1.21.1", "1.21"
-	);
 
 	@Override
 	public void onEnable() {
@@ -35,10 +33,7 @@ public final class Antigone extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, this);
 
 		String mcVersion = Bukkit.getMinecraftVersion();
-		String version = "v" + VERSION_REMAP.getOrDefault(mcVersion, mcVersion).replaceAll("\\.", "_");
-		ClassGraph classGraph = new ClassGraph()
-				.enableAllInfo()
-				.acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
+		ClassGraph classGraph = new ClassGraph().acceptPackages(Util.getNMSPackage(mcVersion) + ".goals");
 		try (ScanResult result = classGraph.scan()) {
 			ClassInfoList list = result.getSubclasses(CustomGoal.class);
 			if (list.isEmpty()) {

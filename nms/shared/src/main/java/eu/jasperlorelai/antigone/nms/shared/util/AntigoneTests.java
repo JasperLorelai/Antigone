@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Field;
+import java.lang.reflect.Constructor;
 
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassGraph;
@@ -14,6 +15,7 @@ import com.nisovin.magicspells.util.Name;
 
 import org.junit.jupiter.api.DynamicTest;
 
+import eu.jasperlorelai.antigone.nms.shared.versioned.VersionedHolder;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,26 +31,43 @@ import static org.junit.jupiter.api.Assertions.*;
  *    without production (a running server) due to the arguments required..</li>
  * </ul>
  */
-public class AntigoneTests {
+public abstract class AntigoneTests {
 
-	protected List<DynamicTest> test() {
+	@SuppressWarnings("rawtypes")
+	protected static List<DynamicTest> versionedHolderTests() {
 		List<DynamicTest> tests = new ArrayList<>();
 		String version = new File("").getAbsoluteFile().getName();
 		if (!version.startsWith("v")) return List.of(DynamicTest.dynamicTest(version, () -> {}));
 
-		ClassGraph classGraph = new ClassGraph()
-				.enableAllInfo()
-				.acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
+		ClassGraph classGraph = new ClassGraph().acceptPackages("eu.jasperlorelai.antigone.nms.shared");
+		try (ScanResult result = classGraph.scan()) {
+			for (ClassInfo holderInfo : result.getSubclasses(VersionedHolder.class)) {
+				Class<? extends VersionedHolder> holder = holderInfo.loadClass(VersionedHolder.class);
+				tests.add(DynamicTest.dynamicTest(holder.getSimpleName(), () -> {
+					Constructor<? extends VersionedHolder> constructor = holder.getDeclaredConstructor(String.class);
+					constructor.setAccessible(true);
+					assertNotNull(constructor.newInstance(version).create(), "VersionedHolder '" + holder.getSimpleName() + "' does not have an NMS implementation for '" + version + "'.");
+				}));
+			}
+		}
+
+		return tests;
+	}
+
+	protected static List<DynamicTest> goalTests() {
+		List<DynamicTest> tests = new ArrayList<>();
+		String version = new File("").getAbsoluteFile().getName();
+		if (!version.startsWith("v")) return List.of(DynamicTest.dynamicTest(version, () -> {}));
+
+		ClassGraph classGraph = new ClassGraph().acceptPackages("eu.jasperlorelai.antigone.nms." + version + ".goals");
 		try (ScanResult result = classGraph.scan()) {
 			ClassInfoList list = result.getSubclasses(AntigoneGoal.class);
-			if (list.isEmpty()) {
-				throw new RuntimeException("Submodule '" + version + "' does not provide access to its goals.");
-			}
+			if (list.isEmpty()) throw new RuntimeException("Submodule '" + version + "' does not provide access to its goals.");
 
 			for (ClassInfo goalInfo : list) {
-				Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass().asSubclass(AntigoneGoal.class);
+				Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass(AntigoneGoal.class);
 				String testName = version + ":" + goalClass.getSimpleName();
-				tests.add(DynamicTest.dynamicTest(testName, () -> runTest(goalClass)));
+				tests.add(DynamicTest.dynamicTest(testName, () -> runGoalTest(goalClass)));
 			}
 		}
 
@@ -56,7 +75,7 @@ public class AntigoneTests {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void runTest(Class<? extends AntigoneGoal> goalClass) {
+	private static void runGoalTest(Class<? extends AntigoneGoal> goalClass) {
 		// Test for annotations present.
 		Name nameAnnotation = goalClass.getAnnotation(Name.class);
 		assertNotNull(nameAnnotation, "Goal class '%s' not annotated with Name annotation.".formatted(goalClass.getSimpleName()));
@@ -114,5 +133,8 @@ public class AntigoneTests {
 			fail("Goal '%s' does not have a constructor with the set parameters.".formatted(goalName));
 		}
 	}
+
+	@SuppressWarnings("unused")
+	protected abstract List<DynamicTest> test();
 
 }

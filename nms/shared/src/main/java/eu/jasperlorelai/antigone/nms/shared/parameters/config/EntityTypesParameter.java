@@ -3,7 +3,6 @@ package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.google.common.base.CaseFormat;
@@ -19,10 +18,11 @@ import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
+import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier.FromString;
 
 public class EntityTypesParameter extends ConfigParameter<Class<?>, Class<? extends LivingEntity>[]> {
 
-	private final Function<String, Class<? extends LivingEntity>> fromString;
+	private final FromString<Class<? extends LivingEntity>> fromString;
 
 	/**
 	 * Note: {@link HurtByTargetGoal#setAlertOthers(Class[])} is sometimes unnecessarily passed an empty array when not calling it at all and leaving the field null will do.
@@ -30,15 +30,15 @@ public class EntityTypesParameter extends ConfigParameter<Class<?>, Class<? exte
 	@SuppressWarnings("unchecked")
 	public static final Class<? extends LivingEntity>[] EMPTY = new Class[0];
 
-	public EntityTypesParameter(@NotNull Function<String, Class<? extends LivingEntity>> fromString, @NotNull @ConfigKey String name) {
+	public EntityTypesParameter(@NotNull FromString<Class<? extends LivingEntity>> fromString, @NotNull @ConfigKey String name) {
 		this(fromString, name, (Class<? extends LivingEntity>[]) null);
 	}
 
-	public EntityTypesParameter(@NotNull Function<String, Class<? extends LivingEntity>> fromString, @NotNull @ConfigKey String name, @Nullable Class<? extends LivingEntity>[] def) {
+	public EntityTypesParameter(@NotNull FromString<Class<? extends LivingEntity>> fromString, @NotNull @ConfigKey String name, @Nullable Class<? extends LivingEntity>[] def) {
 		this(fromString, name, def == null ? null : new Default<>(def, defaultToString(def)));
 	}
 
-	private EntityTypesParameter(Function<String, Class<? extends LivingEntity>> fromString, @ConfigKey String name, Default<Class<? extends LivingEntity>[]> def) {
+	private EntityTypesParameter(FromString<Class<? extends LivingEntity>> fromString, @ConfigKey String name, Default<Class<? extends LivingEntity>[]> def) {
 		super(name, Class[].class, null, def);
 		this.fromString = fromString;
 	}

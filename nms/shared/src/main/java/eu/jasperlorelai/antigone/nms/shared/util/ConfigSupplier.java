@@ -2,7 +2,6 @@ package eu.jasperlorelai.antigone.nms.shared.util;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ public interface ConfigSupplier<T> {
 
 	ConfigData<T> apply(ConfigurationSection config, String name);
 
-	static <R> ConfigSupplier<R> fromString(Function<String, R> fromFunction) {
+	static <R> ConfigSupplier<R> fromString(FromString<R> fromFunction) {
 		return (config, path) -> {
 			String value = config.getString(path);
 			if (value == null) return data -> null;
@@ -46,7 +45,7 @@ public interface ConfigSupplier<T> {
 		};
 	}
 
-	static <R> ConfigSupplier<R> fromList(Function<List<String>, R> fromFunction) {
+	static <R> ConfigSupplier<R> fromList(FromList<R> fromFunction) {
 		return (config, path) -> {
 			if (config.isString(path)) return fromString(string -> fromFunction.apply(List.of(string))).apply(config, path);
 
@@ -61,6 +60,20 @@ public interface ConfigSupplier<T> {
 				return fromFunction.apply(newList);
 			};
 		};
+	}
+
+	@FunctionalInterface
+	interface FromString<R> {
+
+		R apply(String string);
+
+	}
+
+	@FunctionalInterface
+	interface FromList<R> {
+
+		R apply(List<String> string);
+
 	}
 
 }
