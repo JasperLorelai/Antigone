@@ -177,9 +177,7 @@ public class AntigoneGenerator {
 				);
 
 		CodeBlock.Builder initialise = CodeBlock.builder();
-		ClassGraph classGraph = new ClassGraph()
-				.enableAllInfo()
-				.acceptPackages("net.minecraft.world.entity.");
+		ClassGraph classGraph = new ClassGraph().acceptPackages("net.minecraft.world.entity.");
 		try (ScanResult result = classGraph.scan()) {
 			ClassInfoList list = result.getSubclasses(LivingEntity.class);
 			list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));

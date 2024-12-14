@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.shared;
 
 import java.io.*;
-import java.util.Map;
 import java.util.List;
 import java.lang.reflect.Field;
 
@@ -13,6 +12,12 @@ import com.google.gson.JsonObject;
 import com.google.common.base.Charsets;
 
 import com.nisovin.magicspells.util.Name;
+
+import com.google.gson.JsonPrimitive;
+import com.google.common.base.CaseFormat;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.pathfinder.PathType;
 
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
@@ -54,23 +59,28 @@ public abstract class AntigoneDocs {
 	private static JsonObject documentVersion(String version) {
 		String packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
 		JsonObject docs = new JsonObject();
+		ClassGraph classGraph;
 
 		// Collect "LivingEntityMap" keys.
 		JsonArray entities = new JsonArray();
-		try {
-			Class<?> mapClass = Class.forName(packagePrefix + ".entities.LivingEntityMap");
-			Field mapField = mapClass.getDeclaredField("map");
-			mapField.setAccessible(true);
-			Map<String, Class<?>> map = (Map<String, Class<?>>) mapField.get(null);
-			map.keySet().forEach(entities::add);
-		} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-			//noinspection CallToPrintStackTrace
-			e.printStackTrace();
+		classGraph = new ClassGraph().acceptPackages("net.minecraft.world.entity.");
+		try (ScanResult result = classGraph.scan()) {
+			ClassInfoList list = result.getSubclasses(LivingEntity.class);
+			list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));
+			for (ClassInfo info : list) entities.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, info.getSimpleName()));
 		}
 		docs.add("LivingEntityClass", entities);
 
+		// Collect "PathType" enum.
+		JsonObject pathTypes = new JsonObject();
+		for (PathType type : PathType.values()) {
+			pathTypes.add(type.name().toLowerCase(), new JsonPrimitive(type.getMalus()));
+		}
+		docs.add("PathfindingMalus", pathTypes);
+
+		// Document goals.
 		JsonObject goalDocs = new JsonObject();
-		ClassGraph classGraph = new ClassGraph()
+		classGraph = new ClassGraph()
 				.enableAllInfo()
 				.enableStaticFinalFieldConstantInitializerValues()
 				.acceptPackages(packagePrefix + ".goals");
