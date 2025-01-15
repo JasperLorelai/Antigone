@@ -6,10 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 public final class Description {
 
-	private static final String JD_URL = "https://jd.papermc.io/paper/1.20/";
+	private static final String JD_URL = "https://jasperlorelai.eu/paperdocs/";
 
-	private static String paperJdLink(@NotNull Class<?> clazz, @NotNull String urlSuffix) {
-		return hyperlink(ofClassName(clazz), JD_URL + urlSuffix);
+	private static String docsLink(@NotNull Class<?> clazz, @NotNull String urlSuffix) {
+		return hyperlink(ofClassName(clazz), JD_URL + urlSuffix + ".html");
 	}
 
 	private static String dotsToSlashes(@NotNull String string) {
@@ -29,7 +29,7 @@ public final class Description {
 	}
 
 	public static String ofFields(@NotNull Class<?> bukkitClass) {
-		return paperJdLink(bukkitClass, dotsToSlashes(bukkitClass.getName()) + ".html#field-summary");
+		return docsLink(bukkitClass, dotsToSlashes(bukkitClass.getName()) + ".html");
 	}
 
 	public static String ofEntityInterface(@NotNull String prefix, @NotNull Class<?> bukkitClass) {
@@ -37,7 +37,7 @@ public final class Description {
 	}
 
 	public static String ofEntityInterface(@NotNull Class<?> bukkitClass) {
-		return paperJdLink(bukkitClass, dotsToSlashes(bukkitClass.getName()).replaceAll("(.*/)(\\w+)", "$1class-use/$2") + ".html#org.bukkit.entity");
+		return docsLink(bukkitClass, "org.bukkit.entity/" + dotsToSlashes(bukkitClass.getName()).replaceAll("(.*/)(\\w+)", "$1class-use/$2"));
 	}
 
 	public static String ofEnum(@NotNull String prefix, @NotNull Class<?> bukkitEnum) {
@@ -45,7 +45,7 @@ public final class Description {
 	}
 
 	public static String ofEnum(@NotNull Class<?> bukkitEnum) {
-		return paperJdLink(bukkitEnum, dotsToSlashes(bukkitEnum.getName()) + ".html#enum-constant-summary");
+		return docsLink(bukkitEnum, dotsToSlashes(bukkitEnum.getName()));
 	}
 
 	public static String of(@NotNull Conjunction conjunction, @NotNull String... strings) {
