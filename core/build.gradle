@@ -27,6 +27,12 @@ shadowJar {
     relocate("io.github.classgraph", "eu.jasperlorelai.antigone.shaded.io.github.classgraph")
     relocate("nonapi.io.github.classgraph", "eu.jasperlorelai.antigone.shaded.nonapi.io.github.classgraph")
 
+    from("$rootDir/3rd_party_licenses") {
+        into "META-INF/3rd_party_licenses"
+    }
+    from("$rootDir/NOTICE.md") {into "META-INF"}
+    from("$rootDir/LICENSE") {into "META-INF"}
+
     archiveClassifier.set("")
 }
 
