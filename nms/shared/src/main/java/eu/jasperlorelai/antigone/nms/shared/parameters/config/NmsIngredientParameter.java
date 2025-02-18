@@ -111,8 +111,8 @@ public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate
 	@Override
 	public String documentType() {
 		return Description.ofEnum("List of ", Material.class) + " or " + Description.of("List of the following prepended by '#': ", Description.Conjunction.OR,
-				Description.hyperlink("Block tag", "https://github.com/TheComputerGeek2/MagicSpells/wiki/Other-Data-Types#block-tags"),
-				Description.hyperlink("Item tag", "https://minecraft.wiki/w/Tag#Items")
+				Description.hyperlink("Block tag", "https://github.com/TheComputerGeek2/MagicSpells/wiki/Registry#block-tags"),
+				Description.hyperlink("Item tag", "https://minecraft.wiki/w/Item_tag_(Java_Edition)")
 		);
 	}
 
