@@ -2,15 +2,16 @@ package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
 
-import eu.jasperlorelai.antigone.nms.shared.util.Default;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
 import org.bukkit.entity.Mob;
+
+import net.minecraft.tags.TagKey;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageType;
 
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
+import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;

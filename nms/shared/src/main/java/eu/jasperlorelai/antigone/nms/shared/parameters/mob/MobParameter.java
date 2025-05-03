@@ -11,7 +11,7 @@ public class MobParameter<T> extends ClassParameter<T> {
 	private final String description;
 	private final MobConverter<T> converter;
 
-	MobParameter(@NotNull Class<T> nmsType, @NotNull String description, @NotNull MobConverter<T> converter) {
+	public MobParameter(@NotNull Class<T> nmsType, @NotNull String description, @NotNull MobConverter<T> converter) {
 		super(nmsType);
 		this.description = description;
 		this.converter = converter;

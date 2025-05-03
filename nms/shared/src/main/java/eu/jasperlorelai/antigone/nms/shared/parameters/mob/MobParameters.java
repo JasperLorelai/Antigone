@@ -109,7 +109,7 @@ public class MobParameters {
 		return mob -> ((CraftMob) mob).getHandle();
 	}
 
-	private static <M> MobParameter<M> with(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
+	public static <M> MobParameter<M> with(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
 		return new MobParameter<>(nmsClass, description, mob -> {
 			try {
 				M entity = nmsClass.cast(((MobConverter<?>) toMob()).fromBukkit(mob));
