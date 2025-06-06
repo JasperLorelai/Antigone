@@ -45,7 +45,7 @@ public class PathfindingMalusSpell extends TargetedSpell implements TargetedEnti
 	@Override
 	public CastResult cast(SpellData data) {
 		TargetInfo<LivingEntity> info = getTargetedEntity(data);
-		if (info.noTarget()) return noTarget(data);
+		if (info.noTarget()) return noTarget(info);
 
 		return castAtEntity(info.spellData());
 	}
@@ -53,7 +53,7 @@ public class PathfindingMalusSpell extends TargetedSpell implements TargetedEnti
 	@Override
 	public CastResult castAtEntity(SpellData data) {
 		if (!(data.target() instanceof Mob mobBukkit)) return noTarget(data);
-		net.minecraft.world.entity.Mob mob = ((CraftMob) mobBukkit).getHandle();
+		var mob = ((CraftMob) mobBukkit).getHandle();
 
 		PathType pathType = PathfindingMalusSpell.this.pathType.get(data);
 		if (pathType == null) return new CastResult(PostCastAction.ALREADY_HANDLED, data);

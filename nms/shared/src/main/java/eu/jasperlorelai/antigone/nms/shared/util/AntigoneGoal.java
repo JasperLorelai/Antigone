@@ -12,12 +12,13 @@ import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 import com.nisovin.magicspells.util.ai.CustomGoal;
 
-import com.destroystokyo.paper.entity.ai.GoalType;
-
 import java.lang.reflect.InvocationTargetException;
 
 import org.bukkit.entity.Mob;
 import org.bukkit.configuration.ConfigurationSection;
+
+import com.destroystokyo.paper.entity.ai.GoalType;
+import com.destroystokyo.paper.entity.ai.MobGoalHelper;
 
 import eu.jasperlorelai.antigone.nms.shared.parameters.*;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameter;
@@ -33,7 +34,8 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.ModifierParamet
  */
 public abstract class AntigoneGoal extends CustomGoal {
 
-	private com.destroystokyo.paper.entity.ai.Goal<Mob> handle;
+	private Goal handle;
+	private EnumSet<GoalType> goalTypes;
 
 	public AntigoneGoal(Mob mob, SpellData data) {
 		super(mob, data);
@@ -111,7 +113,8 @@ public abstract class AntigoneGoal extends CustomGoal {
 		try {
 			Constructor<? extends Goal> constructor = vanillaGoal.getDeclaredConstructor(types);
 			constructor.setAccessible(true);
-			handle = constructor.newInstance(args).asPaperVanillaGoal();
+			handle = constructor.newInstance(args);
+			goalTypes = MobGoalHelper.vanillaToPaper(handle);
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			StringBuilder builder = new StringBuilder();
 			for (StackTraceElement el : e.getStackTrace()) {
@@ -123,19 +126,20 @@ public abstract class AntigoneGoal extends CustomGoal {
 	}
 
 	private void severe(String message, Object... args) {
-		AntigoneLogger.severe(getClass().getAnnotation(Name.class).value() + ": " + message.formatted(args));
+		Name name = getClass().getAnnotation(Name.class);
+		AntigoneLogger.severe((name == null ? "" : name.value() + ": ") + message.formatted(args));
 	}
 
 	public abstract List<AntigoneParameter<?, ?>> getParameters();
 
 	@Override
 	public final boolean shouldActivate() {
-		return handle.shouldActivate();
+		return handle.canUse();
 	}
 
 	@Override
 	public final boolean shouldStayActive() {
-		return handle.shouldStayActive();
+		return handle.canContinueToUse();
 	}
 
 	@Override
@@ -156,7 +160,7 @@ public abstract class AntigoneGoal extends CustomGoal {
 	@NotNull
 	@Override
 	public final EnumSet<GoalType> getTypes() {
-		return handle.getTypes();
+		return goalTypes;
 	}
 
 }

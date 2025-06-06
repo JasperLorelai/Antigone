@@ -50,7 +50,6 @@ import net.minecraft.world.entity.animal.horse.SkeletonHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Description;
-import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobConverter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameter;
 
 public class MobParameters_v1_21_5 {
@@ -107,14 +106,10 @@ public class MobParameters_v1_21_5 {
 	public static final MobParameter<Monster> RangedAttackMonster = with(Monster.class, Description.ofEntityInterface("Ranged attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class);
 	public static final MobParameter<Monster> RangedCrossbowAttackMob = with(Monster.class, Description.ofEntityInterface("Ranged crossbow attack ", org.bukkit.entity.Monster.class), RangedAttackMob.class, CrossbowAttackMob.class);
 
-	private static MobConverter<Mob> toMob() {
-		return mob -> ((CraftMob) mob).getHandle();
-	}
-
 	public static <M> MobParameter<M> with(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
 		return new MobParameter<>(nmsClass, description, mob -> {
 			try {
-				M entity = nmsClass.cast(((MobConverter<?>) toMob()).fromBukkit(mob));
+				M entity = nmsClass.cast(((CraftMob) mob).getHandle());
 				if (withInterfaces == null) return entity;
 				for (Class<?> withInterface : withInterfaces) {
 					if (!entity.getClass().isAssignableFrom(withInterface)) return null;
