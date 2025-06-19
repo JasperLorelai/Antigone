@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -19,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.v1_21_3.parameters.modifiers.NmsTargetingSe
 
 @Name("antigone_enderman_look_for_player")
 @WrapVanillaGoal.Inner(
-		entity = EnderMan.class,
+		outer = EnderMan.class,
 		className = "EndermanLookForPlayerGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")
@@ -29,7 +28,7 @@ public class EndermanLookForPlayerGoal extends AntigoneGoal {
 			// EnderMan enderman
 			MobParameters.EnderMan,
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public EndermanLookForPlayerGoal(Mob mob, SpellData data) {

@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_enderman_take_block")
 @WrapVanillaGoal.Inner(
-		entity = EnderMan.class,
+		outer = EnderMan.class,
 		className = "EndermanTakeBlockGoal"
 )
 public class EndermanTakeBlockGoal extends AntigoneGoal {

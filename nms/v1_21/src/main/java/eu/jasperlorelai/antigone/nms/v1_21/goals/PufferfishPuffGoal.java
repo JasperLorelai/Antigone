@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_pufferfish_puff")
 @WrapVanillaGoal.Inner(
-		entity = Pufferfish.class,
+		outer = Pufferfish.class,
 		className = "PufferfishPuffGoal"
 )
 public class PufferfishPuffGoal extends AntigoneGoal {

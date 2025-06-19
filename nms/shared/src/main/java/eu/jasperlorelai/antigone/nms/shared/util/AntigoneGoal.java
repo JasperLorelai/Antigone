@@ -56,7 +56,7 @@ public abstract class AntigoneGoal extends CustomGoal {
 		}
 		else {
 			try {
-				vanillaGoal = (Class<? extends Goal>) Class.forName(wrapVanillaGoalInner.entity().getName() + "$" + wrapVanillaGoalInner.className());
+				vanillaGoal = (Class<? extends Goal>) Class.forName(wrapVanillaGoalInner.outer().getName() + "$" + wrapVanillaGoalInner.className());
 			} catch (ClassNotFoundException | ClassCastException ignored) {
 				severe("Goal could not be created. Report this as a bug!");
 				return false;

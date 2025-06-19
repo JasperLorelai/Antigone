@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_squid_random_movement")
 @WrapVanillaGoal.Inner(
-		entity = Squid.class,
+		outer = Squid.class,
 		className = "SquidRandomMovementGoal"
 )
 public class SquidRandomMovementGoal extends AntigoneGoal {

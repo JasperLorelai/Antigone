@@ -92,7 +92,12 @@ public abstract class AntigoneDocs {
 
 			for (ClassInfo goalInfo : list) {
 				Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass().asSubclass(AntigoneGoal.class);
-				String goalName = goalClass.getAnnotation(Name.class).value();
+				Name nameAnnotation = goalClass.getAnnotation(Name.class);
+				if (nameAnnotation == null) {
+					System.out.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
+					continue;
+				}
+				String goalName = nameAnnotation.value();
 
 				List<AntigoneParameter<?, ?>> parameters;
 				try {
@@ -130,7 +135,8 @@ public abstract class AntigoneDocs {
 				WrapVanillaGoal.Inner wrapGoalInner = goalClass.getAnnotation(WrapVanillaGoal.Inner.class);
 				if (!goalDoc.has("target")) {
 					if (wrapGoalInner == null) throw new RuntimeException("Not sure if target is allowed to be 'any', so I'll leave this throw here until we encounter such a case.");
-					goalDoc.addProperty("target", wrapGoalInner.entity().getSimpleName());
+					if (!wrapGoalInner.outer().isAssignableFrom(LivingEntity.class)) continue;
+					goalDoc.addProperty("target", wrapGoalInner.outer().getSimpleName());
 				}
 
 				goalDoc.add("parameters", parameterDocs);

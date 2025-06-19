@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *    <li>{@link Name} must start with "antigone_".</li>
  *    <li>Goals must have a static field List of "parameters". This is so we can test if a constructor exists
  *    with those parameters with tests without needing to make a new instance of the goal, which is impossible
- *    without production (a running server) due to the arguments required..</li>
+ *    without production (a running server) due to the arguments required.</li>
  * </ul>
  */
 public abstract class AntigoneTests {
@@ -87,7 +87,7 @@ public abstract class AntigoneTests {
 		assertTrue(hasWrapVanillaGoal, "Goal '%s' not annotated with WrapVanillaGoal annotation.".formatted(goalName));
 
 		// Verify that Name starts with "antigone_".
-		assertTrue(goalClass.getAnnotation(Name.class).value().startsWith("antigone_"), "Goal '%s' has a Name annotation with a value that does not start with 'antigone_'.".formatted(goalName));
+		assertTrue(nameAnnotation.value().startsWith("antigone_"), "Goal '%s' has a Name annotation with a value that does not start with 'antigone_'.".formatted(goalName));
 
 		// Verify that the goal has a static "parameters" field.
 		Field parameterField = null;
@@ -110,7 +110,7 @@ public abstract class AntigoneTests {
 		Class<?> vanillaGoalClass = null;
 		if (wrapVanillaGoalInner == null) vanillaGoalClass = wrapVanillaGoalExact.value();
 		else {
-			String innerClassName = wrapVanillaGoalInner.entity().getName() + "$" + wrapVanillaGoalInner.className();
+			String innerClassName = wrapVanillaGoalInner.outer().getName() + "$" + wrapVanillaGoalInner.className();
 			try {
 				vanillaGoalClass = Class.forName(innerClassName);
 			} catch (ClassNotFoundException ignored) {}

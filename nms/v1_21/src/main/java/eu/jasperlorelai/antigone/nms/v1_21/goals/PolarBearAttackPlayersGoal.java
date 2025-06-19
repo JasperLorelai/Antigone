@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_polar_bear_attack_players")
 @WrapVanillaGoal.Inner(
-		entity = PolarBear.class,
+		outer = PolarBear.class,
 		className = "PolarBearAttackPlayersGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")

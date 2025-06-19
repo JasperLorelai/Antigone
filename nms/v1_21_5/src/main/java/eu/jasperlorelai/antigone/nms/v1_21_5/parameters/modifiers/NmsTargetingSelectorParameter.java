@@ -8,14 +8,13 @@ import org.jetbrains.annotations.Nullable;
 
 import com.nisovin.magicspells.castmodifiers.ModifierSet;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
 import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.ModifierParameter;
 
-public class NmsTargetingSelectorParameter<E extends LivingEntity> extends ModifierParameter<TargetingConditions.Selector, TargetingConditions.Selector> {
+public class NmsTargetingSelectorParameter extends ModifierParameter<TargetingConditions.Selector, TargetingConditions.Selector> {
 
 	public NmsTargetingSelectorParameter(@NotNull @ConfigKey String name) {
 		this(name, null);

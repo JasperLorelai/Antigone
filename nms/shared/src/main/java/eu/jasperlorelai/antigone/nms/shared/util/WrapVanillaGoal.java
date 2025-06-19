@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 @Target(ElementType.TYPE)
@@ -24,7 +23,7 @@ public @interface WrapVanillaGoal {
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface Inner {
 
-		Class<? extends LivingEntity> entity();
+		Class<?> outer();
 
 		String className();
 

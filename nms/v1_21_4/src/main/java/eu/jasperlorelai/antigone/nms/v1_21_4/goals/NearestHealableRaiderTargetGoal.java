@@ -30,7 +30,7 @@ public class NearestHealableRaiderTargetGoal extends AntigoneGoal {
 			// boolean checkVisibility
 			new BooleanParameter("check-visibility", true),
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public NearestHealableRaiderTargetGoal(Mob mob, SpellData data) {

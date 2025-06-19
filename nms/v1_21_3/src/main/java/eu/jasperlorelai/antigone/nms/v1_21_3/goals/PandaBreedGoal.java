@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -19,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_panda_breed")
 @WrapVanillaGoal.Inner(
-		entity = Panda.class,
+		outer = Panda.class,
 		className = "PandaBreedGoal"
 )
 @ExtendsGoal("antigone_breed")

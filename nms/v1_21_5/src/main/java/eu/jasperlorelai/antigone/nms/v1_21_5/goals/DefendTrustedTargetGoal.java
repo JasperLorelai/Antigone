@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_5.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -23,7 +22,7 @@ import eu.jasperlorelai.antigone.nms.v1_21_5.parameters.modifiers.NmsTargetingSe
 
 @Name("antigone_defend_trusted_target")
 @WrapVanillaGoal.Inner(
-		entity = Fox.class,
+		outer = Fox.class,
 		className = "DefendTrustedTargetGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")
@@ -38,7 +37,7 @@ public class DefendTrustedTargetGoal extends AntigoneGoal {
 			// boolean checkCanNavigate
 			new BooleanParameter("check-can-navigate", false),
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public DefendTrustedTargetGoal(Mob mob, SpellData data) {

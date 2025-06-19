@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_vex_random_move")
 @WrapVanillaGoal.Inner(
-		entity = Vex.class,
+		outer = Vex.class,
 		className = "VexRandomMoveGoal"
 )
 public class VexRandomMoveGoal extends AntigoneGoal {

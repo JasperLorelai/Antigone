@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_20_6.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -23,7 +22,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParamete
 
 @Name("antigone_cat_avoid_entity")
 @WrapVanillaGoal.Inner(
-		entity = Cat.class,
+		outer = Cat.class,
 		className = "CatAvoidEntityGoal"
 )
 @ExtendsGoal("antigone_avoid_entity")

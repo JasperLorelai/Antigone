@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -20,7 +19,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsDamageTypeTagPa
 
 @Name("antigone_tamable_animal_panic")
 @WrapVanillaGoal.Inner(
-		entity = TamableAnimal.class,
+		outer = TamableAnimal.class,
 		className = "TamableAnimalPanicGoal"
 )
 @ExtendsGoal("antigone_panic")

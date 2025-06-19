@@ -33,7 +33,7 @@ public class NearestAttackableWitchTargetGoal extends AntigoneGoal {
 			// boolean checkCanNavigate
 			new BooleanParameter("check-can-navigate", false),
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public NearestAttackableWitchTargetGoal(Mob mob, SpellData data) {

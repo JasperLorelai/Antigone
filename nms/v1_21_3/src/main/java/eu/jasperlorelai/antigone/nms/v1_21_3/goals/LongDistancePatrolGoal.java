@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_long_distance_patrol")
 @WrapVanillaGoal.Inner(
-		entity = PatrollingMonster.class,
+		outer = PatrollingMonster.class,
 		className = "LongDistancePatrolGoal"
 )
 public class LongDistancePatrolGoal extends AntigoneGoal {

@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_20_6.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_stalk_prey")
 @WrapVanillaGoal.Inner(
-		entity = Fox.class,
+		outer = Fox.class,
 		className = "StalkPreyGoal"
 )
 public class StalkPreyGoal extends AntigoneGoal {

@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -19,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_fox_breed")
 @WrapVanillaGoal.Inner(
-		entity = Fox.class,
+		outer = Fox.class,
 		className = "FoxBreedGoal"
 )
 @ExtendsGoal("antigone_breed")

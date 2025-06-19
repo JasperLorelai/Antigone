@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_5.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.v1_21_5.parameters.mob.MobParameters_v1_21_
 
 @Name("antigone_shulker_defense_attack")
 @WrapVanillaGoal.Inner(
-		entity = Shulker.class,
+		outer = Shulker.class,
 		className = "ShulkerDefenseAttackGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")

@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_vindicator_break_door")
 @WrapVanillaGoal.Inner(
-		entity = Vindicator.class,
+		outer = Vindicator.class,
 		className = "VindicatorBreakDoorGoal"
 )
 @ExtendsGoal("antigone_break_door")

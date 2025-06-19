@@ -28,7 +28,7 @@ public class NonTameRandomTargetGoal extends AntigoneGoal {
 			// boolean checkVisibility
 			new BooleanParameter("check-visibility", false),
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public NonTameRandomTargetGoal(Mob mob, SpellData data) {

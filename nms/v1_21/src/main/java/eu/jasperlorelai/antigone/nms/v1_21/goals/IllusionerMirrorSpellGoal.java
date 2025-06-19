@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_illusioner_mirror_spell")
 @WrapVanillaGoal.Inner(
-		entity = Illusioner.class,
+		outer = Illusioner.class,
 		className = "IllusionerMirrorSpellGoal"
 )
 public class IllusionerMirrorSpellGoal extends AntigoneGoal {

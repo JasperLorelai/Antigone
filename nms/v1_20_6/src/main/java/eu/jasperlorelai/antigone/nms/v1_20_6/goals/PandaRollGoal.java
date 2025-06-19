@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_20_6.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_panda_roll")
 @WrapVanillaGoal.Inner(
-		entity = Panda.class,
+		outer = Panda.class,
 		className = "PandaRollGoal"
 )
 public class PandaRollGoal extends AntigoneGoal {

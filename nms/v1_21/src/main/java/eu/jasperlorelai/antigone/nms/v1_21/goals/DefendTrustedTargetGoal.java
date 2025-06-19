@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -23,7 +22,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.modifiers.PredicateParame
 
 @Name("antigone_defend_trusted_target")
 @WrapVanillaGoal.Inner(
-		entity = Fox.class,
+		outer = Fox.class,
 		className = "DefendTrustedTargetGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")

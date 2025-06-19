@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -19,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_parrot_wander")
 @WrapVanillaGoal.Inner(
-		entity = Parrot.class,
+		outer = Parrot.class,
 		className = "ParrotWanderGoal"
 )
 @ExtendsGoal("antigone_water_avoiding_random_flying")

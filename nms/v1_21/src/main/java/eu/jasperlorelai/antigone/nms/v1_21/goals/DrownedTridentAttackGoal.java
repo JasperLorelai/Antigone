@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -21,7 +20,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 
 @Name("antigone_drowned_trident_attack")
 @WrapVanillaGoal.Inner(
-		entity = Drowned.class,
+		outer = Drowned.class,
 		className = "DrownedTridentAttackGoal"
 )
 @ExtendsGoal("antigone_ranged_attack")

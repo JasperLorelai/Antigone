@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -21,7 +20,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.EntityTypeParamete
 
 @Name("antigone_spider_target")
 @WrapVanillaGoal.Inner(
-		entity = Spider.class,
+		outer = Spider.class,
 		className = "SpiderTargetGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")

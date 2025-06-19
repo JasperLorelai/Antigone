@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Mob;
@@ -22,7 +21,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsIngredientParam
 
 @Name("antigone_cat_tempt")
 @WrapVanillaGoal.Inner(
-		entity = Cat.class,
+		outer = Cat.class,
 		className = "CatTemptGoal"
 )
 @ExtendsGoal("antigone_tempt")

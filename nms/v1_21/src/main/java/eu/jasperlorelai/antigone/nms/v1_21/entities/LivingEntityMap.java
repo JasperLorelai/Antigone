@@ -1,7 +1,5 @@
 package eu.jasperlorelai.antigone.nms.v1_21.entities;
 
-import java.lang.Class;
-import java.lang.String;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.world.entity.AgeableMob;

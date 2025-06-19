@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_phantom_attack_player_target")
 @WrapVanillaGoal.Inner(
-		entity = Phantom.class,
+		outer = Phantom.class,
 		className = "PhantomAttackPlayerTargetGoal"
 )
 public class PhantomAttackPlayerTargetGoal extends AntigoneGoal {

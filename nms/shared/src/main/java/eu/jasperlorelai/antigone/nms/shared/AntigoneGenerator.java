@@ -52,6 +52,7 @@ public class AntigoneGenerator {
 
 	private static void write(String packageSuffix, TypeSpec typeSpec) throws IOException {
 		File file = JavaFile.builder(PACKAGE_NAME + packageSuffix, typeSpec)
+				.skipJavaLangImports(true)
 				.indent("\t")
 				.build()
                 .writeToFile(SOURCE_DIR);
@@ -94,7 +95,12 @@ public class AntigoneGenerator {
 
 				try {
 					Class<?> existingGoal = Class.forName(PACKAGE_NAME + ".goals." + goalClass.getSimpleName());
-					String goalName = existingGoal.getAnnotation(Name.class).value();
+					Name nameAnnotation = existingGoal.getAnnotation(Name.class);
+					if (nameAnnotation == null) {
+						System.out.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
+						continue;
+					}
+					String goalName = nameAnnotation.value();
 
 					Field parameterField = existingGoal.getDeclaredField("parameters");
 					parameterField.setAccessible(true);
@@ -104,7 +110,6 @@ public class AntigoneGenerator {
 					int maxPossible = 0;
 					for (Constructor<?> constr : goalClass.getDeclaredConstructors()) {
 						int count = constr.getParameterCount();
-						if (goalName.equals("antigone_breed")) count--;
 
 						if (count <= maxPossible) continue;
 						maxPossible = count;

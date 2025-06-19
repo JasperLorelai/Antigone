@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_3.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_evoker_attack_spell")
 @WrapVanillaGoal.Inner(
-		entity = Evoker.class,
+		outer = Evoker.class,
 		className = "EvokerAttackSpellGoal"
 )
 public class EvokerAttackSpellGoal extends AntigoneGoal {

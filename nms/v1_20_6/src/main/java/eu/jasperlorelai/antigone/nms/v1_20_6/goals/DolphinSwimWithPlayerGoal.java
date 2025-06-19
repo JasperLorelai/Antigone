@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_20_6.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_dolphin_swim_with_player")
 @WrapVanillaGoal.Inner(
-		entity = Dolphin.class,
+		outer = Dolphin.class,
 		className = "DolphinSwimWithPlayerGoal"
 )
 public class DolphinSwimWithPlayerGoal extends AntigoneGoal {

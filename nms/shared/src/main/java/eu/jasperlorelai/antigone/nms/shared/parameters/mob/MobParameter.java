@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.craftbukkit.entity.CraftMob;
+
 import eu.jasperlorelai.antigone.nms.shared.parameters.ClassParameter;
 
 public class MobParameter<T> extends ClassParameter<T> {
@@ -15,6 +17,21 @@ public class MobParameter<T> extends ClassParameter<T> {
 		super(nmsType);
 		this.description = description;
 		this.converter = converter;
+	}
+
+	public static <M> MobParameter<M> of(Class<M> nmsClass, String description, Class<?> ...withInterfaces) {
+		return new MobParameter<>(nmsClass, description, mob -> {
+			try {
+				M entity = nmsClass.cast(((CraftMob) mob).getHandle());
+				if (withInterfaces == null) return entity;
+				for (Class<?> withInterface : withInterfaces) {
+					if (!entity.getClass().isAssignableFrom(withInterface)) return null;
+				}
+				return entity;
+			} catch (ClassCastException e) {
+				return null;
+			}
+		});
 	}
 
 	public String getDescription() {

@@ -31,7 +31,7 @@ public class NearestAttackableTargetGoal extends AntigoneGoal {
 			// boolean checkCanNavigate
 			new BooleanParameter("check-can-navigate"),
 			// @Nullable Predicate<LivingEntity> targetPredicate
-			new NmsTargetingSelectorParameter<>("target-predicate")
+			new NmsTargetingSelectorParameter("target-predicate")
 	);
 
 	public NearestAttackableTargetGoal(Mob mob, SpellData data) {

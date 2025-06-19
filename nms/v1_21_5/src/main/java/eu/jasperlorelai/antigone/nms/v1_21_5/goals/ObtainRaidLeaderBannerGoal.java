@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_5.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -17,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.v1_21_5.parameters.mob.MobParameters_v1_21_
 
 @Name("antigone_obtain_raid_leader_banner")
 @WrapVanillaGoal.Inner(
-		entity = Raider.class,
+		outer = Raider.class,
 		className = "ObtainRaidLeaderBannerGoal"
 )
 public class ObtainRaidLeaderBannerGoal extends AntigoneGoal {

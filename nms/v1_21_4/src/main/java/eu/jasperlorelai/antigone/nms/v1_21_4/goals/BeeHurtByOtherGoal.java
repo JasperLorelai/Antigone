@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_4.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_bee_hurt_by_other")
 @WrapVanillaGoal.Inner(
-		entity = Bee.class,
+		outer = Bee.class,
 		className = "BeeHurtByOtherGoal"
 )
 @ExtendsGoal("antigone_hurt_by_target")

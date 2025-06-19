@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -18,7 +17,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 
 @Name("antigone_wander_to_position")
 @WrapVanillaGoal.Inner(
-		entity = WanderingTrader.class,
+		outer = WanderingTrader.class,
 		className = "WanderToPositionGoal"
 )
 public class WanderToPositionGoal extends AntigoneGoal {

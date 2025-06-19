@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -19,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
 @Name("antigone_rabbit_panic")
 @WrapVanillaGoal.Inner(
-		entity = Rabbit.class,
+		outer = Rabbit.class,
 		className = "RabbitPanicGoal"
 )
 @ExtendsGoal("antigone_panic")

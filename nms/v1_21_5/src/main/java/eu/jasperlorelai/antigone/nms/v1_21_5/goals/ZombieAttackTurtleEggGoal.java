@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_5.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.entity.Mob;
 
@@ -21,7 +20,7 @@ import eu.jasperlorelai.antigone.nms.v1_21_5.parameters.mob.MobParameters_v1_21_
 @Name("antigone_zombie_attack_turtle_egg")
 @ExtendsGoal("antigone_remove_block")
 @WrapVanillaGoal.Inner(
-		entity = Zombie.class,
+		outer = Zombie.class,
 		className = "ZombieAttackTurtleEggGoal"
 )
 public class ZombieAttackTurtleEggGoal extends AntigoneGoal {
