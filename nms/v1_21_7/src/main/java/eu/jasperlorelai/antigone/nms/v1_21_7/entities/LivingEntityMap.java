@@ -1,4 +1,4 @@
-package eu.jasperlorelai.antigone.nms.v1_21_6.entities;
+package eu.jasperlorelai.antigone.nms.v1_21_7.entities;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
