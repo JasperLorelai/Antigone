@@ -32,6 +32,7 @@ import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.LockParamAmount;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 
 public class AntigoneGenerator {
@@ -97,7 +98,7 @@ public class AntigoneGenerator {
 					Class<?> existingGoal = Class.forName(PACKAGE_NAME + ".goals." + goalClass.getSimpleName());
 					Name nameAnnotation = existingGoal.getAnnotation(Name.class);
 					if (nameAnnotation == null) {
-						System.out.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
+						System.err.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
 						continue;
 					}
 					String goalName = nameAnnotation.value();
@@ -115,8 +116,8 @@ public class AntigoneGenerator {
 						maxPossible = count;
 					}
 
-					if (maxPossible > parameters.size()) {
-						System.out.println("Goal '" + goalName + "' may be more configurable than it currently is. (" + parameters.size() + "/" + maxPossible + ")");
+					if (maxPossible > parameters.size() && !existingGoal.isAnnotationPresent(LockParamAmount.class)) {
+						System.err.println("Goal '" + goalName + "' may be more configurable than it currently is. (" + parameters.size() + "/" + maxPossible + ")");
 					}
 
 					// Let's not override existing goals.

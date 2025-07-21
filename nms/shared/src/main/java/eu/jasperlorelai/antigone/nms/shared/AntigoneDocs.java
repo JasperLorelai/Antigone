@@ -94,7 +94,7 @@ public abstract class AntigoneDocs {
 				Class<? extends AntigoneGoal> goalClass = goalInfo.loadClass().asSubclass(AntigoneGoal.class);
 				Name nameAnnotation = goalClass.getAnnotation(Name.class);
 				if (nameAnnotation == null) {
-					System.out.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
+					System.err.println("Goal '" + goalClass.getSimpleName() + "' does not have a Name annotation.");
 					continue;
 				}
 				String goalName = nameAnnotation.value();

@@ -9,10 +9,12 @@ import com.nisovin.magicspells.util.SpellData;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.LockParamAmount;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 
+@LockParamAmount
 @Name("antigone_breed")
 @WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.BreedGoal.class)
 public class BreedGoal extends AntigoneGoal {
