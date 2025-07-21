@@ -25,7 +25,9 @@ public class TemptGoal extends AntigoneGoal {
 			// Ingredient food
 			new NmsIngredientParameter("food"),
 			// boolean canBeScared
-			new BooleanParameter("can-be-scared")
+			new BooleanParameter("can-be-scared"),
+			// double canBeScared
+			new DoubleParameter("stop-distance", 2.5)
 	);
 
 	public TemptGoal(Mob mob, SpellData data) {
