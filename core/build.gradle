@@ -14,6 +14,7 @@ dependencies {
     shadow(project(path: ":nms:v1_21_5")) {transitive = false}
     shadow(project(path: ":nms:v1_21_6")) {transitive = false}
     shadow(project(path: ":nms:v1_21_7")) {transitive = false}
+    shadow(project(path: ":nms:v1_21_8")) {transitive = false}
 
     shadow("org.bstats:bstats-bukkit:3.0.2")
     shadow("io.github.classgraph:classgraph:4.8.179")
