@@ -26,7 +26,7 @@ public class TemptGoal extends AntigoneGoal {
 			new NmsIngredientParameter("food"),
 			// boolean canBeScared
 			new BooleanParameter("can-be-scared"),
-			// double canBeScared
+			// double stopDistance
 			new DoubleParameter("stop-distance", 2.5)
 	);
 

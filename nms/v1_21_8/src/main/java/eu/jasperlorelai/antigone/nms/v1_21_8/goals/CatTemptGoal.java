@@ -1,7 +1,6 @@
 package eu.jasperlorelai.antigone.nms.v1_21_8.goals;
 
 import java.util.List;
-import java.lang.Override;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Mob;
