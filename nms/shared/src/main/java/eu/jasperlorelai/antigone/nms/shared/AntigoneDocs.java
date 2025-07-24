@@ -66,7 +66,7 @@ public abstract class AntigoneDocs {
 		List<String> supportedVersions = new ArrayList<>();
 		supportedVersions.add(cleanVersion);
 		supportedVersions.addAll(Util.getReverseVersions(cleanVersion));
-		docs.addProperty("supportedVersions", Description.of(Description.Conjunction.AND, supportedVersions.toArray(new String[0])));
+		docs.addProperty("supportedVersions", Description.List.create().withAnd().build(supportedVersions));
 
 		ClassGraph classGraph;
 

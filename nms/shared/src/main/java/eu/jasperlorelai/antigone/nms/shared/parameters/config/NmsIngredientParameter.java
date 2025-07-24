@@ -62,7 +62,7 @@ public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate
 	@Override
 	public Default<Predicate<ItemStack>> getDefault() {
 		if (defaultMaterials == null) return null;
-		String description = Description.of(Description.Conjunction.NONE, m -> m.name().toLowerCase(), defaultMaterials.toArray(new Material[0]));
+		String description = Description.List.create().build(defaultMaterials, Material.class);
 		return new Default<>(fromMaterials(defaultMaterials), description);
 	}
 
@@ -110,10 +110,13 @@ public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate
 
 	@Override
 	public String documentType() {
-		return Description.ofEnum("List of ", Material.class) + " or " + Description.of("List of the following prepended by '#': ", Description.Conjunction.OR,
+		return Description.List.create()
+			.prefix(Description.ofEnum("List of ", Material.class) + " or a list of the following prepended by '#':")
+			.withOr()
+			.build(
 				Description.hyperlink("Block tag", "https://github.com/TheComputerGeek2/MagicSpells/wiki/Registry#block-tags"),
 				Description.hyperlink("Item tag", "https://minecraft.wiki/w/Item_tag_(Java_Edition)")
-		);
+			);
 	}
 
 }

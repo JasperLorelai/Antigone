@@ -1,5 +1,7 @@
 package eu.jasperlorelai.antigone.nms.shared.util;
 
+import java.util.Collection;
+import java.lang.reflect.Array;
 import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +11,7 @@ public final class Description {
 	private static final String JD_URL = "https://jasperlorelai.eu/paperdocs/";
 
 	private static String docsLink(@NotNull Class<?> clazz, @NotNull String urlSuffix) {
-		return hyperlink(ofClassName(clazz), JD_URL + urlSuffix + ".html");
+		return hyperlink(ofClass(clazz), JD_URL + urlSuffix + ".html");
 	}
 
 	private static String dotsToSlashes(@NotNull String string) {
@@ -20,7 +22,7 @@ public final class Description {
 		return "[" + text + "](" + url + ")";
 	}
 
-	public static String ofClassName(@NotNull Class<?> bukkitClass) {
+	public static String ofClass(@NotNull Class<?> bukkitClass) {
 		return bukkitClass.getSimpleName().replaceAll("([a-z])([A-Z])", "$1 $2");
 	}
 
@@ -48,52 +50,77 @@ public final class Description {
 		return docsLink(bukkitEnum, dotsToSlashes(bukkitEnum.getName()));
 	}
 
-	public static String of(@NotNull Conjunction conjunction, @NotNull String... strings) {
-		return of(conjunction, Function.identity(), strings);
-	}
+	public static class List {
 
-	public static String of(@NotNull String prefix, @NotNull Conjunction conjunction, @NotNull String ...strings) {
-		return of(prefix, conjunction, Function.identity(), strings);
-	}
+		private String prefix;
+		private Conjunction conjunction;
 
-	public static <T> String of(@NotNull Conjunction conjunction, @NotNull Function<T, String> toString, @NotNull T[] objects) {
-		return of("", conjunction, toString, objects);
-	}
+		private List() {}
 
-	public static <T> String of(@NotNull String prefix, @NotNull Conjunction conjunction, @NotNull Function<T, String> toString, @NotNull T[] objects) {
-		StringBuilder builder = new StringBuilder(prefix);
-		for (int i = 0; i < objects.length; i++) {
-			if (i > 0) {
-				builder.append(", ");
-				if (i == objects.length - 1) builder.append(conjunction);
-			}
-			builder.append(toString.apply(objects[i]));
+		public static List create() {
+			return new List();
 		}
-		return builder.toString();
+
+		public List prefix(String prefix) {
+			this.prefix = prefix;
+			return this;
+		}
+
+		public List withAnd() {
+			this.conjunction = Conjunction.AND;
+			return this;
+		}
+
+		public List withOr() {
+			this.conjunction = Conjunction.OR;
+			return this;
+		}
+
+		public <E extends Enum<E>> String build(Collection<E> objects, Class<E> clazz) {
+			return build(objects, clazz, e -> e.name().toLowerCase());
+		}
+
+		@SuppressWarnings("unchecked")
+		public <T> String build(Collection<T> objects, Class<T> clazz, Function<T, String> toString) {
+			T[] array = (T[]) Array.newInstance(clazz, objects.size());
+			return build(objects.toArray(array), toString);
+		}
+
+		public String build(Collection<String> objects) {
+			return build(objects.toArray(new String[0]));
+		}
+
+		public String build(String ...objects) {
+			return build(objects, Function.identity());
+		}
+
+		public <T> String build(T[] objects, Function<T, String> toString) {
+			StringBuilder builder = new StringBuilder();
+			if (prefix != null && !prefix.isBlank()) builder.append(prefix).append(" ");
+
+			int length = objects.length;
+			boolean oxford = conjunction == null || length > 2;
+
+			for (int i = 0; i < length; i++) {
+				if (i > 0) {
+					if (oxford) builder.append(",");
+					builder.append(" ");
+
+					if (i == length - 1 && conjunction != null) {
+						builder.append(conjunction.name().toLowerCase()).append(" ");
+					}
+				}
+				builder.append(toString.apply(objects[i]));
+			}
+
+			return builder.toString();
+		}
+
 	}
 
 	public enum Conjunction {
-
-		NONE(""),
-		AND("and "),
-		OR("or ")
-		;
-
-		private final String conjunction;
-
-		Conjunction(String conjunction) {
-			this.conjunction = conjunction;
-		}
-
-		public String get() {
-			return conjunction;
-		}
-
-		@Override
-		public String toString() {
-			return conjunction;
-		}
-
+		AND,
+		OR
 	}
 
 }
