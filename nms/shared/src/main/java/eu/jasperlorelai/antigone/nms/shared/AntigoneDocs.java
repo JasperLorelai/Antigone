@@ -2,6 +2,7 @@ package eu.jasperlorelai.antigone.nms.shared;
 
 import java.io.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.lang.reflect.Field;
 
 import io.github.classgraph.*;
@@ -19,9 +20,7 @@ import com.google.common.base.CaseFormat;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.pathfinder.PathType;
 
-import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
-import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
-import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.*;
 import eu.jasperlorelai.antigone.nms.shared.parameters.DummyParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
@@ -58,7 +57,17 @@ public abstract class AntigoneDocs {
 	@SuppressWarnings("unchecked")
 	private static JsonObject documentVersion(String version) {
 		String packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
+
 		JsonObject docs = new JsonObject();
+
+		String cleanVersion = version.substring(1).replaceAll("_", ".");
+		docs.addProperty("cleanVersion", cleanVersion);
+
+		List<String> supportedVersions = new ArrayList<>();
+		supportedVersions.add(cleanVersion);
+		supportedVersions.addAll(Util.getReverseVersions(cleanVersion));
+		docs.addProperty("supportedVersions", Description.of(Description.Conjunction.AND, supportedVersions.toArray(new String[0])));
+
 		ClassGraph classGraph;
 
 		// Collect "LivingEntityMap" keys.
