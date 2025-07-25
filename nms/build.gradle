@@ -1,4 +1,4 @@
-subprojects {
+subprojects {proj ->
 
     dependencies {
         implementation("com.palantir.javapoet:javapoet:0.5.0")
@@ -12,32 +12,55 @@ subprojects {
         useJUnitPlatform()
     }
 
-    tasks.register("generateJava", JavaExec) {
-        if (workingDir.name == "shared") return
-        group = "generator"
-        classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
-        mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneGenerator"
+    if (proj.name == "shared") {
+        proj.plugins.withType(JavaPlugin) {
+            proj.tasks.register("combineDocs", JavaExec) {
+                group = "generator"
+                classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
+                mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneCombineDocs"
+            }
+        }
     }
+    else {
+        proj.plugins.withType(JavaPlugin) {
+            proj.tasks.register("generateJava", JavaExec) {
+                group = "generator"
+                classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
+                mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneGenerator"
+            }
 
-    tasks.register("generateDocs", JavaExec) {
-        if (workingDir.name == "shared") return
-        group = "generator"
-        classpath sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath
-        mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneDocs"
-    }
+            proj.tasks.register("generateDocs", JavaExec) {
+                group = "generator"
+                classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
+                mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneDocs"
+            }
 
-    assemble {
-        if (projectDir.name != "shared") {
-            dependsOn(generateDocs)
+            proj.tasks.named("assemble") {
+                dependsOn(proj.tasks.named("generateDocs"))
+            }
         }
     }
 
 }
 
 tasks.register("deleteDocs") {
+    group = "generator"
     doLast {
         delete(projectDir.parent + "/docs/docs.json")
     }
 }
 
 assemble.dependsOn(deleteDocs)
+
+var combineTask = project(":nms:shared").tasks.named("combineDocs");
+
+gradle.projectsEvaluated {
+    combineTask.configure {
+        subprojects.each { proj ->
+            if (proj.name == "shared") return
+            dependsOn(proj.tasks.named("generateDocs"))
+        }
+    }
+}
+
+assemble.finalizedBy(combineTask)

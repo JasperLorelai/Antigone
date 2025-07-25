@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import io.github.classgraph.*;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 import com.google.common.base.Charsets;
 
@@ -29,33 +28,11 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.SameLevelParameter;
 public abstract class AntigoneDocs {
 
 	private static final File WORKING_DIR = new File("").getAbsoluteFile();
-	private static final File PROJECT_DIR = WORKING_DIR.getParentFile().getParentFile();
-	private static final File FILE = new File(PROJECT_DIR, "docs/docs.json");
-
-	public static void main(String... args) {
-		String version = WORKING_DIR.getName();
-		if (!version.startsWith("v") || version.equals("shared")) return;
-
-		JsonObject docs;
-		try {
-			docs = JsonParser.parseReader(new FileReader(FILE)).getAsJsonObject();
-		} catch (FileNotFoundException e) {
-			docs = new JsonObject();
-		}
-		docs.add(version, documentVersion(version));
-
-		//noinspection ResultOfMethodCallIgnored
-		FILE.getParentFile().mkdir();
-		try (Writer writer = new OutputStreamWriter(new FileOutputStream(FILE), Charsets.UTF_8)) {
-			writer.write(docs.toString());
-		} catch (IOException e) {
-			//noinspection CallToPrintStackTrace
-			e.printStackTrace();
-		}
-	}
+	private static final File FILE = new File(WORKING_DIR, "build/docs.json");
 
 	@SuppressWarnings("unchecked")
-	private static JsonObject documentVersion(String version) {
+	public static void main(String... args) {
+		String version = WORKING_DIR.getName();
 		String packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
 
 		JsonObject docs = new JsonObject();
@@ -114,9 +91,10 @@ public abstract class AntigoneDocs {
 					field.setAccessible(true);
 					parameters = (List<AntigoneParameter<?, ?>>) field.get(null);
 				} catch (IllegalAccessException | NoSuchFieldException ex) {
+					System.err.println("An error occurred:");
 					//noinspection CallToPrintStackTrace
 					ex.printStackTrace();
-					return docs;
+					return;
 				}
 
 				JsonObject goalDoc = new JsonObject();
@@ -152,9 +130,15 @@ public abstract class AntigoneDocs {
 				goalDocs.add(goalName, goalDoc);
 			}
 		}
-
 		docs.add("goals", goalDocs);
-		return docs;
+
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(FILE), Charsets.UTF_8)) {
+			writer.write(docs.toString());
+		} catch (IOException e) {
+			System.err.println("An error occurred:");
+			//noinspection CallToPrintStackTrace
+			e.printStackTrace();
+		}
 	}
 
 }
