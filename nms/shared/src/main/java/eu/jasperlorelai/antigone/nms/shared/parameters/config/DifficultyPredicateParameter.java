@@ -39,7 +39,7 @@ public class DifficultyPredicateParameter extends ConfigParameter<Class<Predicat
 
 	@Override
 	public String documentType() {
-		return Description.ofEnum("List of ", Difficulty.class);
+		return Description.ofFields("List of ", Difficulty.class);
 	}
 
 }

@@ -45,8 +45,9 @@ public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate
 		if (key == null) return null;
 
 		tag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, key, Material.class);
-		if (tag == null) return Bukkit.getTag(Tag.REGISTRY_ITEMS, key, Material.class);
-		return tag;
+		if (tag != null) return tag;
+
+		return Bukkit.getTag(Tag.REGISTRY_ITEMS, key, Material.class);
 	}
 
 	public NmsIngredientParameter(@NotNull @ConfigKey String name) {
@@ -111,10 +112,11 @@ public class NmsIngredientParameter extends NmsRegistryParameter<Class<Predicate
 	@Override
 	public String documentType() {
 		return Description.List.create()
-			.prefix(Description.ofEnum("List of ", Material.class) + " or a list of the following prepended by '#':")
+			.prefix(Description.ofFields("List of ", Material.class) + " or a list of the following prepended by '#':")
 			.withOr()
 			.build(
-				Description.hyperlink("Block tag", "https://github.com/TheComputerGeek2/MagicSpells/wiki/Registry#block-tags"),
+				Description.ofFields(MaterialTags.class),
+				Description.hyperlink("Block tag", "https://minecraft.wiki/w/Block_tag_(Java_Edition)"),
 				Description.hyperlink("Item tag", "https://minecraft.wiki/w/Item_tag_(Java_Edition)")
 			);
 	}

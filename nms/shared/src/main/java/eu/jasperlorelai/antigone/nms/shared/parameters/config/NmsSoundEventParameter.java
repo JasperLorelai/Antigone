@@ -42,7 +42,7 @@ public class NmsSoundEventParameter extends NmsRegistryParameter<Class<SoundEven
 
 	@Override
 	public String documentType() {
-		return Description.ofEnum(Sound.class);
+		return Description.ofFields(Sound.class);
 	}
 
 }

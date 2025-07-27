@@ -39,7 +39,7 @@ public class NmsBlockParameter extends NmsRegistryParameter<Class<Block>, Block,
 
 	@Override
 	public String documentType() {
-		return Description.ofEnum(Material.class);
+		return Description.ofFields(Material.class);
 	}
 
 }

@@ -31,7 +31,7 @@ public final class Description {
 	}
 
 	public static String ofFields(@NotNull Class<?> bukkitClass) {
-		return docsLink(bukkitClass, dotsToSlashes(bukkitClass.getName()) + ".html");
+		return docsLink(bukkitClass, "-/" + dotsToSlashes(bukkitClass.getName()));
 	}
 
 	public static String ofEntityInterface(@NotNull String prefix, @NotNull Class<?> bukkitClass) {
@@ -40,14 +40,6 @@ public final class Description {
 
 	public static String ofEntityInterface(@NotNull Class<?> bukkitClass) {
 		return docsLink(bukkitClass, "org.bukkit.entity/" + dotsToSlashes(bukkitClass.getName()).replaceAll("(.*/)(\\w+)", "$1class-use/$2"));
-	}
-
-	public static String ofEnum(@NotNull String prefix, @NotNull Class<?> bukkitEnum) {
-		return prefix + ofEnum(bukkitEnum);
-	}
-
-	public static String ofEnum(@NotNull Class<?> bukkitEnum) {
-		return docsLink(bukkitEnum, dotsToSlashes(bukkitEnum.getName()));
 	}
 
 	public static class List {
