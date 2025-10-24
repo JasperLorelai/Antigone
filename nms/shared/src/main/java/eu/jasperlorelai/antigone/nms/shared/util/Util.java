@@ -10,6 +10,7 @@ public class Util {
 		put("1.21.1", "1.21");
 		put("1.21.7", "1.21.6");
 		put("1.21.8", "1.21.6");
+		put("1.21.10", "1.21.9");
 	}};
 
 	private static final Map<String, List<String>> REVERSE_VERSION_MAP = new HashMap<>();
