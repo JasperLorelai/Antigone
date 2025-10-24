@@ -42,7 +42,3 @@ shadowJar {
 base {
     archivesName = "Antigone"
 }
-
-artifacts {
-    archives shadowJar
-}

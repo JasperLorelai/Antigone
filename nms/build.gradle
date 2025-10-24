@@ -13,7 +13,7 @@ subprojects {proj ->
     }
 
     if (proj.name == "shared") {
-        proj.plugins.withType(JavaPlugin) {
+        proj.plugins.withType(JavaPlugin).configureEach {
             proj.tasks.register("combineDocs", JavaExec) {
                 group = "generator"
                 classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
@@ -22,7 +22,7 @@ subprojects {proj ->
         }
     }
     else {
-        proj.plugins.withType(JavaPlugin) {
+        proj.plugins.withType(JavaPlugin).configureEach {
             proj.tasks.register("generateJava", JavaExec) {
                 group = "generator"
                 classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
@@ -45,8 +45,10 @@ subprojects {proj ->
 
 tasks.register("deleteDocs") {
     group = "generator"
+
+    var docs = file(projectDir.parent + "/docs/docs.json")
     doLast {
-        delete(projectDir.parent + "/docs/docs.json")
+        docs.delete()
     }
 }
 
