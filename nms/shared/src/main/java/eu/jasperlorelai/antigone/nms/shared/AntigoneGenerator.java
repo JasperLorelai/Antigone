@@ -143,7 +143,7 @@ public class AntigoneGenerator {
 						.addMethod(parametersMethod);
 
 				if (info.isInnerClass()) goalBuilder.addAnnotation(AnnotationSpec.builder(WrapVanillaGoal.Inner.class)
-						.addMember("entity", "$T.class", info.getOuterClasses().getFirst().loadClass())
+						.addMember("outer", "$T.class", info.getOuterClasses().getFirst().loadClass())
 						.addMember("className", "$S", goalClass.getSimpleName())
 						.build()
 				);
