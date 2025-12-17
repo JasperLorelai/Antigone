@@ -1,6 +1,8 @@
 package eu.jasperlorelai.antigone.nms.shared.parameters.config;
 
 import org.bukkit.Sound;
+import org.bukkit.Registry;
+import org.bukkit.NamespacedKey;
 
 import net.minecraft.sounds.SoundEvent;
 
@@ -26,11 +28,12 @@ public class NmsSoundEventParameter extends NmsRegistryParameter<Class<SoundEven
 	@Override
 	public BukkitResolver getBukkitResolver() {
 		return string -> {
-			try {
-				return Sound.valueOf(string.toUpperCase()).key();
-			} catch (IllegalArgumentException ignored) {
-				return null;
-			}
+			NamespacedKey key = NamespacedKey.fromString(string.toLowerCase());
+
+			if (key == null) return null;
+			if (Registry.SOUNDS.get(key) == null) return null;
+
+			return key;
 		};
 	}
 

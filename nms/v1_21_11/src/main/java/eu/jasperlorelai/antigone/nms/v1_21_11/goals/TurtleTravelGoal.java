@@ -1,0 +1,41 @@
+package eu.jasperlorelai.antigone.nms.v1_21_11.goals;
+
+import java.util.List;
+
+import org.bukkit.entity.Mob;
+
+import com.nisovin.magicspells.util.Name;
+import com.nisovin.magicspells.util.SpellData;
+
+import net.minecraft.world.entity.animal.turtle.Turtle;
+
+import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
+import eu.jasperlorelai.antigone.nms.v1_21_11.parameters.mob.MobParameters_v1_21_11;
+
+@Name("antigone_turtle_travel")
+@WrapVanillaGoal.Inner(
+		outer = Turtle.class,
+		className = "TurtleTravelGoal"
+)
+public class TurtleTravelGoal extends AntigoneGoal {
+
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+			// Turtle turtle
+			MobParameters_v1_21_11.Turtle,
+			// double speed
+			new DoubleParameter("speed", 1)
+	);
+
+	public TurtleTravelGoal(Mob mob, SpellData data) {
+		super(mob, data);
+	}
+
+	@Override
+	public List<AntigoneParameter<?, ?>> getParameters() {
+		return parameters;
+	}
+
+}

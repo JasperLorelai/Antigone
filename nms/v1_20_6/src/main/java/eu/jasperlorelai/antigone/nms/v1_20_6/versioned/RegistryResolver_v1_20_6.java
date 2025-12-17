@@ -11,26 +11,26 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import eu.jasperlorelai.antigone.nms.shared.versioned.types.RegistryResolver;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsRegistryParameter.VanillaResolver;
 
-public class RegistryResolver_v1_20_6 extends RegistryResolver {
+public class RegistryResolver_v1_20_6 extends RegistryResolver<ResourceLocation> {
 
 	@Override
-	protected ResourceLocation resourceLocation(Key key) {
+	protected ResourceLocation identifier(Key key) {
 		return new ResourceLocation(key.asString());
 	}
 
 	@Override
 	public VanillaResolver<SoundEvent> soundEvent() {
-		return key -> BuiltInRegistries.SOUND_EVENT.get(resourceLocation(key));
+		return key -> BuiltInRegistries.SOUND_EVENT.get(identifier(key));
 	}
 
 	@Override
 	public VanillaResolver<Item> item() {
-		return key -> BuiltInRegistries.ITEM.get(resourceLocation(key));
+		return key -> BuiltInRegistries.ITEM.get(identifier(key));
 	}
 
 	@Override
 	public VanillaResolver<Block> block() {
-		return key -> BuiltInRegistries.BLOCK.get(resourceLocation(key));
+		return key -> BuiltInRegistries.BLOCK.get(identifier(key));
 	}
 
 }
