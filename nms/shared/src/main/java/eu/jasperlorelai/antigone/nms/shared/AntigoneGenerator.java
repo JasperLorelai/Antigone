@@ -25,8 +25,10 @@ import org.jetbrains.annotations.Nullable;
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
@@ -44,7 +46,9 @@ public class AntigoneGenerator {
 	static void main() {
 		try {
 			setupGoals();
-			setupLivingEntityStore();
+			setupEntityStore(Entity.class);
+			setupEntityStore(Animal.class);
+			setupEntityStore(LivingEntity.class);
 		} catch (Exception e) {
 			//noinspection CallToPrintStackTrace
 			e.printStackTrace();
@@ -163,11 +167,11 @@ public class AntigoneGenerator {
 		}
 	}
 
-	private static void setupLivingEntityStore() throws IOException {
-		TypeName livingEntity = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(LivingEntity.class));
-		TypeName map = ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), livingEntity);
+	private static void setupEntityStore(Class<?> type) throws IOException {
+		TypeName entity = ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(type));
+		TypeName map = ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), entity);
 
-		TypeSpec.Builder livingEntityBuilder = TypeSpec.classBuilder("LivingEntityMap")
+		TypeSpec.Builder entityBuilder = TypeSpec.classBuilder(type.getSimpleName() + "Map")
 				.addModifiers(Modifier.PUBLIC)
 				.addField(FieldSpec.builder(map, "map", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
 						.initializer("new $T<>()", LinkedHashMap.class)
@@ -178,14 +182,14 @@ public class AntigoneGenerator {
 						.addParameter(ClassName.get(String.class), "name")
 						.addAnnotation(Nullable.class)
 						.addStatement("return map.get(name.toLowerCase())")
-						.returns(livingEntity)
+						.returns(entity)
 						.build()
 				);
 
 		CodeBlock.Builder initialise = CodeBlock.builder();
 		ClassGraph classGraph = new ClassGraph().acceptPackages("net.minecraft.world.entity.");
 		try (ScanResult result = classGraph.scan()) {
-			ClassInfoList list = result.getSubclasses(LivingEntity.class);
+			ClassInfoList list = result.getSubclasses(type);
 			list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));
 			for (ClassInfo info : list) {
 				String key = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, info.getSimpleName());
@@ -193,7 +197,7 @@ public class AntigoneGenerator {
 			}
 		}
 
-		write(".entities", livingEntityBuilder.addStaticBlock(initialise.build()).build());
+		write(".entities", entityBuilder.addStaticBlock(initialise.build()).build());
 	}
 
 }

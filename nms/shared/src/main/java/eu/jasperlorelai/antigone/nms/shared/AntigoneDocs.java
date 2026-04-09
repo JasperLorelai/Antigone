@@ -15,7 +15,9 @@ import com.google.common.base.CaseFormat;
 
 import com.nisovin.magicspells.util.Name;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.pathfinder.PathType;
 
 import eu.jasperlorelai.antigone.nms.shared.util.*;
@@ -46,15 +48,13 @@ public abstract class AntigoneDocs {
 
 		ClassGraph classGraph;
 
-		// Collect "LivingEntityMap" keys.
-		JsonArray entities = new JsonArray();
+		// Collect entity classes.
 		classGraph = new ClassGraph().acceptPackages("net.minecraft.world.entity.");
 		try (ScanResult result = classGraph.scan()) {
-			ClassInfoList list = result.getSubclasses(LivingEntity.class);
-			list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));
-			for (ClassInfo info : list) entities.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, info.getSimpleName()));
+			documentEntityClasses(docs, result, Entity.class);
+			documentEntityClasses(docs, result, Animal.class);
+			documentEntityClasses(docs, result, LivingEntity.class);
 		}
-		docs.add("LivingEntityClass", entities);
 
 		// Collect "PathType" enum.
 		JsonObject pathTypes = new JsonObject();
@@ -138,6 +138,15 @@ public abstract class AntigoneDocs {
 			//noinspection CallToPrintStackTrace
 			e.printStackTrace();
 		}
+	}
+
+	private static void documentEntityClasses(JsonObject docs, ScanResult result, Class<?> type) {
+		ClassInfoList list = result.getSubclasses(type);
+		list.sort((a, b) -> a.getSimpleName().compareToIgnoreCase(b.getSimpleName()));
+		JsonArray entities = new JsonArray();
+		for (ClassInfo info : list)
+			entities.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, info.getSimpleName()));
+		docs.add(type.getSimpleName() + "Class", entities);
 	}
 
 }
