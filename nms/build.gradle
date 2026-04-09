@@ -1,9 +1,9 @@
 subprojects {proj ->
 
     dependencies {
-        implementation("com.palantir.javapoet:javapoet:0.5.0")
-        implementation("org.junit.jupiter:junit-jupiter:5.11.3")
-        implementation("io.github.classgraph:classgraph:4.8.179")
+        implementation("com.palantir.javapoet:javapoet:0.14.0")
+        implementation("org.junit.jupiter:junit-jupiter:6.0.3")
+        implementation("io.github.classgraph:classgraph:4.8.184")
 
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
@@ -18,6 +18,7 @@ subprojects {proj ->
                 group = "generator"
                 classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
                 mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneCombineDocs"
+                jvmArgs("--enable-native-access=ALL-UNNAMED")
             }
         }
     }
@@ -27,12 +28,14 @@ subprojects {proj ->
                 group = "generator"
                 classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
                 mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneGenerator"
+                jvmArgs("--enable-native-access=ALL-UNNAMED")
             }
 
             proj.tasks.register("generateDocs", JavaExec) {
                 group = "generator"
                 classpath proj.sourceSets.main.compileClasspath, proj.sourceSets.main.runtimeClasspath
                 mainClass = "eu.jasperlorelai.antigone.nms.shared.AntigoneDocs"
+                jvmArgs("--enable-native-access=ALL-UNNAMED")
             }
 
             proj.tasks.named("assemble") {
@@ -54,7 +57,7 @@ tasks.register("deleteDocs") {
 
 assemble.dependsOn(deleteDocs)
 
-var combineTask = project(":nms:shared").tasks.named("combineDocs");
+var combineTask = project(":nms:shared").tasks.named("combineDocs")
 
 gradle.projectsEvaluated {
     combineTask.configure {

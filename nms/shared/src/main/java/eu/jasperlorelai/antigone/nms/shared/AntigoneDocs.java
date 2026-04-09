@@ -4,17 +4,16 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 
 import io.github.classgraph.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.common.base.Charsets;
-
-import com.nisovin.magicspells.util.Name;
-
 import com.google.gson.JsonPrimitive;
 import com.google.common.base.CaseFormat;
+
+import com.nisovin.magicspells.util.Name;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -31,13 +30,13 @@ public abstract class AntigoneDocs {
 	private static final File FILE = new File(WORKING_DIR, "build/docs.json");
 
 	@SuppressWarnings("unchecked")
-	public static void main(String... args) {
+	static void main() {
 		String version = WORKING_DIR.getName();
 		String packagePrefix = "eu.jasperlorelai.antigone.nms." + version;
 
 		JsonObject docs = new JsonObject();
 
-		String cleanVersion = version.substring(1).replaceAll("_", ".");
+		String cleanVersion = version.substring(1).replace("_", ".");
 		docs.addProperty("cleanVersion", cleanVersion);
 
 		List<String> supportedVersions = new ArrayList<>();
@@ -132,7 +131,7 @@ public abstract class AntigoneDocs {
 		}
 		docs.add("goals", goalDocs);
 
-		try (Writer writer = new OutputStreamWriter(new FileOutputStream(FILE), Charsets.UTF_8)) {
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(FILE), StandardCharsets.UTF_8)) {
 			writer.write(docs.toString());
 		} catch (IOException e) {
 			System.err.println("An error occurred:");

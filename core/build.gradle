@@ -3,29 +3,18 @@ plugins {
 }
 
 dependencies {
-    implementation("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
+    implementation("io.papermc.paper:paper-api:26.1.1.build.+")
 
     shadow(project(path: ":spells")) {transitive = false}
     shadow(project(path: ":nms:shared")) {transitive = false}
-    shadow(project(path: ":nms:v1_20_6")) {transitive = false}
-    shadow(project(path: ":nms:v1_21")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_3")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_4")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_5")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_6")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_9")) {transitive = false}
-    shadow(project(path: ":nms:v1_21_11")) {transitive = false}
+    shadow(project(path: ":nms:v26_1_1")) {transitive = false}
 
-    shadow("org.bstats:bstats-bukkit:3.0.2")
-    shadow("io.github.classgraph:classgraph:4.8.179")
+    shadow("org.bstats:bstats-bukkit:3.2.1")
+    shadow("io.github.classgraph:classgraph:4.8.184")
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
-
-    manifest {
-        attributes["paperweight-mappings-namespace"] = "mojang"
-    }
 
     relocate("org.bstats", "eu.jasperlorelai.antigone.shaded.bstats")
     relocate("io.github.classgraph", "eu.jasperlorelai.antigone.shaded.io.github.classgraph")

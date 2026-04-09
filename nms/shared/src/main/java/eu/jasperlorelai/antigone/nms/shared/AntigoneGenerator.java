@@ -41,7 +41,7 @@ public class AntigoneGenerator {
 	private static final String VERSION = new File("").getAbsoluteFile().getName();
 	private static final String PACKAGE_NAME = AntigoneGenerator.class.getPackageName().replace("shared", VERSION);
 
-	public static void main(String... args) {
+	static void main() {
 		try {
 			setupGoals();
 			setupLivingEntityStore();

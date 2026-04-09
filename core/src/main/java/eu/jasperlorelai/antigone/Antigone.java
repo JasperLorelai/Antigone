@@ -23,8 +23,8 @@ import antigone.variables.PathTypeVariable;
 import eu.jasperlorelai.antigone.nms.shared.util.Util;
 
 import com.nisovin.magicspells.Spell;
+import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.util.ai.CustomGoal;
-import com.nisovin.magicspells.util.ai.CustomGoals;
 import com.nisovin.magicspells.events.MagicSpellsLoadingEvent;
 import com.nisovin.magicspells.variables.variabletypes.MetaVariable;
 
@@ -71,7 +71,7 @@ public final class Antigone extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onMSLoading(MagicSpellsLoadingEvent event) {
-		GOALS.forEach(CustomGoals::addGoal);
+		GOALS.forEach(goal -> MagicSpells.getCustomGoalsManager().addGoal(goal));
 	}
 
 }
