@@ -7,6 +7,7 @@ import net.minecraft.server.Bootstrap;
 public class Util {
 
 	private static final Map<String, String> VERSION_REMAP = new LinkedHashMap<>() {{
+		put("26.1.2", "26.1.1");
 	}};
 
 	private static final Map<String, List<String>> REVERSE_VERSION_MAP = new HashMap<>();
