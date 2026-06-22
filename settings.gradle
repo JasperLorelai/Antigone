@@ -5,3 +5,4 @@ include("spells")
 
 include(":nms:shared")
 include(":nms:v26_1_1")
+include(":nms:v26_2")

@@ -1,0 +1,51 @@
+package eu.jasperlorelai.antigone.nms.v26_2.goals;
+
+import java.util.List;
+
+import org.bukkit.entity.Mob;
+
+import com.nisovin.magicspells.util.Name;
+import com.nisovin.magicspells.util.SpellData;
+
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.animal.feline.Ocelot;
+
+import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.v26_2.parameters.MobParameters_v26_2;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsIngredientParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsIngredientParameter.ItemLike;
+
+@Name("antigone_ocelot_tempt")
+@WrapVanillaGoal.Inner(
+	outer = Ocelot.class,
+	className = "OcelotTemptGoal"
+)
+@ExtendsGoal("antigone_tempt")
+public class OcelotTemptGoal extends AntigoneGoal {
+
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+		// Ocelot ocelot
+		MobParameters_v26_2.Ocelot,
+		// double speed
+		new DoubleParameter("speed", 0.6),
+		// Ingredient food
+		new NmsIngredientParameter("food", List.of(new ItemLike(ItemTags.OCELOT_FOOD, "ocelot_food"))),
+		// boolean canBeScared
+		new BooleanParameter("can-be-scared", true)
+	);
+
+	public OcelotTemptGoal(Mob mob, SpellData data) {
+		super(mob, data);
+	}
+
+	@Override
+	public List<AntigoneParameter<?, ?>> getParameters() {
+		return parameters;
+	}
+
+}

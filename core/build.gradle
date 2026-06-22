@@ -8,6 +8,7 @@ dependencies {
     shadow(project(path: ":spells")) {transitive = false}
     shadow(project(path: ":nms:shared")) {transitive = false}
     shadow(project(path: ":nms:v26_1_1")) {transitive = false}
+    shadow(project(path: ":nms:v26_2")) {transitive = false}
 
     shadow("org.bstats:bstats-bukkit:3.2.1")
     shadow("io.github.classgraph:classgraph:4.8.184")
