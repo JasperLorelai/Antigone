@@ -2,6 +2,7 @@ package eu.jasperlorelai.antigone.nms.shared.util;
 
 import java.io.File;
 import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
@@ -130,7 +131,18 @@ public abstract class AntigoneTests {
 		try {
 			vanillaGoalClass.getDeclaredConstructor(types);
 		} catch (NoSuchMethodException ignored) {
-			fail("Goal '%s' does not have a constructor with the set parameters.".formatted(goalName));
+			StringBuilder builder = new StringBuilder();
+			builder.append("Goal '%s' does not have a constructor with the set parameters.".formatted(goalName));
+			builder.append("\nOriginal:\n- ");
+			builder.append(Arrays.toString(types));
+			builder.append("\nConstructors:");
+
+			for (Constructor<?> constructor : vanillaGoalClass.getDeclaredConstructors()) {
+				builder.append("\n- ");
+				builder.append(Arrays.toString(constructor.getParameterTypes()));
+			}
+
+			fail(builder.toString());
 		}
 	}
 
