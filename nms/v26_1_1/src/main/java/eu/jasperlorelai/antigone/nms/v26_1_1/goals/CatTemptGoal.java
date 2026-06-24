@@ -2,12 +2,12 @@ package eu.jasperlorelai.antigone.nms.v26_1_1.goals;
 
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Mob;
 
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.animal.feline.Cat;
 
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
@@ -18,6 +18,7 @@ import eu.jasperlorelai.antigone.nms.shared.parameters.mob.MobParameters;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.BooleanParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsIngredientParameter;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsIngredientParameter.ItemLike;
 
 @Name("antigone_cat_tempt")
 @WrapVanillaGoal.Inner(
@@ -33,7 +34,7 @@ public class CatTemptGoal extends AntigoneGoal {
 			// double speed
 			new DoubleParameter("speed", 0.6),
 			// Ingredient food
-			new NmsIngredientParameter("food", List.of(Material.COD, Material.SALMON)),
+			new NmsIngredientParameter("food", List.of(new ItemLike(ItemTags.CAT_FOOD, "cat_food"))),
 			// boolean canBeScared
 			new BooleanParameter("can-be-scared", true)
 	);
