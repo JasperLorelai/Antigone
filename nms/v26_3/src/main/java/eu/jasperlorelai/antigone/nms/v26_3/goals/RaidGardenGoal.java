@@ -1,0 +1,36 @@
+package eu.jasperlorelai.antigone.nms.v26_3.goals;
+
+import java.util.List;
+
+import org.bukkit.entity.Mob;
+
+import com.nisovin.magicspells.util.Name;
+import com.nisovin.magicspells.util.SpellData;
+
+import net.minecraft.world.entity.animal.rabbit.Rabbit;
+
+import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
+import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
+import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
+import eu.jasperlorelai.antigone.nms.v26_3.parameters.MobParameters_v26_3;
+
+@Name("antigone_raid_garden")
+@WrapVanillaGoal.Inner(
+		outer = Rabbit.class,
+		className = "RaidGardenGoal"
+)
+public class RaidGardenGoal extends AntigoneGoal {
+
+	// Rabbit rabbit
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters_v26_3.Rabbit);
+
+	public RaidGardenGoal(Mob mob, SpellData data) {
+		super(mob, data);
+	}
+
+	@Override
+	public List<AntigoneParameter<?, ?>> getParameters() {
+		return parameters;
+	}
+
+}
