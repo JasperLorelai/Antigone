@@ -7,7 +7,7 @@ import org.bukkit.entity.Mob;
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
@@ -16,7 +16,7 @@ import eu.jasperlorelai.antigone.nms.v26_3.parameters.MobParameters_v26_3;
 
 @Name("antigone_enderman_freeze_when_looked_at")
 @WrapVanillaGoal.Inner(
-		outer = EnderMan.class,
+		outer = Enderman.class,
 		className = "EndermanFreezeWhenLookedAt"
 )
 public class EndermanFreezeWhenLookedAt extends AntigoneGoal {

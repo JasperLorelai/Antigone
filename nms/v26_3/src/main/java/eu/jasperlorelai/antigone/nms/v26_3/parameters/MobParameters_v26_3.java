@@ -81,7 +81,7 @@ public class MobParameters_v26_3 {
 	public static final MobParameter<AbstractFish> AbstractFish = MobParameter.of(AbstractFish.class, Description.ofEntityInterface(org.bukkit.entity.Fish.class));
 	public static final MobParameter<ShoulderRidingEntity> ShoulderRidingEntity = MobParameter.of(ShoulderRidingEntity.class, Description.ofClass(org.bukkit.entity.Parrot.class));
 	public static final MobParameter<AbstractSchoolingFish> AbstractSchoolingFish = MobParameter.of(AbstractSchoolingFish.class, Description.ofEntityInterface(SchoolableFish.class));
-	public static final MobParameter<EnderMan> EnderMan = MobParameter.of(EnderMan.class, Description.ofClass(org.bukkit.entity.Enderman.class));
+	public static final MobParameter<Enderman> EnderMan = MobParameter.of(Enderman.class, Description.ofClass(org.bukkit.entity.Enderman.class));
 	public static final MobParameter<Drowned> Drowned = MobParameter.of(Drowned.class, Description.ofClass(org.bukkit.entity.Drowned.class));
 	public static final MobParameter<Blaze> Blaze = MobParameter.of(Blaze.class, Description.ofClass(org.bukkit.entity.Blaze.class));
 	public static final MobParameter<Bee> Bee = MobParameter.of(Bee.class, Description.ofClass(org.bukkit.entity.Bee.class));

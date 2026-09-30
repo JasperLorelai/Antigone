@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.tags.TagKey;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.material.Fluid;
 
 import eu.jasperlorelai.antigone.nms.shared.util.Default;
 import eu.jasperlorelai.antigone.nms.shared.util.ConfigKey;
@@ -18,33 +18,33 @@ import eu.jasperlorelai.antigone.nms.shared.util.ConfigSupplier;
 import eu.jasperlorelai.antigone.nms.shared.parameters.ConfigParameter;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class NmsDamageTypeTagParameter extends ConfigParameter<Class<TagKey>, TagKey<DamageType>> {
+public class NmsFluidTagParameter extends ConfigParameter<Class<TagKey>, TagKey<Fluid>> {
 
-	private static final Map<String, TagKey<DamageType>> TAGS = new HashMap<>();
+	private static final Map<String, TagKey<Fluid>> TAGS = new HashMap<>();
 	static {
 		try {
-			for (Field field : DamageTypeTags.class.getDeclaredFields()) {
+			for (Field field : FluidTags.class.getDeclaredFields()) {
 				if (!(field.get(null) instanceof TagKey tag)) continue;
 				TAGS.put(field.getName(), tag);
 			}
 		} catch (ExceptionInInitializerError | IllegalAccessException ignored) {}
 	}
 
-	private static final ConfigSupplier<TagKey<DamageType>> supplier = ConfigSupplier.fromString(string ->
-			TAGS.get(string.toUpperCase())
+	private static final ConfigSupplier<TagKey<Fluid>> supplier = ConfigSupplier.fromString(string ->
+		TAGS.get(string.toUpperCase())
 	);
 
-	public NmsDamageTypeTagParameter(@NotNull @ConfigKey String name) {
+	public NmsFluidTagParameter(@NotNull @ConfigKey String name) {
 		this(name, null);
 	}
 
-	public NmsDamageTypeTagParameter(@NotNull @ConfigKey String name, @Nullable Default<TagKey<DamageType>> def) {
+	public NmsFluidTagParameter(@NotNull @ConfigKey String name, @Nullable Default<TagKey<Fluid>> def) {
 		super(name, TagKey.class, supplier, def);
 	}
 
 	@Override
 	public String documentType() {
-		return Description.hyperlink("Damage Type Tag", "https://minecraft.wiki/w/Damage_type_tag_(Java_Edition)");
+		return Description.hyperlink("Fluid Tag", "https://minecraft.wiki/w/Fluid_tag_(Java_Edition)");
 	}
 
 }

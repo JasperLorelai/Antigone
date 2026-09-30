@@ -72,7 +72,7 @@ import net.minecraft.world.entity.decoration.Mannequin;
 import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.ElderGuardian;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 import net.minecraft.world.entity.monster.Endermite;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Giant;
@@ -169,7 +169,7 @@ public class LivingEntityMap {
 		map.put("drowned", Drowned.class);
 		map.put("elder_guardian", ElderGuardian.class);
 		map.put("ender_dragon", EnderDragon.class);
-		map.put("ender_man", EnderMan.class);
+		map.put("enderman", Enderman.class);
 		map.put("endermite", Endermite.class);
 		map.put("evoker", Evoker.class);
 		map.put("fox", Fox.class);

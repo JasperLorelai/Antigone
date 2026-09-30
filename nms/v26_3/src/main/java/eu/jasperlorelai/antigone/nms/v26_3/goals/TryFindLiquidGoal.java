@@ -7,24 +7,25 @@ import org.bukkit.entity.Mob;
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
-import net.minecraft.world.entity.monster.Enderman;
-
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.WrapVanillaGoal;
 import eu.jasperlorelai.antigone.nms.shared.parameters.AntigoneParameter;
 import eu.jasperlorelai.antigone.nms.v26_3.parameters.MobParameters_v26_3;
+import eu.jasperlorelai.antigone.nms.shared.parameters.config.NmsFluidTagParameter;
 
-@Name("antigone_enderman_leave_block")
-@WrapVanillaGoal.Inner(
-		outer = Enderman.class,
-		className = "EndermanLeaveBlockGoal"
-)
-public class EndermanLeaveBlockGoal extends AntigoneGoal {
+@Name("antigone_try_find_liquid")
+@WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.TryFindLiquidGoal.class)
+public class TryFindLiquidGoal extends AntigoneGoal {
 
-	// EnderMan enderman
-	private static final List<AntigoneParameter<?, ?>> parameters = List.of(MobParameters_v26_3.EnderMan);
+	// PathfinderMob mob
+	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
+		// PathfinderMob mob
+		MobParameters_v26_3.PathfinderMob,
+		// TagKey<Fluid> fluidTag
+		new NmsFluidTagParameter("fluid")
+	);
 
-	public EndermanLeaveBlockGoal(Mob mob, SpellData data) {
+	public TryFindLiquidGoal(Mob mob, SpellData data) {
 		super(mob, data);
 	}
 

@@ -7,7 +7,7 @@ import org.bukkit.entity.Mob;
 import com.nisovin.magicspells.util.Name;
 import com.nisovin.magicspells.util.SpellData;
 
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 
 import eu.jasperlorelai.antigone.nms.shared.util.ExtendsGoal;
 import eu.jasperlorelai.antigone.nms.shared.util.AntigoneGoal;
@@ -18,7 +18,7 @@ import eu.jasperlorelai.antigone.nms.v26_3.parameters.modifiers.NmsTargetingSele
 
 @Name("antigone_enderman_look_for_player")
 @WrapVanillaGoal.Inner(
-		outer = EnderMan.class,
+		outer = Enderman.class,
 		className = "EndermanLookForPlayerGoal"
 )
 @ExtendsGoal("antigone_nearest_attackable_target")

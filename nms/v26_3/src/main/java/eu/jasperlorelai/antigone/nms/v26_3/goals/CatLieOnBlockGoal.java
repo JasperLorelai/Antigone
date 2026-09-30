@@ -14,9 +14,9 @@ import eu.jasperlorelai.antigone.nms.v26_3.parameters.MobParameters_v26_3;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.DoubleParameter;
 import eu.jasperlorelai.antigone.nms.shared.parameters.config.IntegerParameter;
 
-@Name("antigone_cat_lie_on_bed")
-@WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.CatLieOnBedGoal.class)
-public class CatLieOnBedGoal extends AntigoneGoal {
+@Name("antigone_cat_lie_on_block")
+@WrapVanillaGoal.Exact(net.minecraft.world.entity.ai.goal.CatLieOnBlockGoal.class)
+public class CatLieOnBlockGoal extends AntigoneGoal {
 
 	private static final List<AntigoneParameter<?, ?>> parameters = List.of(
 			// Cat cat
@@ -27,7 +27,7 @@ public class CatLieOnBedGoal extends AntigoneGoal {
 			new IntegerParameter("range", 8)
 	);
 
-	public CatLieOnBedGoal(Mob mob, SpellData data) {
+	public CatLieOnBlockGoal(Mob mob, SpellData data) {
 		super(mob, data);
 	}
 
