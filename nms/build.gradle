@@ -38,6 +38,10 @@ subprojects {proj ->
                 jvmArgs("--enable-native-access=ALL-UNNAMED")
             }
 
+            tasks.withType(Test).configureEach {
+                jvmArgs("--enable-native-access=ALL-UNNAMED")
+            }
+
             proj.tasks.named("assemble") {
                 dependsOn(proj.tasks.named("generateDocs"))
             }
